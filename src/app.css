@@ -53,67 +53,86 @@
 
 
 .bg-1-Hitam {
-    background:  #808080;
+    background: #808080;
 }
+
 .bg-1-Pink {
-    background:  #fd98cd;
+    background: #fd98cd;
 }
+
 .bg-1-Hijau {
-    background:  #70f1c2;
+    background: #70f1c2;
 }
+
 .bg-1-Biru {
-    background:  #7eb8ff;
+    background: #7eb8ff;
 }
+
 .bg-1-Merah {
-    background:  #ff9898;
+    background: #ff9898;
 }
 
 .bg-1-Kuning {
-    background:  #f1db82;
+    background: #f1db82;
 }
+
 .bg-1-Napas {
-    background:  #e9e3c3;
+    background: #e9e3c3;
 }
+
 .bg-1-Jragem {
-    background:  #686868;
+    background: #686868;
 }
+
 .bg-1-Bopong {
-    background:  #f5a770;
+    background: #f5a770;
 }
 
 .bg-1-Kelabu {
-    background:  #e4e4e4;
+    background: #e4e4e4;
 }
 
 .bg-2-Hitam {
-    background:  #242424;
+    background: #242424;
 }
+
 .bg-2-Pink {
-    background:  #ec4899;
+    background: #ec4899;
 }
+
 .bg-2-Hijau {
-    background:  #10b981;
+    background: #10b981;
 }
+
 .bg-2-Biru {
-    background:  #3b82f6;
+    background: #3b82f6;
 }
+
 .bg-2-Merah {
-    background:  #ef4444;
+    background: #ef4444;
 }
 
 .bg-2-Kuning {
-    background:  #eab308;
+    background: #eab308;
 }
+
 .bg-2-Napas {
-    background:  #888056;
+    background: #888056;
 }
+
 .bg-2-Jragem {
-    background:  #000000;
+    background: #000000;
 }
+
 .bg-2-Bopong {
-    background:  #8B4513;
+    background: #8B4513;
 }
 
 .bg-2-Kelabu {
-    background:  #bbb286;
+    background: #bbb286;
+}
+
+#myCanvasContainer {
+    /* width: 400px;
+    height: 400px; */
 }

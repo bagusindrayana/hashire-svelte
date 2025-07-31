@@ -8,9 +8,13 @@
 
 	export let onClick;
 
-	const div = document.createElement("div");
-	div.innerHTML = kuda.name;
-	const textName = div.textContent;
+	function decodeHTMLEntities(str) {
+		const div = document.createElement("div");
+		div.innerHTML = str;
+		const textName = div.textContent;
+		return textName;
+	}
+
 
 	const colors = {
 		Pink: "ec4899",
@@ -28,7 +32,6 @@
 		Kelabu: "bbb286",
 	};
 	const hexColor = colors[kuda.color_name] || "cccccc";
-	const placeholderUrl = `https://placehold.co/300x400/{hexColor}/white?text={textName.split(" ")[0]}`;
 
 	const tailwindBreakpoints = {
 		sm: 640,
@@ -66,16 +69,17 @@
 <div
 	class="kuda-card bg-white shadow-lg overflow-hidden card-border-{kuda.color_name} cursor-pointer"
 	style="transition-delay: {(index % currentBreakpoint) * 100}ms;"
+	data-index={index}
 	use:viewport
 	on:click={onClick}
 >
 
-	<div class="p-1 flex-grow">
+	<div class="px-1 flex-grow">
 		<h3
 			class="font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b"
 			style="background-color:  #{hexColor};"
 		>
-			{textName}
+			{decodeHTMLEntities(kuda.name)}
 		</h3>
 		<div class="text-sm text-gray-700 space-y-1 md:space-y-2 p-1 md:p-3">
 			<div class="flex justify-between items-center">
@@ -89,11 +93,11 @@
 			<hr class="my-2" />
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Pejantan:</span>
-				<span class="text-right font-medium">{kuda.father_name}</span>
+				<span class="text-right font-medium">{decodeHTMLEntities(kuda.father_name)}</span>
 			</div>
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Induk:</span>
-				<span class="text-right font-medium">{kuda.mother_name}</span>
+				<span class="text-right font-medium">{decodeHTMLEntities(kuda.mother_name)}</span>
 			</div>
 			<hr class="my-2" />
 			<div class="flex justify-between">
