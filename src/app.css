@@ -1,3 +1,119 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+
+
+/*
+		* Custom CSS for the diagonal panels and animation.
+		* We use clip-path to create the two triangles that form the diagonal split.
+		*/
+
+/* This panel will be the top-left triangle (blue) */
+.panel-top-left {
+    /* clip-path creates a polygon with vertices at:
+			(0,0)      -> top-left corner
+			(100%, 0)  -> top-right corner
+			(0, 100%)  -> bottom-left corner
+			This forms a triangle that fills the top-left half of the screen.
+		*/
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* This panel will be the bottom-right triangle (red) */
+.panel-bottom-right {
+    /* clip-path creates a polygon with vertices at:
+			(100%, 0)   -> top-right corner
+			(100%, 100%)-> bottom-right corner
+			(0, 100%)   -> bottom-left corner
+			This forms a triangle that fills the bottom-right half of the screen.
+		*/
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/*
+		* Animation classes.
+		* When the 'reveal' class is added to the overlay container,
+		* these styles will apply to the panels.
+		*/
+
+/* Animate the top-left panel by sliding it up and to the left */
+.reveal .panel-top-left {
+    transform: translate(-100%, -100%);
+}
+
+/* Animate the bottom-right panel by sliding it down and to the right */
+.reveal .panel-bottom-right {
+    transform: translate(100%, 100%);
+}
+
+.reveal .side-panel {
+    transform: translate(100%, 0%);
+}
+
+
+.bg-1-Hitam {
+    background:  #808080;
+}
+.bg-1-Pink {
+    background:  #fd98cd;
+}
+.bg-1-Hijau {
+    background:  #70f1c2;
+}
+.bg-1-Biru {
+    background:  #7eb8ff;
+}
+.bg-1-Merah {
+    background:  #ff9898;
+}
+
+.bg-1-Kuning {
+    background:  #f1db82;
+}
+.bg-1-Napas {
+    background:  #e9e3c3;
+}
+.bg-1-Jragem {
+    background:  #686868;
+}
+.bg-1-Bopong {
+    background:  #f5a770;
+}
+
+.bg-1-Kelabu {
+    background:  #e4e4e4;
+}
+
+.bg-2-Hitam {
+    background:  #242424;
+}
+.bg-2-Pink {
+    background:  #ec4899;
+}
+.bg-2-Hijau {
+    background:  #10b981;
+}
+.bg-2-Biru {
+    background:  #3b82f6;
+}
+.bg-2-Merah {
+    background:  #ef4444;
+}
+
+.bg-2-Kuning {
+    background:  #eab308;
+}
+.bg-2-Napas {
+    background:  #888056;
+}
+.bg-2-Jragem {
+    background:  #000000;
+}
+.bg-2-Bopong {
+    background:  #8B4513;
+}
+
+.bg-2-Kelabu {
+    background:  #bbb286;
+}

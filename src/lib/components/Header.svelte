@@ -1,4 +1,4 @@
-<header class="bg-white shadow-md">
+<header class="bg-white shadow-md fixed w-full z-50">
 	<div class="container mx-auto px-6 py-3">
 		<div class="flex items-center justify-between">
 			<div class="text-2xl font-bold text-purple-600">

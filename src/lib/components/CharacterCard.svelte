@@ -6,6 +6,8 @@
 	/** @type {number} */
 	export let index;
 
+	export let onClick;
+
 	const div = document.createElement("div");
 	div.innerHTML = kuda.name;
 	const textName = div.textContent;
@@ -62,24 +64,12 @@
 </script>
 
 <div
-	class="kuda-card bg-white shadow-lg overflow-hidden card-border-{kuda.color_name}"
+	class="kuda-card bg-white shadow-lg overflow-hidden card-border-{kuda.color_name} cursor-pointer"
 	style="transition-delay: {(index % currentBreakpoint) * 100}ms;"
 	use:viewport
+	on:click={onClick}
 >
-	<!-- <img
-		src={placeholderUrl}
-		alt="[Gambar {textName}]"
-		class="w-full h-48 object-cover"
-		on:error={() => {
-			this.onerror = null;
-			this.src =
-				"https://placehold.co/300x400/cccccc/ffffff?text=Not+Found";
-		}}
-	/>
-	<div class="p-4 text-center">
-		<h3 class="font-bold text-lg text-gray-800">{textName}</h3>
-		<p class="text-sm text-gray-500">OW: {kuda.owner}</p>
-	</div> -->
+
 	<div class="p-1 flex-grow">
 		<h3
 			class="font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b"
@@ -119,7 +109,6 @@
 </div>
 
 <style>
-	/* Semua style spesifik untuk kartu ada di sini dan otomatis di-scope oleh Svelte */
 	.card-border-Hitam {
 		border-left: 8px solid #474747;
 	}
@@ -135,9 +124,7 @@
 	.card-border-Merah {
 		border-left: 8px solid #f87171;
 	}
-	.card-border-gray {
-		border-left: 8px solid #9ca3af;
-	}
+
 	.card-border-Kuning {
 		border-left: 8px solid #facc15;
 	}
