@@ -41,7 +41,7 @@ export async function GET() {
             {"name": "Princess Gavi","color_name":"Napas"},
             {"name": "Wonder Land", "color_name":"Jragem"},
             {"name": "Kashmir Pararaja", "color_name":"Merah"},
-            {"name": "King Argentine", "color_name":"Jragem","birth_year":"2021"},
+            {"name": "King Argentine", "color_name":"Jragem","birth_year":"2021","gender_name":"Colt","generation_name":"KP6"},
         ];
 
         data.data = [...data.data, ...kudaLainnya]
