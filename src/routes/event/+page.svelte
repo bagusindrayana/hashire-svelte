@@ -656,7 +656,7 @@
     <title>Event</title>
 </svelte:head>
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
-    <div class="title-banner text-lg md:text-2xl">Event</div>
+    <div class="title-banner text-lg md:text-2xl ml-0 md:-ml-4">Event</div>
 
     <div
         class="w-full bg-[#f1ffb3] border-4 border-[#7d9900] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"

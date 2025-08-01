@@ -592,7 +592,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main class="container mx-auto px-6 py-20 relative  min-h-[90vh]">
-	<div class="title-banner text-lg md:text-2xl">Kuda Aktif</div>
+	<div class="title-banner text-lg md:text-2xl  ml-0 md:-ml-4">Kuda Aktif</div>
 
 	<div class="mt-4 md:mt-8">
 		<div
