@@ -802,7 +802,7 @@
             class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:left-auto h-screen z-50 opacity-0 transition-all duration-500"
         ></div>
         <div
-            class="absolute w-full md:w-1/2 max-h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
+            class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
             style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
             <button
