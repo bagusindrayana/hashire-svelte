@@ -36,6 +36,15 @@ export async function GET() {
             data = { raw: text }; // fallback if not valid JSON
         }
 
+        const kudaLainnya = [
+            {"name": "Princess Gavi","color_name":"Napas"},
+            {"name": "Wonder Land", "color_name":"Jragem"},
+            {"name": "Kashmir Pararaja", "color_name":"Merah"},
+            {"name": "King Argentine", "color_name":"Jragem","birth_year":"2021"},
+        ];
+
+        data.data = [...data.data, ...kudaLainnya]
+
         return new Response(JSON.stringify(data), {
             headers: { "Content-Type": "application/json" },
             status: 200

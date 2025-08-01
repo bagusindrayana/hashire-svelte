@@ -1,3 +1,7 @@
+<script>
+	import { page } from "$app/stores";
+</script>
+
 <header class="bg-white shadow-md fixed w-full z-50">
 	<div class="container mx-auto px-6 py-3">
 		<div class="flex items-center justify-between">
@@ -5,13 +9,24 @@
 				<a href="/">Hashire!</a>
 			</div>
 			<div class="hidden md:flex items-center space-x-6">
-				<a href="#" class="text-gray-600 font-semibold hover:text-purple-600 ">✧ News</a>
-				<a href="#" class="font-bold border-b-2 text-purple-600 border-purple-600">✧ Characters</a>
+				<a href="/" class="nav-item" class:active={$page.url.pathname == "/"}>✧ Home</a>
+				<a href="/event" class="nav-item" class:active={$page.url.pathname.includes("/event")}>✧ Event</a>
+				<a
+					href="/horse"
+					class="nav-item"
+					class:active={$page.url.pathname.includes("/horse")}
+					>✧ Kuda Aktif</a
+				>
 			</div>
-			
+
 			<div class="md:hidden">
 				<button class="text-gray-600 focus:outline-none">
-					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg
+						class="h-6 w-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -24,3 +39,15 @@
 		</div>
 	</div>
 </header>
+
+<style lang="postcss">
+	@reference "tailwindcss";
+
+	.nav-item {
+		@apply text-gray-600 font-semibold hover:text-purple-600;
+	}
+
+	.nav-item.active {
+		@apply font-bold border-b-2 text-purple-600 border-purple-600;
+	}
+</style>
