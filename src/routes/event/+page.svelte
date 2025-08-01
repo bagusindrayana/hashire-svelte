@@ -11,7 +11,7 @@
     import { loadMixamoAnimation } from "$lib/utils/loadMixamoAnimation.js";
     import { cloneVRM } from "$lib/utils/cloneVRM.js"; // Import the function
 
-    import { generateWarnaDenganSeed,createSeededDarkColorGenerator,mulberry32 } from "$lib/utils/generatorWarna";
+    import { generateWarnaDenganSeed,createSeededDarkColorGenerator,generateWarnaKuda,mulberry32 } from "$lib/utils/generatorWarna";
 
     let dataEvent = [];
     let selectEvent = null;
@@ -338,9 +338,12 @@
             }
 
             if (obj.isMesh && obj.material.uniforms != undefined) {
-                if (obj.name.includes("Ribbon_R")) {
-                    const ribbonColor = randomBrightColor(
-                        Math.floor(random() * 100),
+                if (obj.name.includes("Ribbon")) {
+                    const ribbonColor = generateWarnaKuda(kuda.color_name,
+                        {
+                            seed:Math.floor(random() * 100),
+                            versi: 'terang'
+                        }
                     );
                     obj.material.uniforms.litFactor.value.setHex(
                         `${ribbonColor}`,
@@ -652,7 +655,7 @@
 <svelte:head>
     <title>Event</title>
 </svelte:head>
-<main class="container mx-auto px-3 mx:px-6 py-20 relative grid grid-cols-1">
+<main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
     <div class="title-banner">Event</div>
 
     <div
@@ -662,7 +665,7 @@
             <div
                 class="bg-[#7d9900] text-white py-2 px-10 transform -skew-x-12 shadow-md"
             >
-                <h1 class="transform skew-x-12 text-3xl font-extrabold">
+                <h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
                     Upcoming Event
                 </h1>
             </div>
@@ -723,7 +726,7 @@
             <div
                 class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
             >
-                <h1 class="transform skew-x-12 text-3xl font-extrabold">
+                <h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
                     Past Event
                 </h1>
             </div>

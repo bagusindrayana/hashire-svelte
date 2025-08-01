@@ -110,3 +110,85 @@ export function createSeededDarkColorGenerator(seed, maxBrightness = 128) {
         return `0x${r}${g}${b}`;
     };
 }
+
+/**
+ * Menghasilkan kode warna kuda dengan berbagai opsi.
+ *
+ * @param {string} warnaDasar - Nama warna dasar ('Hitam', 'Merah', 'Kuning', dll.).
+ * @param {object} [opsi={}] - Objek konfigurasi opsional.
+ * @param {string} [opsi.versi='normal'] - Versi warna ('normal' atau 'terang').
+ * @param {number|null} [opsi.seed=null] - Seed numerik untuk hasil deterministik. Jika null, hasil akan acak.
+ * @returns {string} Kode warna dalam format '0xRRGGBB'.
+ */
+export function generateWarnaKuda(warnaDasar, opsi = {}) {
+  // 1. Data Palet untuk semua warna dan versinya
+  const paletWarna = {
+    'Hitam': {
+      normal: { r: { min: 0, max: 40 }, g: { min: 0, max: 40 }, b: { min: 0, max: 40 } },
+      terang: { r: { min: 100, max: 150 }, g: { min: 100, max: 150 }, b: { min: 100, max: 150 } }
+    },
+    'Jragem': {
+      normal: { r: { min: 0, max: 25 }, g: { min: 0, max: 25 }, b: { min: 0, max: 25 } },
+      terang: { r: { min: 70, max: 120 }, g: { min: 70, max: 120 }, b: { min: 70, max: 120 } }
+    },
+    'Merah': {
+      normal: { r: { min: 140, max: 210 }, g: { min: 30, max: 90 }, b: { min: 10, max: 50 } },
+      terang: { r: { min: 190, max: 240 }, g: { min: 80, max: 140 }, b: { min: 60, max: 100 } }
+    },
+    'Kuning': {
+      normal: { r: { min: 200, max: 255 }, g: { min: 170, max: 240 }, b: { min: 40, max: 110 } },
+      terang: { r: { min: 230, max: 255 }, g: { min: 210, max: 255 }, b: { min: 150, max: 200 } }
+    },
+    'Napas': {
+      normal: { r: { min: 90, max: 150 }, g: { min: 40, max: 80 }, b: { min: 20, max: 60 } },
+      terang: { r: { min: 160, max: 210 }, g: { min: 110, max: 160 }, b: { min: 80, max: 130 } }
+    },
+    'Silver': {
+      normal: { r: { min: 190, max: 235 }, g: { min: 190, max: 235 }, b: { min: 190, max: 235 } },
+      terang: { r: { min: 215, max: 245 }, g: { min: 215, max: 245 }, b: { min: 215, max: 245 } }
+    },
+    'Putih': {
+      normal: { r: { min: 230, max: 255 }, g: { min: 230, max: 255 }, b: { min: 230, max: 255 } },
+      terang: { r: { min: 240, max: 255 }, g: { min: 240, max: 255 }, b: { min: 240, max: 255 } }
+    },
+    'Bopong': {
+      normal: { r: { min: 50, max: 90 }, g: { min: 30, max: 70 }, b: { min: 20, max: 60 } },
+      terang: { r: { min: 130, max: 180 }, g: { min: 90, max: 130 }, b: { min: 70, max: 110 } }
+    },
+    'Kelabu': {
+      normal: { r: { min: 120, max: 180 }, g: { min: 120, max: 180 }, b: { min: 120, max: 180 } },
+      terang: { r: { min: 190, max: 225 }, g: { min: 190, max: 225 }, b: { min: 190, max: 225 } }
+    }
+  };
+
+  // 2. Tentukan opsi default
+  const { versi = 'normal', seed = null } = opsi;
+
+  // 3. Pilih palet dan rentang yang benar, dengan fallback jika input tidak valid
+  const palet = paletWarna[warnaDasar] || paletWarna['Hitam'];
+  const rentang = palet[versi] || palet['normal'];
+
+  // 4. Pilih metode random: berbasis seed atau standar
+  let getAngka;
+  if (seed !== null) {
+    // Jika ada seed, gunakan generator yang dapat diprediksi (deterministik)
+    let currentSeed = seed;
+    const seededRandom = () => {
+      currentSeed = (currentSeed * 1103515245 + 12345) % 2147483647;
+      return currentSeed / 2147483647; // Hasil antara 0 dan 1
+    };
+    getAngka = (min, max) => Math.floor(seededRandom() * (max - min + 1)) + min;
+  } else {
+    // Jika tidak ada seed, gunakan Math.random() biasa
+    getAngka = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+  // 5. Hasilkan nilai R, G, B dan format ke Hex
+  const r = getAngka(rentang.r.min, rentang.r.max);
+  const g = getAngka(rentang.g.min, rentang.g.max);
+  const b = getAngka(rentang.b.min, rentang.b.max);
+  
+  const toHex = (val) => val.toString(16).padStart(2, '0');
+
+  return `0x${toHex(r)}${toHex(g)}${toHex(b)}`;
+}

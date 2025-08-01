@@ -116,7 +116,7 @@
 </svelte:head>
 
 <main
-	class="container mx-auto px-6 py-16 relative grid grid-cols-1 md:grid-cols-2 gap-8"
+	class="container mx-auto px-6 py-16 relative grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[90vh]"
 >
 	<div
 		class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-6 pt-12 m-auto mt-12"
@@ -126,7 +126,7 @@
 			<div
 				class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
 			>
-				<h1 class="transform skew-x-12 text-3xl font-extrabold">
+				<h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
 					News
 				</h1>
 			</div>
@@ -196,7 +196,7 @@
 			<div
 				class="bg-purple-400 text-white py-2 px-10 transform -skew-x-12 shadow-md"
 			>
-				<h1 class="transform skew-x-12 text-3xl font-extrabold">
+				<h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
 					Klasemen
 				</h1>
 			</div>
@@ -204,8 +204,8 @@
 
 		<!-- Daftar Berita -->
 		<div class="space-y-4">
-			<div class="overflow-auto rounded-lg">
-				<table class="w-full text-left text-sm">
+			<div class="overflow-auto rounded-xl shadow-md">
+				<table class="w-full text-left text-sm ">
 					<thead
 						class="bg-purple-400 text-white uppercase tracking-wider font-bold"
 					>

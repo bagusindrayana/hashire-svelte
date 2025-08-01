@@ -23,7 +23,8 @@ export async function GET() {
         redirect: "follow"
     };
 
-    const url = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
+    // const url = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
+    const url = "https://hashire.pages.dev/dummy-data/dump-horse.json";
     try {
         const response = await fetch(url, requestOptions);
         const text = await response.text();
@@ -54,6 +55,7 @@ export async function GET() {
             status: 200
         });
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ error: error.message }), {
             headers: { "Content-Type": "application/json" },
             status: 500

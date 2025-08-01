@@ -1,38 +1,40 @@
-# sv
+## Sumber Data
+- https://pordasi.id/pacu
+- https://studbook.or.id
+- https://sarga.co/past-events
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Credit
+- 3D Model : Vroid Studi0
+- Animasi : Mixamo
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Hak Cipta
+- Setiap nama kuda memiliki hak cipta, jika tidak berkanan namanya tercantum pada project ini silahkan buat [issue](https://github.com/bagusindrayana/hashire-svelte/issues/new) agar tidak ditampilkan di halaman website [hashire](https://hashire.pages.dev)
 
-```sh
-# create a new project in the current directory
-npx sv create
 
-# create a new project in my-app
-npx sv create my-app
-```
 
-## Developing
+## Development
+- clone repository
+- `npm install`
+- `npm run dev`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```sh
-npm run dev
+## Todo
+- refactor biar code mudah dibaca [ ]
+- lengkapi data kuda [ ]
+- generate warna kulit [ ]
+- update porposi badan [ ]
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+### Support
+<a href="https://trakteer.id/bagood" target="_blank"
+      ><img
+        id="wse-buttons-preview"
+        src="https://cdn.trakteer.id/images/embed/trbtn-red-1.png?date=18-11-2023"
+        height="30px"
+        style="border: 0px; height: 30px; --darkreader-inline-border-top: 0px; --darkreader-inline-border-right: 0px; --darkreader-inline-border-bottom: 0px; --darkreader-inline-border-left: 0px;"
+        alt="Trakteer Saya"
+        data-darkreader-inline-border-top=""
+        data-darkreader-inline-border-right=""
+        data-darkreader-inline-border-bottom=""
+        data-darkreader-inline-border-left=""
+      /></a>

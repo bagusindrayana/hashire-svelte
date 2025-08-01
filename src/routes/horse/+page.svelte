@@ -14,6 +14,7 @@
 	import {
 		generateWarnaDenganSeed,
 		createSeededDarkColorGenerator,
+		generateWarnaKuda,
 		mulberry32,
 	} from "$lib/utils/generatorWarna";
 
@@ -275,11 +276,13 @@
 			}
 
 			if (obj.isMesh && obj.material.uniforms != undefined) {
-				if (obj.name.includes("Ribbon_R")) {
-					const ribbonColor = generateWarnaDenganSeed(
-						kuda.color_name,
-						Math.floor(random() * 100),
-					);
+				if (obj.name.includes("Ribbon")) {
+					const ribbonColor = generateWarnaKuda(kuda.color_name,
+                        {
+                            seed:Math.floor(random() * 100),
+                            versi: 'terang'
+                        }
+                    );
 					obj.material.uniforms.litFactor.value.setHex(
 						`${ribbonColor}`,
 					);
@@ -588,7 +591,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<main class="container mx-auto px-6 py-20 relative">
+<main class="container mx-auto px-6 py-20 relative  min-h-[90vh]">
 	<div class="title-banner">Kuda Aktif</div>
 
 	<div class="mt-8">
