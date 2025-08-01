@@ -175,12 +175,12 @@
 		</div>
 	</div>
 	<div
-		class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-6 pt-12 m-auto mt-12"
+		class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-6 pt-12 m-auto mt-12"
 	>
 		<!-- Judul "News" dengan Latar Belakang Miring -->
 		<div class="absolute -top-6 -left-4">
 			<div
-				class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
+				class="bg-purple-400 text-white py-2 px-10 transform -skew-x-12 shadow-md"
 			>
 				<h1 class="transform skew-x-12 text-3xl font-extrabold">
 					Klasemen
@@ -193,7 +193,7 @@
 			<div class="overflow-auto rounded-lg">
 				<table class="w-full text-left text-sm">
 					<thead
-						class="bg-pink-400 text-white uppercase tracking-wider font-bold"
+						class="bg-purple-400 text-white uppercase tracking-wider font-bold"
 					>
 						<tr
 							><th colspan="9" class="p-2 text-center"
