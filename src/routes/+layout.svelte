@@ -22,13 +22,13 @@
 
 {#if showModal}
     <div
-        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50"
+        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50 m-auto"
     >
         <div
             class="absolute top-0 left-0 bottom-0 right-0 m-auto bg-gray-400 opacity-75"
         ></div>
         <div
-            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 m-auto mt-4 md:mt-12"
+            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
         >
             <div class="absolute -top-6 -left-4">
                 <div

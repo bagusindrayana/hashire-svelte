@@ -119,7 +119,7 @@
 	class="container mx-auto px-6 py-16 relative grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[90vh]"
 >
 	<div
-		class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-6 pt-12 m-auto mt-12"
+		class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
 	>
 		<!-- Judul "News" dengan Latar Belakang Miring -->
 		<div class="absolute -top-6 -left-4">
@@ -189,7 +189,7 @@
 		</div>
 	</div>
 	<div
-		class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-6 pt-12 m-auto mt-12"
+		class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
 	>
 		<!-- Judul "News" dengan Latar Belakang Miring -->
 		<div class="absolute -top-6 -left-4">

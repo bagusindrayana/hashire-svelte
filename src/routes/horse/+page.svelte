@@ -592,13 +592,13 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main class="container mx-auto px-6 py-20 relative  min-h-[90vh]">
-	<div class="title-banner">Kuda Aktif</div>
+	<div class="title-banner text-lg md:text-2xl">Kuda Aktif</div>
 
-	<div class="mt-8">
+	<div class="mt-4 md:mt-8">
 		<div
 			class="flex flex-col md:flex-row items-start md:items-center justify-between"
 		>
-			<h2 class="text-4xl font-bold text-gray-800 mb-4 md:mb-0">
+			<h2 class="text-xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0">
 				Database Kuda Aktif
 			</h2>
 			<div class="flex items-center space-x-4">
@@ -668,7 +668,7 @@
 	</div>
 
 	<div
-		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-8"
+		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 mt-8"
 	>
 		{#each sortedKuda as kuda, index}
 			<CharacterCard
@@ -821,68 +821,68 @@
 
 					<!-- Character Details -->
 					<div
-						class="space-y-3 text-sm grid grid-cols-2 md:grid-cols-1"
+						class="space-y-1 md:space-y-3 text-xs md:text-sm grid grid-cols-2 md:grid-cols-1"
 					>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Trainer</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.trainer ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Discipline</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.discipline ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Birthday</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.birth_year ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Height</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.height ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Color</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.color_name ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Trah</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{selectKuda.generation_name ?? "-"}</span
 							>
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Sire</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{decodeHTMLEntities(
 									selectKuda.father_name ?? "-",
 								)}</span
@@ -890,10 +890,10 @@
 						</div>
 						<div class="flex items-center">
 							<span
-								class={`text-white font-bold py-1 px-3 rounded-md w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 								>Dam</span
 							>
-							<span class="ml-4 text-gray-700"
+							<span class="ml-2 md:ml-4 text-gray-700"
 								>{decodeHTMLEntities(
 									selectKuda.mother_name ?? "-",
 								)}</span

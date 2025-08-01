@@ -656,7 +656,7 @@
     <title>Event</title>
 </svelte:head>
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
-    <div class="title-banner">Event</div>
+    <div class="title-banner text-lg md:text-2xl">Event</div>
 
     <div
         class="w-full bg-[#f1ffb3] border-4 border-[#7d9900] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
@@ -720,7 +720,7 @@
     </div>
 
     <div
-        class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-6 py-12 m-auto mt-12"
+        class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
     >
         <div class="absolute -top-6 -left-4">
             <div
@@ -802,7 +802,7 @@
             class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:left-auto h-screen z-50 opacity-0 transition-all duration-500"
         ></div>
         <div
-            class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
+            class="absolute w-full md:w-1/2 max-h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
             style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
             <button
@@ -836,12 +836,12 @@
             </button>
 
             {#if selectEvent}
-                <div class="w-full max-w-2xl mx-auto mt-12">
+                <div class="w-full max-w-2xl mx-auto mt-0 md:mt-12">
                     <!-- Character Name -->
                     <h2 class="text-xl md:text-3xl font-bold text-gray-800">
                         {decodeHTMLEntities(selectEvent.title)}
                     </h2>
-                    <div class="mt-6">
+                    <div class="mt-2 md:mt-6">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-xl font-bold text-gray-800">
                                 Race
