@@ -19,3 +19,16 @@ body {
     transform: skewX(-12deg);
 }
 
+.loader img {
+  animation: zoomInOut 2s infinite ease-in-out;
+}
+
+@keyframes zoomInOut {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+

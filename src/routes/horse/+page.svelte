@@ -11,10 +11,15 @@
 
 	import { loadMixamoAnimation } from "$lib/utils/loadMixamoAnimation.js";
 
-	import {generateWarnaDenganSeed,createSeededDarkColorGenerator,mulberry32} from "$lib/utils/generatorWarna";
+	import {
+		generateWarnaDenganSeed,
+		createSeededDarkColorGenerator,
+		mulberry32,
+	} from "$lib/utils/generatorWarna";
 
 	let dataKuda = [];
 	let sortedKuda = [];
+	let loadingKuda = true;
 
 	let selectKuda = null;
 
@@ -40,7 +45,7 @@
 				} else if (sortBy === "height") {
 					return `${a.height}`.localeCompare(`${b.height}`);
 				} else if (sortBy === "birth_year") {
-					return a.birth_year.localeCompare(b.birth_year);
+					return `${a.birth_year}`.localeCompare(b.birth_year);
 				}
 			});
 		}, 200);
@@ -92,15 +97,20 @@
 	let currentMixer = undefined;
 	let currentAction = undefined;
 
-	function selectCard(kuda) {
+	let selectKudaIndex = 0;
+
+	function selectCard(kuda, index) {
+		disposeThreeJS();
 		const overlay = document.getElementById("overlay");
 		selectKuda = kuda;
+		selectKudaIndex = index;
 
 		setTimeout(() => {
 			overlay.classList.remove("reveal");
 			initThreeJS();
 			randomChar(kuda);
 			setTimeout(() => {
+				document.getElementById("tombol").classList.remove("hidden");
 				canvas.classList.remove("opacity-0");
 			}, 500);
 		}, 100);
@@ -110,6 +120,7 @@
 		const overlay = document.getElementById("overlay");
 		overlay.classList.add("reveal");
 		canvas.classList.add("opacity-0");
+		document.getElementById("tombol").classList.add("hidden");
 
 		setTimeout(() => {
 			selectKuda = null;
@@ -127,8 +138,6 @@
 		return hash;
 	}
 
-
-
 	function seededRandom(seed) {
 		return function () {
 			let t = (seed += 0x6d2b79f5);
@@ -139,6 +148,7 @@
 	}
 
 	function loadVRM(modelUrl) {
+		document.getElementById("full-loading").classList.remove("hidden");
 		const loader = new GLTFLoader();
 		loader.crossOrigin = "anonymous";
 
@@ -171,6 +181,7 @@
 
 				// put the model to the scene
 				currentVrm = vrm;
+				document.getElementById("full-loading").classList.add("hidden");
 			},
 
 			// called while loading is progressing
@@ -182,7 +193,11 @@
 				),
 
 			// called when loading has errors
-			(error) => console.error(error),
+			(error) => {
+				alert(error);
+				document.getElementById("full-loading").classList.add("hidden");
+				console.error(error);
+			},
 		);
 	}
 
@@ -521,24 +536,26 @@
 	}
 
 	function disposeThreeJS() {
-		// Cancel animation
-		cancelAnimationFrame(animationId);
+		if (scene) {
+			// Cancel animation
+			cancelAnimationFrame(animationId);
 
-		// Dispose scene
-		scene.traverse((object) => {
-			if (object.geometry) object.geometry.dispose();
-			if (object.material) {
-				if (Array.isArray(object.material)) {
-					object.material.forEach((mat) => mat.dispose());
-				} else {
-					object.material.dispose();
+			// Dispose scene
+			scene.traverse((object) => {
+				if (object.geometry) object.geometry.dispose();
+				if (object.material) {
+					if (Array.isArray(object.material)) {
+						object.material.forEach((mat) => mat.dispose());
+					} else {
+						object.material.dispose();
+					}
 				}
-			}
-		});
+			});
 
-		// Remove renderer canvas
-		renderer.domElement.remove();
-		renderer.dispose();
+			// Remove renderer canvas
+			renderer.domElement.remove();
+			renderer.dispose();
+		}
 	}
 
 	function decodeHTMLEntities(str) {
@@ -549,13 +566,19 @@
 	}
 
 	onMount(async () => {
-		const res = await fetch("/api/horse");
-		const json = await res.json();
-		dataKuda = json.data;
+		loadingKuda = true;
+		loadVRM(defaultModelUrl);
+
+		try {
+			const res = await fetch("/api/horse");
+			const json = await res.json();
+			dataKuda = json.data;
+		} catch (error) {
+			alert(error);
+		}
+		loadingKuda = false;
 
 		canvas = document.getElementById("myCanvasContainer");
-
-		loadVRM(defaultModelUrl);
 	});
 </script>
 
@@ -595,23 +618,7 @@
 						>
 					</div>
 				</div>
-				<!-- <button
-					class="search-button text-white font-semibold py-2 px-4 rounded-lg flex items-center transition duration-300"
-				>
-					<svg
-						class="w-5 h-5 mr-2"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-						></path></svg
-					>
-					Search
-				</button> -->
+
 				<div
 					class="flex items-center bg-purple-700 rounded-full transition-all duration-300"
 				>
@@ -658,17 +665,24 @@
 	</div>
 
 	<div
-		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-8"
+		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-8"
 	>
 		{#each sortedKuda as kuda, index}
 			<CharacterCard
 				{kuda}
 				{index}
 				onClick={() => {
-					selectCard(kuda);
+					selectCard(kuda, index);
 				}}
 			/>
 		{/each}
+
+		{#if loadingKuda}
+			<div class="loader w-24 abosulute m-auto text-center">
+				<img src="images/Logo_Hashire.png" alt="Loading..." />
+				<small>Loading...</small>
+			</div>
+		{/if}
 	</div>
 
 	<div
@@ -676,17 +690,64 @@
 		class={`fixed inset-0 z-10 top-[50px] overflow-hidden reveal ${selectKuda == null ? "hidden" : ""}`}
 	>
 		<div
-			class={`panel-top-left absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-1-${selectKuda.color_name}` : ""}`}
+			class={`panel-top-left absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);"
 		></div>
 		<div
-			class={`panel-bottom-right absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+			class={`panel-bottom-right absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-1-${selectKuda.color_name}` : ""}`}
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);"
 		></div>
 		<div
 			id="myCanvasContainer"
 			class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen z-50 opacity-0 transition-all duration-500"
 		></div>
+		<div
+			id="tombol"
+			class="relative w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen hidden"
+		>
+			<button
+				class="absolute left-10 top-0 bottom-0 z-50 w-12 text-gray-100 cursor-pointer"
+				onclick={() => {
+					if (selectKudaIndex == 0) {
+						selectKudaIndex = sortedKuda.length - 1;
+					} else {
+						selectKudaIndex -= 1;
+					}
+					selectCard(sortedKuda[selectKudaIndex], selectKudaIndex);
+				}}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="ionicon"
+					viewBox="0 0 512 512"
+					><path
+						fill="currentColor"
+						d="M321.94 98L158.82 237.78a24 24 0 000 36.44L321.94 414c15.57 13.34 39.62 2.28 39.62-18.22v-279.6c0-20.5-24.05-31.56-39.62-18.18z"
+					/></svg
+				>
+			</button>
+			<button
+				class="absolute right-10 top-0 bottom-0 z-50 w-12 text-gray-100 cursor-pointer"
+				onclick={() => {
+					if (selectKudaIndex == sortedKuda.length - 1) {
+						selectKudaIndex = 0;
+					} else {
+						selectKudaIndex += 1;
+					}
+					selectCard(sortedKuda[selectKudaIndex], selectKudaIndex);
+				}}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="ionicon"
+					viewBox="0 0 512 512"
+					><path
+						fill="currentColor"
+						d="M190.06 414l163.12-139.78a24 24 0 000-36.44L190.06 98c-15.57-13.34-39.62-2.28-39.62 18.22v279.6c0 20.5 24.05 31.56 39.62 18.18z"
+					/></svg
+				>
+			</button>
+		</div>
 		<div
 			class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
@@ -905,7 +966,7 @@
 	}
 
 	.bg-2-Hitam {
-		background: #242424;
+		background: #474747;
 	}
 
 	.bg-2-Pink {
@@ -933,7 +994,7 @@
 	}
 
 	.bg-2-Jragem {
-		background: #000000;
+		background: #3a3a3a;
 	}
 
 	.bg-2-Bopong {

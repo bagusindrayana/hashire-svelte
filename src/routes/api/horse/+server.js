@@ -45,6 +45,10 @@ export async function GET() {
 
         data.data = [...data.data, ...kudaLainnya]
 
+        data.data = data.data.filter((item, index, self) =>
+            index === self.findIndex((t) => t.name === item.name)
+        );
+
         return new Response(JSON.stringify(data), {
             headers: { "Content-Type": "application/json" },
             status: 200

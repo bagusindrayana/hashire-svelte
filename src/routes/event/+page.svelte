@@ -15,6 +15,7 @@
 
     let dataEvent = [];
     let selectEvent = null;
+    let loadingEvent = true;
 
     let canvas,
         scene,
@@ -211,6 +212,7 @@
     let baseGltf = null;
 
     function loadVRM(modelUrl) {
+        document.getElementById("full-loading").classList.remove('hidden');
         loader = new GLTFLoader();
         loader.crossOrigin = "anonymous";
 
@@ -241,6 +243,7 @@
 
                 // put the model to the scene
                 currentVrm = vrm;
+                document.getElementById("full-loading").classList.add('hidden');
             },
 
             // called while loading is progressing
@@ -252,7 +255,11 @@
                 ),
 
             // called when loading has errors
-            (error) => console.error(error),
+            (error) => {
+                console.error(error);
+                alert(error);
+                document.getElementById("full-loading").classList.add('hidden');
+            },
         );
     }
 
@@ -555,10 +562,10 @@
         );
         camera.position.set(2, 1, 3);
 
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.screenSpacePanning = true;
-        controls.target.set(0.0, 1.0, 0.0);
-        controls.update();
+        // const controls = new OrbitControls(camera, renderer.domElement);
+        // controls.screenSpacePanning = true;
+        // controls.target.set(0.0, 1.0, 0.0);
+        // controls.update();
 
         // scene
         scene = new THREE.Scene();
@@ -623,24 +630,33 @@
     }
 
     onMount(async () => {
-        const res = await fetch("/api/event");
-        const json = await res.json();
-        dataEvent = json;
+        loadVRM(defaultModelUrl);
+        loadingEvent = true;
+        try {
+            const res = await fetch("/api/event");
+            const json = await res.json();
+            dataEvent = json;
+        } catch (error) {
+            alert(error);
+        }
+
+        loadingEvent = false;
 
         canvas = document.getElementById("myCanvasContainer");
 
-        loadVRM(defaultModelUrl);
+        
+        
     });
 </script>
 
 <svelte:head>
     <title>Event</title>
 </svelte:head>
-<main class="container mx-auto px-6 py-20 relative">
+<main class="container mx-auto px-3 mx:px-6 py-20 relative grid grid-cols-1">
     <div class="title-banner">Event</div>
 
     <div
-        class="w-full bg-[#f1ffb3] border-4 border-[#7d9900] rounded-2xl shadow-lg relative p-6 py-12 m-auto mt-12"
+        class="w-full bg-[#f1ffb3] border-4 border-[#7d9900] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
     >
         <div class="absolute -top-6 -left-4">
             <div
@@ -691,6 +707,12 @@
                     </div>
                 {/if}
             {/each}
+            {#if loadingEvent}
+				<div class="loader w-24 abosulute m-auto text-center">
+					<img src="images/Logo_Hashire.png" alt="Loading..." />
+					<small>Loading...</small>
+				</div>
+			{/if}
         </div>
     </div>
 
@@ -751,6 +773,12 @@
                     </div>
                 {/if}
             {/each}
+            {#if loadingEvent}
+				<div class="loader w-24 abosulute m-auto text-center">
+					<img src="images/Logo_Hashire.png" alt="Loading..." />
+					<small>Loading...</small>
+				</div>
+			{/if}
         </div>
     </div>
 
@@ -775,7 +803,7 @@
             style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
             <button
-                class="absolute left-4 md:left-10 hover:scale-125 transition duration-300 cursor-pointer"
+                class="absolute right-0 left-auto md:right-auto md:left-10 hover:scale-125 transition duration-300 cursor-pointer"
                 onclick={closeCard}
             >
                 <svg
@@ -805,7 +833,7 @@
             </button>
 
             {#if selectEvent}
-                <div class="w-full max-w-2xl mx-auto">
+                <div class="w-full max-w-2xl mx-auto mt-12">
                     <!-- Character Name -->
                     <h2 class="text-xl md:text-3xl font-bold text-gray-800">
                         {decodeHTMLEntities(selectEvent.title)}

@@ -6,16 +6,18 @@
 	<div class="container mx-auto px-6 py-3">
 		<div class="flex items-center justify-between">
 			<div class="text-2xl font-bold text-purple-600">
-				<a href="/">Hashire!</a>
+				<a href="/">
+					<img src="/images/Logo_Hashire.png" alt="Logo Hashire!" class="h-10">
+				</a>
 			</div>
 			<div class="hidden md:flex items-center space-x-6">
-				<a href="/" class="nav-item" class:active={$page.url.pathname == "/"}>✧ Home</a>
-				<a href="/event" class="nav-item" class:active={$page.url.pathname.includes("/event")}>✧ Event</a>
+				<a href="/" class="nav-item" class:active={$page.url.pathname == "/"}>Home</a>
+				<a href="/event" class="nav-item" class:active={$page.url.pathname.includes("/event")}>Event</a>
 				<a
 					href="/horse"
 					class="nav-item"
 					class:active={$page.url.pathname.includes("/horse")}
-					>✧ Kuda Aktif</a
+					>Kuda Aktif</a
 				>
 			</div>
 

@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	let dataNews = [];
-	let dataKalsemen = [
+	let dataKlasemen = [
 		{
 			pos: 1,
 			nama_kuda: "Thunder Bolt",
@@ -91,10 +91,18 @@
 			poin: 74,
 		},
 	];
+
+	let loadingNews = true;
 	onMount(async () => {
-		const res = await fetch("/api/news");
-		const json = await res.json();
-		dataNews = json;
+		loadingNews = true;
+		try {
+			const res = await fetch("/api/news");
+			const json = await res.json();
+			dataNews = json;
+		} catch (error) {
+			alert(error);
+		}
+		loadingNews = false;
 	});
 </script>
 
@@ -172,6 +180,12 @@
 					</a>
 				</div>
 			{/each}
+			{#if loadingNews}
+				<div class="loader w-24 abosulute m-auto text-center">
+					<img src="images/Logo_Hashire.png" alt="Loading..." />
+					<small>Loading...</small>
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div
@@ -218,7 +232,7 @@
 						>
 					</thead>
 					<tbody class="bg-white">
-						{#each dataKalsemen as klasemen, index}
+						{#each dataKlasemen as klasemen, index}
 							<tr class="border-b border-gray-200 text-gray-600">
 								<td class="px-2 py-1">{klasemen.pos}</td>
 								<td class="px-2 py-1">{klasemen.nama_kuda}</td>

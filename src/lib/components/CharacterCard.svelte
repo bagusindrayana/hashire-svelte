@@ -44,9 +44,9 @@
 	const getBreakpoint = (width) => {
 		if (width >= tailwindBreakpoints["2xl"]) return 5;
 		if (width >= tailwindBreakpoints.xl) return 5;
-		if (width >= tailwindBreakpoints.lg) return 5;
-		if (width >= tailwindBreakpoints.md) return 4;
-		if (width >= tailwindBreakpoints.sm) return 3;
+		if (width >= tailwindBreakpoints.lg) return 4;
+		if (width >= tailwindBreakpoints.md) return 3;
+		if (width >= tailwindBreakpoints.sm) return 2;
 		return 2; // anything smaller than sm
 	};
 
@@ -87,26 +87,26 @@
 					>Trah / Lahir / Tinggi:</span
 				>
 				<span class="font-bold"
-					>{kuda.generation_name} / {kuda.birth_year} / {kuda.height}</span
+					>{kuda.generation_name ?? "-"} / {kuda.birth_year ?? "-"} / {kuda.height ?? "-"}</span
 				>
 			</div>
 			<hr class="my-2" />
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Pejantan:</span>
-				<span class="text-right font-medium">{decodeHTMLEntities(kuda.father_name)}</span>
+				<span class="text-right font-medium">{decodeHTMLEntities(kuda.father_name ?? "-")}</span>
 			</div>
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Induk:</span>
-				<span class="text-right font-medium">{decodeHTMLEntities(kuda.mother_name)}</span>
+				<span class="text-right font-medium">{decodeHTMLEntities(kuda.mother_name ?? "-")}</span>
 			</div>
 			<hr class="my-2" />
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Pelatih:</span>
-				<span class="text-right font-medium">{kuda.trainer}</span>
+				<span class="text-right font-medium">{kuda.trainer ?? "-"}</span>
 			</div>
 			<div class="flex justify-between">
 				<span class="font-semibold text-gray-500">Pemilik:</span>
-				<span class="text-right font-medium">{kuda.owner}</span>
+				<span class="text-right font-medium">{kuda.owner ?? "-"}</span>
 			</div>
 		</div>
 	</div>
