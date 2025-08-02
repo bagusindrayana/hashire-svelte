@@ -17,12 +17,15 @@
 		generateWarnaKuda,
 		mulberry32,
 	} from "$lib/utils/generatorWarna";
+    import CharacterDetail from "$lib/components/CharacterDetail.svelte";
+    import SilsilahTable from "$lib/components/SilsilahTable.svelte";
 
 	let dataKuda = [];
 	let sortedKuda = [];
 	let loadingKuda = true;
 
 	let selectKuda = null;
+	let detailKuda = null;
 
 	let sortBy = "name";
 
@@ -106,6 +109,8 @@
 		selectKuda = kuda;
 		selectKudaIndex = index;
 
+		getDetail(selectKuda.id ?? selectKuda.name);
+
 		setTimeout(() => {
 			overlay.classList.remove("reveal");
 			initThreeJS();
@@ -125,6 +130,7 @@
 
 		setTimeout(() => {
 			selectKuda = null;
+			detailKuda = null;
 			disposeThreeJS();
 		}, 1100);
 	}
@@ -568,6 +574,16 @@
 		return textName;
 	}
 
+	async function getDetail(id){
+		try {
+			const res = await fetch(`/api/horse?id=${id}`);
+			const json = await res.json();
+			detailKuda = json;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
 	onMount(async () => {
 		loadingKuda = true;
 		loadVRM(defaultModelUrl);
@@ -752,7 +768,7 @@
 			</button>
 		</div>
 		<div
-			class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
+			class="absolute w-full md:w-1/2 bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
 		>
 			<button
@@ -786,20 +802,20 @@
 			</button>
 
 			{#if selectKuda}
-				<div class="w-full max-w-2xl mx-auto">
+				<div class="w-full mx-auto overflow-y-auto  h-[40vh] md:h-[90vh] ">
 					<!-- Character Name -->
-					<h2 class="text-2xl md:text-5xl font-bold text-gray-800">
+					<h2 class="text-2xl md:text-5xl font-bold text-gray-800 hidden md:block">
 						{decodeHTMLEntities(selectKuda.name)}
 					</h2>
 					<!-- Voice Actor -->
-					<div class="mt-2 flex items-center space-x-3 text-gray-600">
+					<div class="mt-2 flex items-center space-x-3 text-gray-600 hidden md:block">
 						<span class="text-md md:text-lg"
 							>Owner: {selectKuda.owner ?? "-"}</span
 						>
 					</div>
 
 					<!-- Quote -->
-					<div class="my-4 md:my-10">
+					<div class="my-3 md:my-6">
 						<div class="mt-2 md:mt-6 flex items-center w-full">
 							<div
 								class="flex-grow border-t border-gray-300"
@@ -820,87 +836,12 @@
 					</div>
 
 					<!-- Character Details -->
-					<div
-						class="space-y-1 md:space-y-3 text-xs md:text-sm grid grid-cols-2 md:grid-cols-1"
-					>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Trainer</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.trainer ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Discipline</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.discipline ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Birthday</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.birth_year ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Height</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.height ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Color</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.color_name ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Trah</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{selectKuda.generation_name ?? "-"}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Sire</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{decodeHTMLEntities(
-									selectKuda.father_name ?? "-",
-								)}</span
-							>
-						</div>
-						<div class="flex items-center">
-							<span
-								class={`text-white font-bold py-1 px-2 md:px-3 rounded-md w-auto md:w-24 text-center ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
-								>Dam</span
-							>
-							<span class="ml-2 md:ml-4 text-gray-700"
-								>{decodeHTMLEntities(
-									selectKuda.mother_name ?? "-",
-								)}</span
-							>
-						</div>
-					</div>
-					<div class="w-full border-t border-pink-200 my-8"></div>
+					<CharacterDetail kuda={selectKuda} />
+					<div class="w-full border-t border-pink-200 my-3 md:my-6"></div>
+					{#if detailKuda != null}
+					<SilsilahTable induk={detailKuda.silsilah.induk} pejantan={detailKuda.silsilah.pejantan} />
+					{/if}
+
 				</div>
 			{/if}
 		</div>
@@ -928,85 +869,7 @@
 		transform: translate(100%, 0%);
 	}
 
-	.bg-1-Hitam {
-		background: #808080;
-	}
-
-	.bg-1-Pink {
-		background: #fd98cd;
-	}
-
-	.bg-1-Hijau {
-		background: #70f1c2;
-	}
-
-	.bg-1-Biru {
-		background: #7eb8ff;
-	}
-
-	.bg-1-Merah {
-		background: #ff9898;
-	}
-
-	.bg-1-Kuning {
-		background: #f1db82;
-	}
-
-	.bg-1-Napas {
-		background: #e9e3c3;
-	}
-
-	.bg-1-Jragem {
-		background: #686868;
-	}
-
-	.bg-1-Bopong {
-		background: #f5a770;
-	}
-
-	.bg-1-Kelabu {
-		background: #e4e4e4;
-	}
-
-	.bg-2-Hitam {
-		background: #474747;
-	}
-
-	.bg-2-Pink {
-		background: #ec4899;
-	}
-
-	.bg-2-Hijau {
-		background: #10b981;
-	}
-
-	.bg-2-Biru {
-		background: #3b82f6;
-	}
-
-	.bg-2-Merah {
-		background: #ef4444;
-	}
-
-	.bg-2-Kuning {
-		background: #eab308;
-	}
-
-	.bg-2-Napas {
-		background: #888056;
-	}
-
-	.bg-2-Jragem {
-		background: #3a3a3a;
-	}
-
-	.bg-2-Bopong {
-		background: #8b4513;
-	}
-
-	.bg-2-Kelabu {
-		background: #bbb286;
-	}
+	
 
 	/* Menghilangkan panah pada input type search di beberapa browser */
 	input[type="search"]::-webkit-search-decoration,

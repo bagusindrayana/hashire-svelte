@@ -836,7 +836,7 @@
             </button>
 
             {#if selectEvent}
-                <div class="w-full max-w-2xl mx-auto mt-0 md:mt-12">
+                <div class="w-full mx-auto mt-0 md:mt-12">
                     <!-- Character Name -->
                     <h2 class="text-xl md:text-3xl font-bold text-gray-800">
                         {decodeHTMLEntities(selectEvent.title)}
