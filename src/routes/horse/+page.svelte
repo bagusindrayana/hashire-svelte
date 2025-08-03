@@ -121,6 +121,14 @@
 		selectKuda = kuda;
 		selectKudaIndex = index;
 
+		if (data.openHorse) {
+			const url = new URL(window.location.toString());
+			url.searchParams.delete("id");
+			replaceState(url.pathname, {});
+			data.openHorse = null;
+			data.idHorse = null;
+		}
+
 		if (data.idHorse == null) {
 			pushState(`/horse?id=${selectKuda.id ?? selectKuda.name}`);
 			data.idHorse = selectKuda.id ?? selectKuda.name;
@@ -151,13 +159,11 @@
 		canvas.classList.add("opacity-0");
 		document.getElementById("tombol").classList.add("hidden");
 
-		if (data.openHorse) {
-			const url = new URL(window.location.toString());
-			url.searchParams.delete("id");
-			replaceState(url.pathname, {});
-			data.openHorse = null;
-			data.idHorse = null;
-		}
+		const url = new URL(window.location.toString());
+		url.searchParams.delete("id");
+		replaceState(url.pathname, {});
+		data.openHorse = null;
+		data.idHorse = null;
 
 		setTimeout(() => {
 			selectKuda = null;
@@ -226,7 +232,7 @@
 						const k = dataKuda[i];
 						if (
 							(data.openHorse.profil != null &&
-								k.name == data.openHorse.profil.nama) ||
+								k.name.toLowerCase() == data.openHorse.profil.nama.toLowerCase()) ||
 							k.id == data.idHorse
 						) {
 							selectCard(k);
