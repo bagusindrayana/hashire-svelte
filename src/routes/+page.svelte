@@ -181,7 +181,7 @@
 				</div>
 			{/each}
 			{#if loadingNews}
-				<div class="loader w-24 abosulute m-auto text-center">
+				<div class="loader w-24 absolute m-auto text-center">
 					<img src="images/Logo_Hashire.png" alt="Loading..." />
 					<small>Loading...</small>
 				</div>

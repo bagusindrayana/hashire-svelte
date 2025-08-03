@@ -11,10 +11,16 @@
     import { loadMixamoAnimation } from "$lib/utils/loadMixamoAnimation.js";
     import { cloneVRM } from "$lib/utils/cloneVRM.js"; // Import the function
 
-    import { generateWarnaDenganSeed,createSeededDarkColorGenerator,generateWarnaKuda,mulberry32 } from "$lib/utils/generatorWarna";
+    import {
+        generateWarnaDenganSeed,
+        createSeededDarkColorGenerator,
+        generateWarnaKuda,
+        mulberry32,
+    } from "$lib/utils/generatorWarna";
 
     let dataEvent = [];
     let selectEvent = null;
+    let selectKuda = null;
     let loadingEvent = true;
 
     let canvas,
@@ -60,6 +66,36 @@
         }, 100);
     }
 
+    function konversiKeRomawi(num) {
+        // Angka Romawi dari terbesar ke terkecil
+        const romanMap = {
+            M: 1000,
+            CM: 900,
+            D: 500,
+            CD: 400,
+            C: 100,
+            XC: 90,
+            L: 50,
+            XL: 40,
+            X: 10,
+            IX: 9,
+            V: 5,
+            IV: 4,
+            I: 1,
+        };
+
+        let roman = "";
+        for (let key in romanMap) {
+   
+            while (num >= romanMap[key]) {
+                roman += key;
+                num -= romanMap[key];
+            }
+        }
+
+        return roman;
+    }
+
     async function getEventDetail(event) {
         const res = await fetch("/dummy-data/" + event.id);
         const json = await res.json();
@@ -72,7 +108,8 @@
             selectEvent.races.length > 0 &&
             selectEvent.races[0].horses.length > 0
         ) {
-            randomChar(selectEvent.races[0].horses[0]);
+            selectKuda = selectEvent.races[0].horses[0];
+            randomChar(selectKuda);
         }
 
         setTimeout(() => {
@@ -95,6 +132,7 @@
                     "h-3",
                     "rounded-full",
                     "transition-colors",
+                    "cursor-pointer",
                 );
                 dot.addEventListener("click", () => goToSlide(index));
                 paginationContainer.appendChild(dot);
@@ -106,6 +144,8 @@
                 // Calculate the translation based on the current index
                 wrapper.style.transform = `translateX(-${index * 100}%)`;
                 currentIndex = index;
+                console.log(currentIndex);
+                document.getElementById("race-label").innerHTML = `RACE ${konversiKeRomawi(currentIndex+1)}`;
                 updateControls();
             }
 
@@ -151,6 +191,7 @@
         canvas.classList.add("opacity-0");
         setTimeout(() => {
             selectEvent = null;
+            selectKuda = null;
             disposeThreeJS();
         }, 1100);
     }
@@ -169,7 +210,8 @@
                     selectEvent.races[indexRow].horses[ir].selected = false;
                 }
             }
-            randomChar(selectEvent.races[indexRow].horses[indexHorse]);
+            selectKuda = selectEvent.races[indexRow].horses[indexHorse];
+            randomChar(selectKuda);
             selectEvent = selectEvent;
         }
     }
@@ -183,9 +225,6 @@
         }
         return hash;
     }
-
-   
-   
 
     function randomBrightColor(seed) {
         const rand = mulberry32(seed);
@@ -212,7 +251,7 @@
     let baseGltf = null;
 
     function loadVRM(modelUrl) {
-        document.getElementById("full-loading").classList.remove('hidden');
+        document.getElementById("full-loading").classList.remove("hidden");
         loader = new GLTFLoader();
         loader.crossOrigin = "anonymous";
 
@@ -243,7 +282,7 @@
 
                 // put the model to the scene
                 currentVrm = vrm;
-                document.getElementById("full-loading").classList.add('hidden');
+                document.getElementById("full-loading").classList.add("hidden");
             },
 
             // called while loading is progressing
@@ -258,7 +297,7 @@
             (error) => {
                 console.error(error);
                 alert(error);
-                document.getElementById("full-loading").classList.add('hidden');
+                document.getElementById("full-loading").classList.add("hidden");
             },
         );
     }
@@ -288,7 +327,6 @@
         );
 
         var hairHex = hex;
-      
 
         // scene.background = new THREE.Color(getBrightColor(Math.floor(random() * 100)))
 
@@ -339,12 +377,10 @@
 
             if (obj.isMesh && obj.material.uniforms != undefined) {
                 if (obj.name.includes("Ribbon")) {
-                    const ribbonColor = generateWarnaKuda(kuda.color_name,
-                        {
-                            seed:Math.floor(random() * 100),
-                            versi: 'terang'
-                        }
-                    );
+                    const ribbonColor = generateWarnaKuda(kuda.color_name, {
+                        seed: Math.floor(random() * 100),
+                        versi: "terang",
+                    });
                     obj.material.uniforms.litFactor.value.setHex(
                         `${ribbonColor}`,
                     );
@@ -368,22 +404,22 @@
 
                 if (obj.material.name.includes("EyeIris")) {
                     if (randomSame == 1) {
-						const eyeHex = createSeededDarkColorGenerator(
-							Math.floor(random() * 100),
-							100,
-						)();
-						obj.material.uniforms.litFactor.value.setHex(
-							`${eyeHex}`,
-						);
-						obj.material.uniforms.shadeColorFactor.value.setHex(
-							`${hex}`,
-						);
-					} else {
-						obj.material.uniforms.litFactor.value.setHex(`${hex}`);
-						obj.material.uniforms.shadeColorFactor.value.setHex(
-							`${hex}`,
-						);
-					}
+                        const eyeHex = createSeededDarkColorGenerator(
+                            Math.floor(random() * 100),
+                            100,
+                        )();
+                        obj.material.uniforms.litFactor.value.setHex(
+                            `${eyeHex}`,
+                        );
+                        obj.material.uniforms.shadeColorFactor.value.setHex(
+                            `${hex}`,
+                        );
+                    } else {
+                        obj.material.uniforms.litFactor.value.setHex(`${hex}`);
+                        obj.material.uniforms.shadeColorFactor.value.setHex(
+                            `${hex}`,
+                        );
+                    }
                 }
 
                 if (obj.material.name.includes("Hair")) {
@@ -646,9 +682,6 @@
         loadingEvent = false;
 
         canvas = document.getElementById("myCanvasContainer");
-
-        
-        
     });
 </script>
 
@@ -665,7 +698,9 @@
             <div
                 class="bg-[#7d9900] text-white py-2 px-10 transform -skew-x-12 shadow-md"
             >
-                <h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
+                <h1
+                    class="transform skew-x-12 text-xl md:text-3xl font-extrabold"
+                >
                     Upcoming Event
                 </h1>
             </div>
@@ -693,8 +728,7 @@
                             <div>
                                 <div class="flex items-center mb-1">
                                     <span
-                                        class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
-                                        >Race</span
+                                        class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full">Race</span
                                     >
                                     <span class="text-sm text-gray-500"
                                         >{event.date}</span
@@ -711,11 +745,11 @@
                 {/if}
             {/each}
             {#if loadingEvent}
-				<div class="loader w-24 abosulute m-auto text-center">
-					<img src="images/Logo_Hashire.png" alt="Loading..." />
-					<small>Loading...</small>
-				</div>
-			{/if}
+                <div class="loader w-24 absolute m-auto text-center">
+                    <img src="images/Logo_Hashire.png" alt="Loading..." />
+                    <small>Loading...</small>
+                </div>
+            {/if}
         </div>
     </div>
 
@@ -726,7 +760,9 @@
             <div
                 class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
             >
-                <h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
+                <h1
+                    class="transform skew-x-12 text-xl md:text-3xl font-extrabold"
+                >
                     Past Event
                 </h1>
             </div>
@@ -777,11 +813,11 @@
                 {/if}
             {/each}
             {#if loadingEvent}
-				<div class="loader w-24 abosulute m-auto text-center">
-					<img src="images/Logo_Hashire.png" alt="Loading..." />
-					<small>Loading...</small>
-				</div>
-			{/if}
+                <div class="loader w-24 absolute m-auto text-center">
+                    <img src="images/Logo_Hashire.png" alt="Loading..." />
+                    <small>Loading...</small>
+                </div>
+            {/if}
         </div>
     </div>
 
@@ -800,13 +836,23 @@
         <div
             id="myCanvasContainer"
             class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:left-auto h-screen z-50 opacity-0 transition-all duration-500"
-        ></div>
-        <div
-            class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
-            style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
+            {#if selectKuda}
+                <div
+                    class="absolute h-8 w-auto top-0 md:top-auto bottom-6 md:bottom-20 left-20 right-20 m-auto bg-white/75 transition-transform duration-1000 p-1 md:p-4 text-center rounded-full shadow-md flex justify-center items-center"
+                    style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
+                >
+                    <h2 class="text-sm md:text-lg font-bold text-yellow-900">
+                        {decodeHTMLEntities(selectKuda.name)}
+                    </h2>
+                </div>
+            {/if}
+        </div>
+
+        {#if selectEvent}
             <button
-                class="absolute right-0 left-auto md:right-auto md:left-10 hover:scale-125 transition duration-300 cursor-pointer"
+                class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
+                style="z-index: 70;"
                 onclick={closeCard}
             >
                 <svg
@@ -834,22 +880,35 @@
                     ></path>
                 </svg>
             </button>
-
+            <div
+                class="absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-2 md:p-10"
+                style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:50;"
+            >
+                <h2 class="text-lg md:text-5xl font-bold text-gray-800">
+                    {decodeHTMLEntities(selectEvent.title)}
+                </h2>
+            </div>
+        {/if}
+        <div
+            class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
+            style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
+        >
             {#if selectEvent}
-                <div class="w-full mx-auto mt-0 md:mt-12">
-                    <!-- Character Name -->
-                    <h2 class="text-xl md:text-3xl font-bold text-gray-800">
+                <div class="w-full mx-auto mt-0">
+                    <h2
+                        class="text-xl md:text-3xl font-bold text-gray-800 hidden md:block"
+                    >
                         {decodeHTMLEntities(selectEvent.title)}
                     </h2>
                     <div class="mt-2 md:mt-6">
                         <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-xl font-bold text-gray-800">
+                            <h3 class="text-xl font-bold text-gray-800" id="race-label">
                                 Race
                             </h3>
                             <div class="flex items-center space-x-2">
                                 <button
                                     id="prev-slide"
-                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -867,7 +926,7 @@
                                 </button>
                                 <button
                                     id="next-slide"
-                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -888,7 +947,7 @@
 
                         <div
                             id="slider-container"
-                            class="relative overflow-x-hidden overflow-y-auto max-h-[60vh]"
+                            class="relative overflow-x-hidden overflow-y-auto max-h-[30vh] md:max-h-[60vh]"
                         >
                             <div
                                 id="slider-wrapper"

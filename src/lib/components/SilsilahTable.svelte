@@ -45,7 +45,6 @@
 </script>
 
 <div class="overflow-x-auto rounded-lg bg-gray-50 p-4 shadow-md">
-    <h3 class="text-md md:text-lg text-gray-600">Silsilah</h3>
   <table class="min-w-[800px] w-full border-collapse text-center text-sm">
     <tbody class="align-top">
       {#each tableRows as rowData}

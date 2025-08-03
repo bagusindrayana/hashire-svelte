@@ -17,8 +17,8 @@
 		generateWarnaKuda,
 		mulberry32,
 	} from "$lib/utils/generatorWarna";
-    import CharacterDetail from "$lib/components/CharacterDetail.svelte";
-    import SilsilahTable from "$lib/components/SilsilahTable.svelte";
+	import CharacterDetail from "$lib/components/CharacterDetail.svelte";
+	import SilsilahTable from "$lib/components/SilsilahTable.svelte";
 
 	let dataKuda = [];
 	let sortedKuda = [];
@@ -26,6 +26,7 @@
 
 	let selectKuda = null;
 	let detailKuda = null;
+	let loadingDetail = false;
 
 	let sortBy = "name";
 
@@ -283,12 +284,10 @@
 
 			if (obj.isMesh && obj.material.uniforms != undefined) {
 				if (obj.name.includes("Ribbon")) {
-					const ribbonColor = generateWarnaKuda(kuda.color_name,
-                        {
-                            seed:Math.floor(random() * 100),
-                            versi: 'terang'
-                        }
-                    );
+					const ribbonColor = generateWarnaKuda(kuda.color_name, {
+						seed: Math.floor(random() * 100),
+						versi: "terang",
+					});
 					obj.material.uniforms.litFactor.value.setHex(
 						`${ribbonColor}`,
 					);
@@ -574,7 +573,8 @@
 		return textName;
 	}
 
-	async function getDetail(id){
+	async function getDetail(id) {
+		loadingDetail = true;
 		try {
 			const res = await fetch(`/api/horse?id=${id}`);
 			const json = await res.json();
@@ -582,6 +582,7 @@
 		} catch (error) {
 			alert(error);
 		}
+		loadingDetail = false;
 	}
 
 	onMount(async () => {
@@ -607,14 +608,16 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<main class="container mx-auto px-6 py-20 relative  min-h-[90vh]">
-	<div class="title-banner text-lg md:text-2xl  ml-0 md:-ml-4">Kuda Aktif</div>
+<main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
+	<div class="title-banner text-lg md:text-2xl ml-0 md:-ml-4">Kuda Aktif</div>
 
 	<div class="mt-4 md:mt-8">
 		<div
 			class="flex flex-col md:flex-row items-start md:items-center justify-between"
 		>
-			<h2 class="text-xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0">
+			<h2
+				class="text-xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0"
+			>
 				Database Kuda Aktif
 			</h2>
 			<div class="flex items-center space-x-4">
@@ -697,7 +700,7 @@
 		{/each}
 
 		{#if loadingKuda}
-			<div class="loader w-24 abosulute m-auto text-center">
+			<div class="loader w-24 absolute m-auto text-center">
 				<img src="images/Logo_Hashire.png" alt="Loading..." />
 				<small>Loading...</small>
 			</div>
@@ -720,12 +723,13 @@
 			id="myCanvasContainer"
 			class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen z-50 opacity-0 transition-all duration-500"
 		></div>
+
 		<div
 			id="tombol"
-			class="relative w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen hidden"
+			class="relative w-full md:w-1/2 bottom-0 -top-6 left-0 right-0 md:right-auto h-screen hidden"
 		>
 			<button
-				class="absolute left-10 top-0 bottom-0 z-50 w-12 text-gray-100 cursor-pointer"
+				class="absolute left-10 top-0 bottom-0 h-12 z-50 w-12 text-gray-100 cursor-pointer m-auto"
 				onclick={() => {
 					if (selectKudaIndex == 0) {
 						selectKudaIndex = sortedKuda.length - 1;
@@ -745,8 +749,18 @@
 					/></svg
 				>
 			</button>
+			{#if selectKuda}
+				<div
+					class="absolute h-8 w-auto top-0 md:top-auto bottom-0 md:bottom-20 left-20 right-20 m-auto bg-white/75 transition-transform duration-1000 p-1 md:p-4 text-center rounded-full shadow-md flex justify-center items-center"
+					style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
+				>
+					<h2 class="text-sm md:text-lg font-bold text-yellow-900">
+						{decodeHTMLEntities(selectKuda.name)}
+					</h2>
+				</div>
+			{/if}
 			<button
-				class="absolute right-10 top-0 bottom-0 z-50 w-12 text-gray-100 cursor-pointer"
+				class="absolute right-10 top-0 bottom-0 h-12 z-50 w-12 text-gray-100 cursor-pointer m-auto"
 				onclick={() => {
 					if (selectKudaIndex == sortedKuda.length - 1) {
 						selectKudaIndex = 0;
@@ -767,12 +781,19 @@
 				>
 			</button>
 		</div>
-		<div
-			class="absolute w-full md:w-1/2 bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
-			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
-		>
+		{#if selectKuda}
+			<!-- <div
+				class="absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-4 md:p-10"
+				style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
+			>
+				<h2 class="text-2xl md:text-5xl font-bold text-gray-800">
+					{decodeHTMLEntities(selectKuda.name)}
+				</h2>
+			</div> -->
+
 			<button
-				class="absolute right-4 md:right-10 hover:scale-125 transition duration-300 cursor-pointer"
+				class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
+				style="z-index: 70;"
 				onclick={closeCard}
 			>
 				<svg
@@ -800,23 +821,27 @@
 					></path>
 				</svg>
 			</button>
-
+		{/if}
+		<div
+			class="absolute w-full md:w-1/2 bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
+			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
+		>
 			{#if selectKuda}
-				<div class="w-full mx-auto overflow-y-auto  h-[40vh] md:h-[90vh] ">
-					<!-- Character Name -->
-					<h2 class="text-2xl md:text-5xl font-bold text-gray-800 hidden md:block">
+				<div
+					class="w-full mx-auto overflow-y-auto h-[35vh] md:h-[90vh] relative"
+				>
+					<h2 class="text-2xl md:text-5xl font-bold text-gray-800">
 						{decodeHTMLEntities(selectKuda.name)}
 					</h2>
-					<!-- Voice Actor -->
-					<div class="mt-2 flex items-center space-x-3 text-gray-600 hidden md:block">
+
+					<div class="mt-1 flex items-center space-x-3 text-gray-600">
 						<span class="text-md md:text-lg"
 							>Owner: {selectKuda.owner ?? "-"}</span
 						>
 					</div>
 
-					<!-- Quote -->
-					<div class="my-3 md:my-6">
-						<div class="mt-2 md:mt-6 flex items-center w-full">
+					<div class="my-2 md:my-4">
+						<div class="flex items-center w-full">
 							<div
 								class="flex-grow border-t border-gray-300"
 							></div>
@@ -837,11 +862,32 @@
 
 					<!-- Character Details -->
 					<CharacterDetail kuda={selectKuda} />
-					<div class="w-full border-t border-pink-200 my-3 md:my-6"></div>
-					{#if detailKuda != null}
-					<SilsilahTable induk={detailKuda.silsilah.induk} pejantan={detailKuda.silsilah.pejantan} />
-					{/if}
+					<div
+						class="w-full border-t border-pink-200 my-3 md:my-6"
+					></div>
 
+					<div class="relative w-full">
+						<h3 class="text-md md:text-xl text-gray-600">
+							Silsilah
+						</h3>
+						{#if detailKuda != null}
+							<SilsilahTable
+								induk={detailKuda.silsilah.induk}
+								pejantan={detailKuda.silsilah.pejantan}
+							/>
+						{/if}
+						{#if loadingDetail}
+							<div
+								class="loader w-24 h-12 absolute m-auto text-center top-0 left-0 right-0 bottom-0"
+							>
+								<img
+									src="images/Logo_Hashire.png"
+									alt="Loading..."
+								/>
+								<small>Loading...</small>
+							</div>
+						{/if}
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -868,8 +914,6 @@
 	.reveal .side-panel {
 		transform: translate(100%, 0%);
 	}
-
-	
 
 	/* Menghilangkan panah pada input type search di beberapa browser */
 	input[type="search"]::-webkit-search-decoration,

@@ -28,7 +28,7 @@
 				<a
 					href="/"
 					class="nav-item"
-					class:active={$page.url.pathname === "/"}>Home</a
+					class:active={$page.url === "/"}>Home</a
 				>
 				<a
 					href="/event"
