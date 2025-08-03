@@ -52,7 +52,7 @@
           {#each rowData as cell}
             <td
               rowspan={cell.rowspan}
-              class="border border-gray-400 p-1 md:p-2 font-semibold wrap-break-word whitespace-nowrap"
+              class="border border-gray-400 p-1 md:p-2 font-semibold wrap-break-word whitespace-nowrap align-middle"
               class:bg-blue-100={cell.gender === 'sire'}
               class:text-blue-800={cell.gender === 'sire'}
               class:bg-pink-100={cell.gender === 'dam'}
