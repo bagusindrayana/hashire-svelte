@@ -246,7 +246,7 @@
 								><th scope="col" class="px-3 py-2 text-center"
 									>2nd</th
 								><th scope="col" class="px-3 py-2 text-center"
-									>3th</th
+									>3rd</th
 								><th scope="col" class="px-3 py-2 text-center"
 									>Poin</th
 								></tr

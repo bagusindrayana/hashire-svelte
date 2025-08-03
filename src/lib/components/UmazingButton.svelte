@@ -2,18 +2,30 @@
     export let onClick;
     export let icon = null;
     export let text = null;
+    export let type = "default";
+
+     const classType = {
+        "default":[
+            "from-lime-500 to-green-600",
+            "border-green-800"
+        ],
+        "red":[
+            "from-rose-500 to-red-600",
+            "border-red-800"
+        ],
+    }
 </script>
 
 <button
     onclick={onClick}
-    class="amazing-button relative inline-flex items-center justify-center gap-3 sm:gap-4 px-2 sm:px-4 py-1 sm:py-2 cursor-pointer
+    class={`amazing-button relative inline-flex items-center justify-center gap-3 sm:gap-4 px-2 sm:px-4 py-1 sm:py-2 cursor-pointer
                    text-white text-xl sm:text-2xl font-bold tracking-wide
-                   bg-gradient-to-br from-lime-500 to-green-600
+                   bg-gradient-to-br ${classType[type][0]}
                    rounded-3xl
-                   border-2 border-green-800 border-b-[6px]
+                   border-2 ${classType[type][1]} border-b-[6px]
                    active:border-b-[2px] active:translate-y-2
                    transition-all duration-100 ease-in-out
-                   shadow-xl overflow-hidden hover:scale-110"
+                   shadow-xl overflow-hidden hover:scale-110 ${$$props.class}`}
 >
 
     {#if icon}
@@ -47,16 +59,13 @@
 </button>
 
 <style>
-    /* Menambahkan font kustom dan gaya yang tidak tersedia di Tailwind secara default */
-    @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap");
+    
 
     .amazing-button {
-        /* Menggunakan font Fredoka yang tebal dan bulat, mirip dengan gambar */
-        font-family: "Fredoka", sans-serif;
         /* Menambahkan bayangan teks untuk memberikan kedalaman */
         text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25);
-        /* Mencegah teks dan ikon dapat dipilih */
         user-select: none;
+        opacity: 1;
     }
 
     /* Membuat efek kilau diagonal di atas tombol menggunakan pseudo-element */

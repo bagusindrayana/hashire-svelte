@@ -7,14 +7,14 @@
         "horses": [
             {"name": "Indah Kirana", "gate": 11},
             {"name": "Chandrawati", "gate": 7},
-            {"name": "Ayumi Sharayu", "gate": 10},
+            {"name": "Ayumi Sharayu", "gate": 10, "place":2},
             {"name": "Berkah Sari", "gate": 1},
             {"name": "Danasura", "gate": 3},
             {"name": "Larasati", "gate": 2},
             {"name": "Platinum Star", "gate": 9},
-            {"name": "Kasmaran", "gate": 6},
+            {"name": "Kasmaran", "gate": 6, "place":1},
             {"name": "Aare", "gate": 8},
-            {"name": "Harum Namanya", "gate": 5},
+            {"name": "Harum Namanya", "gate": 5, "place":3},
             {"name": "Prince Loupan", "gate": 4}
         ]
     },
@@ -25,14 +25,14 @@
         "time": "08:50",
         "horses": [
             {"name": "Falco Chintya", "gate": 10},
-            {"name": "Fiona Of Khalim", "gate": 3},
+            {"name": "Fiona Of Khalim", "gate": 3, "place":1},
             {"name": "Chandraleka", "gate": 6},
-            {"name": "P. Putri Barbara", "gate": 8},
+            {"name": "P. Putri Barbara", "gate": 8, "place":2},
             {"name": "Baku Sapa", "gate": 2},
             {"name": "Evander", "gate": 11},
             {"name": "Dhanantara dh. Beauty Berlin", "gate": 1},
             {"name": "Volcanic", "gate": 7},
-            {"name": "Royal Blaze", "gate": 5},
+            {"name": "Royal Blaze", "gate": 5, "place":3},
             {"name": "Palito Minang", "gate": 9},
             {"name": "Mandoge", "gate": 4}
         ]
@@ -44,13 +44,13 @@
         "time": "09:10",
         "horses": [
             {"name": "Ratu Angel", "gate": 7},
-            {"name": "Artemis", "gate": 3},
+            {"name": "Artemis", "gate": 3, "place":3},
             {"name": "Lang Lang Jagad T.A", "gate": 4},
             {"name": "Liverpool T.A", "gate": 5},
             {"name": "Madina Arafah", "gate": 8},
-            {"name": "Predator Istana dh. Rx King", "gate": 1},
+            {"name": "Predator Istana dh. Rx King", "gate": 1, "place":1},
             {"name": "Kabisat dh. Candy", "gate": 2},
-            {"name": "Harata Eclipse", "gate": 6}
+            {"name": "Harata Eclipse", "gate": 6, "place":2}
         ]
     },
     {
@@ -60,13 +60,13 @@
         "time": "09:30",
         "horses": [
             {"name": "Putra Kenanga Sari", "gate": 2},
-            {"name": "Beauty Generation", "gate": 4},
+            {"name": "Beauty Generation", "gate": 4, "place":3},
             {"name": "Sitaro Nagari", "gate": 10},
             {"name": "Mimosa JR", "gate": 9},
             {"name": "Maylin Prima", "gate": 1},
-            {"name": "P. Musang King dh. Jundi", "gate": 8},
+            {"name": "P. Musang King dh. Jundi", "gate": 8, "place":1},
             {"name": "P. Satria BHM", "gate": 5},
-            {"name": "Merkava", "gate": 11},
+            {"name": "Merkava", "gate": 11, "place":2},
             {"name": "Maximo Guti", "gate": 6},
             {"name": "Trudy", "gate": 3},
             {"name": "Merdeka Jatim", "gate": 7}
@@ -78,14 +78,14 @@
         "prize": 40000000,
         "time": "09:50",
         "horses": [
-            {"name": "Dewa United dh. Sunlight Nagari", "gate": 1},
+            {"name": "Dewa United dh. Sunlight Nagari", "gate": 1, "place":2},
             {"name": "Lea Chintya", "gate": 7},
             {"name": "P. Bintang Kalsel", "gate": 3},
             {"name": "King Nagura dh. Gunung Rajo Boy", "gate": 9},
             {"name": "Megantara", "gate": 10},
-            {"name": "Dominator dh. King Talago", "gate": 8},
+            {"name": "Dominator dh. King Talago", "gate": 8, "place":1},
             {"name": "Hidden Star", "gate": 4},
-            {"name": "Azarya Eclipse", "gate": 11},
+            {"name": "Azarya Eclipse", "gate": 11, "place":3},
             {"name": "Alward", "gate": 2},
             {"name": "Tadulako NSL", "gate": 6},
             {"name": "Cantrella 42", "gate": 5}
@@ -99,10 +99,10 @@
         "horses": [
             {"name": "P. Duri Hitam", "gate": 6},
             {"name": "Yellow Marlin", "gate": 4},
-            {"name": "Quana Eclipse", "gate": 2},
+            {"name": "Quana Eclipse", "gate": 2, "place":2},
             {"name": "Royal Majesty", "gate": 3},
-            {"name": "Better Sweet", "gate": 5},
-            {"name": "Dragon", "gate": 1}
+            {"name": "Better Sweet", "gate": 5, "place":3},
+            {"name": "Dragon", "gate": 1, "place":1}
         ]
     },
     {
@@ -113,9 +113,9 @@
         "horses": [
             {"name": "Bulan Sabit", "gate": 4},
             {"name": "My Dream", "gate": 3},
-            {"name": "Cassius Warior", "gate": 2},
-            {"name": "Kimberly", "gate": 5},
-            {"name": "Inna Fatahna T.A", "gate": 1}
+            {"name": "Cassius Warior", "gate": 2, "place":2},
+            {"name": "Kimberly", "gate": 5, "place":1},
+            {"name": "Inna Fatahna T.A", "gate": 1, "place":3}
         ]
     },
     {
@@ -124,10 +124,10 @@
         "prize": 20000000,
         "time": "11:25",
         "horses": [
-            {"name": "P. Hajar", "gate": 9},
-            {"name": "Noel Angel", "gate": 5},
+            {"name": "P. Hajar", "gate": 9, "place":1},
+            {"name": "Noel Angel", "gate": 5, "place":2},
             {"name": "Beauty Habibah", "gate": 6},
-            {"name": "Sherina Jordan", "gate": 1},
+            {"name": "Sherina Jordan", "gate": 1, "place":3},
             {"name": "Aether King", "gate": 4},
             {"name": "TAWAKKAL", "gate": 7},
             {"name": "Waru Wining", "gate": 8},
@@ -141,12 +141,12 @@
         "prize": 20000000,
         "time": "11:45",
         "horses": [
-            {"name": "Satrya Ardiaa", "gate": 5},
+            {"name": "Satrya Ardiaa", "gate": 5, "place":3},
             {"name": "Kancil Mas T.A", "gate": 6},
-            {"name": "Naura Ayu", "gate": 8},
+            {"name": "Naura Ayu", "gate": 8, "place":1},
             {"name": "Ross Audia", "gate": 7},
             {"name": "Agatha Star", "gate": 2},
-            {"name": "Lamaru Wining", "gate": 4},
+            {"name": "Lamaru Wining", "gate": 4, "place":2},
             {"name": "Griffin", "gate": 3},
             {"name": "Equinox", "gate": 1}
         ]
@@ -158,9 +158,9 @@
         "time": "12:05",
         "horses": [
             {"name": "Super Star Pikatan", "gate": 2},
-            {"name": "Berkat Eclipse dh. Berkat Sion", "gate": 3},
-            {"name": "Triple SS dh. Noel Sion", "gate": 5},
-            {"name": "Queen Divona", "gate": 4},
+            {"name": "Berkat Eclipse dh. Berkat Sion", "gate": 3, "place":3},
+            {"name": "Triple SS dh. Noel Sion", "gate": 5, "place":2},
+            {"name": "Queen Divona", "gate": 4, "place":1},
             {"name": "Arbok Nagari", "gate": 1}
         ]
     },
@@ -171,9 +171,9 @@
         "time": "13:00",
         "horses": [
             {"name": "Red Ricee KC", "gate": 2},
-            {"name": "Shogun Eclipse", "gate": 6},
-            {"name": "Kana Eclipse", "gate": 11},
-            {"name": "Caroline Nusantara", "gate": 9},
+            {"name": "Shogun Eclipse", "gate": 6, "place":3},
+            {"name": "Kana Eclipse", "gate": 11, "place":1},
+            {"name": "Caroline Nusantara", "gate": 9, "place":2},
             {"name": "Shangrila", "gate": 10},
             {"name": "Oshin Eclipse", "gate": 5},
             {"name": "Geneva All Star", "gate": 3},
@@ -194,12 +194,12 @@
         "time": "13:25",
         "horses": [
             {"name": "Nara Eclipse", "gate": 8},
-            {"name": "Monochrome", "gate": 12},
+            {"name": "Monochrome", "gate": 12, "place":3},
             {"name": "Suntora Nagari", "gate": 6},
             {"name": "Tokugawa Eclipse", "gate": 1},
-            {"name": "Maxi Of Khalim", "gate": 11},
+            {"name": "Maxi Of Khalim", "gate": 11, "place":1},
             {"name": "Mayo", "gate": 4},
-            {"name": "Sir Orbit", "gate": 10},
+            {"name": "Sir Orbit", "gate": 10, "place":2},
             {"name": "Virtuoso All Star", "gate": 3},
             {"name": "Emmera", "gate": 5},
             {"name": "Tinker Boy", "gate": 7},
@@ -215,9 +215,9 @@
         "prize": 50000000,
         "time": "13:50",
         "horses": [
-            {"name": "Romantic Warrior", "gate": 3},
-            {"name": "Vaux Theatre", "gate": 1},
-            {"name": "Sunglow Nagari", "gate": 2}
+            {"name": "Romantic Warrior", "gate": 3, "place":3},
+            {"name": "Vaux Theatre", "gate": 1, "place":2},
+            {"name": "Sunglow Nagari", "gate": 2, "place":1}
         ]
     },
     {
@@ -226,9 +226,9 @@
         "prize": 75000000,
         "time": "14:15",
         "horses": [
-            {"name": "Lord Montjeu T.A", "gate": 2},
-            {"name": "Star Montjeu T.A", "gate": 3},
-            {"name": "She's Coming", "gate": 4},
+            {"name": "Lord Montjeu T.A", "gate": 2, "place":1},
+            {"name": "Star Montjeu T.A", "gate": 3, "place":3},
+            {"name": "She's Coming", "gate": 4, "place":2},
             {"name": "Ardiaa Storm", "gate": 1}
         ]
     },
@@ -238,13 +238,13 @@
         "prize": 150000000,
         "time": "14:40",
         "horses": [
-            {"name": "Wulan Nuangan", "gate": 11},
+            {"name": "Wulan Nuangan", "gate": 11, "place":2},
             {"name": "Kamaka Eclipse", "gate": 9},
-            {"name": "Lucynero", "gate": 7},
+            {"name": "Lucynero", "gate": 7, "place":3},
             {"name": "P. Putra Barbara", "gate": 6},
             {"name": "Unexpected Boy", "gate": 3},
             {"name": "Esperance Tonsea", "gate": 4},
-            {"name": "Caraxes Nagari", "gate": 5},
+            {"name": "Caraxes Nagari", "gate": 5, "place":1},
             {"name": "Maesa Dewi", "gate": 8},
             {"name": "Samurai", "gate": 10},
             {"name": "Ya Tarim T.A", "gate": 1},
@@ -262,13 +262,13 @@
         "time": "15:05",
         "horses": [
             {"name": "Telephony Love T.A", "gate": 5},
-            {"name": "Santana Rembulan", "gate": 1},
+            {"name": "Santana Rembulan", "gate": 1, "place":2},
             {"name": "Amaranggana", "gate": 6},
             {"name": "Gaillardia", "gate": 4},
-            {"name": "Arceus Nagari", "gate": 7},
+            {"name": "Arceus Nagari", "gate": 7, "place":1},
             {"name": "Ravelio", "gate": 2},
             {"name": "King Alfayet", "gate": 8},
-            {"name": "Syam Wakas dh. Altair Tonsea", "gate": 3}
+            {"name": "Syam Wakas dh. Altair Tonsea", "gate": 3, "place":3}
         ]
     },
     {
@@ -277,12 +277,12 @@
         "prize": 300000000,
         "time": "15:30",
         "horses": [
-            {"name": "Princess Gavi", "gate": 8,"color_name":"Napas"},
+            {"name": "Princess Gavi", "gate": 8,"color_name":"Napas", "place":2},
             {"name": "Wonder Land", "gate": 4,"color_name":"Jragem"},
             {"name": "Kashmir Pararaja", "gate": 11,"color_name":"Merah"},
-            {"name": "King Argentine", "gate": 9,"color_name":"Jragem"},
+            {"name": "King Argentine", "gate": 9,"color_name":"Jragem", "place":1},
             {"name": "Padagi NSL", "gate": 6},
-            {"name": "Romantic Spartan", "gate": 12},
+            {"name": "Romantic Spartan", "gate": 12, "place":3},
             {"name": "Manik Siwa", "gate": 3},
             {"name": "Sidney All Star", "gate": 2},
             {"name": "Romeo Berjaya", "gate": 10},
@@ -300,12 +300,12 @@
         "time": "15:55",
         "horses": [
             {"name": "Queen Zedna", "gate": 7},
-            {"name": "War Kudeta", "gate": 2},
+            {"name": "War Kudeta", "gate": 2, "place":3},
             {"name": "Guti Spirit", "gate": 4},
             {"name": "Prince Patriot", "gate": 6},
-            {"name": "Naga Sembilan dh. Leonidas", "gate": 1},
+            {"name": "Naga Sembilan dh. Leonidas", "gate": 1, "place":1},
             {"name": "Super Star Tadulako", "gate": 3},
-            {"name": "King Of Istana", "gate": 5},
+            {"name": "King Of Istana", "gate": 5, "place":2},
             {"name": "P. Ratu Samudra", "gate": 8}
         ]
     }

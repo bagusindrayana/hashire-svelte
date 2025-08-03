@@ -19,6 +19,7 @@
 	} from "$lib/utils/generatorWarna";
 	import CharacterDetail from "$lib/components/CharacterDetail.svelte";
 	import SilsilahTable from "$lib/components/SilsilahTable.svelte";
+    import UmazingButton from "$lib/components/UmazingButton.svelte";
 
 	let dataKuda = [];
 	let sortedKuda = [];
@@ -791,7 +792,11 @@
 				</h2>
 			</div> -->
 
-			<button
+			<div class="absolute right-2 top-6 md:right-2" style="z-index: 70;">
+                <UmazingButton type="red" text="X" onClick={closeCard} />
+            </div>
+
+			<!-- <button
 				class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
 				style="z-index: 70;"
 				onclick={closeCard}
@@ -820,7 +825,7 @@
 						d="M68.2,64l11.3-11.3c1.2-1.2,1.2-3.1,0-4.2c-1.2-1.2-3.1-1.2-4.2,0L64,59.8L52.7,48.4c-1.2-1.2-3.1-1.2-4.2,0 c-1.2,1.2-1.2,3.1,0,4.2L59.8,64L48.4,75.3c-1.2,1.2-1.2,3.1,0,4.2c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9L64,68.2l11.3,11.3 c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2L68.2,64z"
 					></path>
 				</svg>
-			</button>
+			</button> -->
 		{/if}
 		<div
 			class="absolute w-full md:w-1/2 bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"

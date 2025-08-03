@@ -1,7 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka");
 @import "tailwindcss";
 
 body {
-    font-family: "Inter", sans-serif;
+    font-family: "Fredoka", "Inter", sans-serif;
     background-image: url("/images/checkerboard-cross.png");
     /* background-position: center; */
 }

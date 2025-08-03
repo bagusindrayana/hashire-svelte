@@ -17,6 +17,7 @@
         generateWarnaKuda,
         mulberry32,
     } from "$lib/utils/generatorWarna";
+    import UmazingButton from "$lib/components/UmazingButton.svelte";
 
     let dataEvent = [];
     let selectEvent = null;
@@ -108,6 +109,7 @@
             selectEvent.races.length > 0 &&
             selectEvent.races[0].horses.length > 0
         ) {
+            selectEvent.races[0].horses[0].selected = true;
             selectKuda = selectEvent.races[0].horses[0];
             randomChar(selectKuda);
         }
@@ -850,7 +852,11 @@
         </div>
 
         {#if selectEvent}
-            <button
+            <div class="absolute right-2 top-6 md:top-6 md:right-2" style="z-index: 70;">
+                <UmazingButton type="red" text="X" onClick={closeCard} />
+            </div>
+            
+            <!-- <button
                 class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
                 style="z-index: 70;"
                 onclick={closeCard}
@@ -879,9 +885,9 @@
                         d="M68.2,64l11.3-11.3c1.2-1.2,1.2-3.1,0-4.2c-1.2-1.2-3.1-1.2-4.2,0L64,59.8L52.7,48.4c-1.2-1.2-3.1-1.2-4.2,0 c-1.2,1.2-1.2,3.1,0,4.2L59.8,64L48.4,75.3c-1.2,1.2-1.2,3.1,0,4.2c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9L64,68.2l11.3,11.3 c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2L68.2,64z"
                     ></path>
                 </svg>
-            </button>
+            </button> -->
             <div
-                class="absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-2 md:p-10"
+                class="panel-top-center absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-2 md:p-10 pr-10 md:pr-auto"
                 style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:50;"
             >
                 <h2 class="text-lg md:text-5xl font-bold text-gray-800">
@@ -993,15 +999,30 @@
                                                 <tbody class="bg-white">
                                                     {#each race.horses as horse, indexHorse}
                                                         <tr
-                                                            class={` ${indexHorse % 2 == 0 ? "bg-pink-50" : ""} font-medium text-gray-800 hover:text-pink-600 cursor-pointer ${horse.selected ? "border border-pink-600" : ""}`}
+                                                            class={` ${indexHorse % 2 == 0 ? "bg-pink-50" : ""} font-medium text-yellow-800 hover:text-pink-600 cursor-pointer ${horse.selected ? "border border-pink-600" : ""}`}
+                                                            class:bg-yellow-200={horse.place == 1}
                                                             onclick={() => {
                                                                 selectTableRow(
                                                                     indexRace,
                                                                     indexHorse,
                                                                 );
                                                             }}
-                                                            ><td class="p-2"
-                                                                >{horse.name}</td
+                                                            ><td class="p-2" 
+                                                                >
+                                                                {#if horse.place}
+                                                                    
+                                                                    {#if horse.place == 1}
+                                                                        <span class="text-yellow-600 text-shadow-xs text-shadow-yellow-900 text-xl font-bold">1<small>st</small></span>
+                                                                    {/if}
+                                                                    {#if horse.place == 2}
+                                                                        <span class="text-slate-300 text-shadow-xs text-shadow-slate-600 text-xl font-bold">2<small>nd</small></span>
+                                                                    {/if}
+                                                                    {#if horse.place == 3}
+                                                                        <span class="text-amber-700 text-shadow-xs text-shadow-amber-900 text-xl font-bold">3<small>rd</small></span>
+                                                                    {/if}
+                                                                {/if}
+                                                                {horse.name}
+                                                                </td
                                                             ><td class="p-2"
                                                                 >{horse.gate}</td
                                                             ></tr
@@ -1045,6 +1066,14 @@
 
     .reveal .side-panel {
         transform: translate(-100%, 0%);
+    }
+
+    .reveal .panel-top-center {
+        transform: translate(0%, -100%);
+    }
+
+    .reveal .amazing-button {
+        opacity: 0;
     }
 
     .slider-wrapper {
