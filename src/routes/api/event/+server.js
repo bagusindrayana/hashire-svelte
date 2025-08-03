@@ -3,12 +3,22 @@
 /** @type {import('./$types').RequestHandler} */
 export async function GET() {
     const data = [
-        {   
+       
+         {   
             "id":null,
             "title": "Grand Nasional Indonesia",
             "subtitle": "Jakarta",
             "date":"Cooming soon",
             "image": "https://placehold.co/800x400/5de346/208500?text=Grand Nasional Indonesia",
+            "type": "race",
+            "upcoming":true,
+        },
+         {   
+            "id":null,
+            "title": "Derby Nusantara: Kejuaraan Pacuan Kuda Indonesia",
+            "subtitle": "Jakarta",
+            "date":"15-17 Agustus 2025",
+            "image": "https://pordasi.id/wp-content/themes/mainz/public/img/event/event-1.webp",
             "type": "race",
             "upcoming":true,
         },

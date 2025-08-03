@@ -4,7 +4,14 @@
 export async function GET() {
     const data = [
         {
-            "title": "King Argentine, Juara Piala Tiga Mahkota 2025",
+            "title": "Umazing! SARGA.CO Gelar Kompetisi Fan Art Rayakan Kemenangan Sang Juara Triple Crown Indonesia, King Argentin",
+            "subtitle": "Melalui unggahan di platform X (dahulu Twitter), penyelenggara balapan Indonesia Horse Racing (SARGA.CO) secara terbuka mengapresiasi komunitas penggemar gim besutan Cygames ini. Mulai dari kehadiran di tribun, parade fan art di media sosial, hingga dukungan digital berbalut semangat anime, sukses menyulap atmosfer Derby jadi lebih hidup, unik, dan penuh warna.",
+            "image": null,
+            "date": "Rabu, 30 Juli 2025",
+            "type": "news"
+        },
+        {
+            "title": "King Argentin, Juara Piala Tiga Mahkota 2025",
             "subtitle": "Sejarah baru terukir indah dari Lapangan Pacu Kuda Sultan Agung, Bantul DI Yogyakarta",
             "image": null,
             "date": "Senin, 28 Juli 2025",
