@@ -744,18 +744,21 @@
         <div
             class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
         >
-            <div class=" -mt-16 -ml-10">
+            <div class="ml-0 -mt-16 md:-ml-10">
                 <div
                     class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
                 >
-                    <h1 class="transform skew-x-12 text-3xl font-extrabold">
+                    <h1 class="transform skew-x-12 text-lg md:text-3xl font-extrabold">
                         {selectEvent.title}
                     </h1>
                 </div>
             </div>
-            <div class="min-h-[60vh] py-4">
+            <div class="min-h-[50vh] py-4">
                 <p class="md:text-2xl">
                     {selectEvent.subtitle}
+                </p>
+                <p class="md:text-2xl">
+                    {selectEvent.date}
                 </p>
                 
             </div>
@@ -879,6 +882,9 @@
                             />
                         </div>
                         <div
+                        onclick={() => {
+                                selectCard(event);
+                            }}
                             class="flex justify-between items-center w-full group cursor-pointer"
                         >
                             <div>
