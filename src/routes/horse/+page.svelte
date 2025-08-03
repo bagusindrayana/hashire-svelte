@@ -19,43 +19,53 @@
 	} from "$lib/utils/generatorWarna";
 	import CharacterDetail from "$lib/components/CharacterDetail.svelte";
 	import SilsilahTable from "$lib/components/SilsilahTable.svelte";
-    import UmazingButton from "$lib/components/UmazingButton.svelte";
+	import UmazingButton from "$lib/components/UmazingButton.svelte";
 
-	let dataKuda = [];
-	let sortedKuda = [];
-	let loadingKuda = true;
+	import { replaceState, pushState } from "$app/navigation";
 
-	let selectKuda = null;
-	let detailKuda = null;
-	let loadingDetail = false;
+	/** @type {import('./$types').PageProps} */
+	let { data } = $props();
 
-	let sortBy = "name";
+	let dataKuda = $state([]);
+	let sortedKuda = $state([]);
+	let loadingKuda = $state(true);
 
-	// State untuk mengontrol visibilitas input
-	let isExpanded = false;
-	let inputElement;
-	let searchText = "";
+	let selectKuda = $state(null);
+	let detailKuda = $state(null);
+	let loadingDetail = $state(false);
 
-	$: {
+	let sortBy = $state("name");
+
+	let isExpanded = $state(false);
+	let inputElement = $state();
+	let searchText = $state("");
+
+	let sortedKudaDebounced = $derived.by(() => {
+		const searchResults = dataKuda.filter((kuda) => {
+			return kuda.name.toLowerCase().includes(searchText.toLowerCase());
+		});
+
+		return [...searchResults].sort((a, b) => {
+			if (sortBy === "name") {
+				return a.name.localeCompare(b.name);
+			} else if (sortBy === "height") {
+				return `${a.height}`.localeCompare(`${b.height}`);
+			} else if (sortBy === "birth_year") {
+				return `${a.birth_year}`.localeCompare(b.birth_year);
+			}
+		});
+	});
+
+	// For the debounced effect, use $effect with a timer
+	$effect(() => {
 		sortedKuda = [];
-
-		setTimeout(() => {
-			const searchResults = dataKuda.filter((kuda) => {
-				return kuda.name
-					.toLowerCase()
-					.includes(searchText.toLowerCase());
-			});
-			sortedKuda = [...searchResults].sort((a, b) => {
-				if (sortBy === "name") {
-					return a.name.localeCompare(b.name);
-				} else if (sortBy === "height") {
-					return `${a.height}`.localeCompare(`${b.height}`);
-				} else if (sortBy === "birth_year") {
-					return `${a.birth_year}`.localeCompare(b.birth_year);
-				}
-			});
+		const timer = setTimeout(() => {
+			sortedKuda = sortedKudaDebounced;
 		}, 200);
-	}
+		sortBy;
+		searchText;
+		return () => clearTimeout(timer);
+	});
 
 	// Fungsi untuk toggle search bar
 	function toggleSearch() {
@@ -111,6 +121,17 @@
 		selectKuda = kuda;
 		selectKudaIndex = index;
 
+		if (data.idHorse == null) {
+			pushState(`/horse?id=${selectKuda.id ?? selectKuda.name}`);
+			data.idHorse = selectKuda.id ?? selectKuda.name;
+			data.openHorse = {
+				profil: {
+					id: selectKuda.id,
+					nama: selectKuda.name,
+				},
+			};
+		}
+
 		getDetail(selectKuda.id ?? selectKuda.name);
 
 		setTimeout(() => {
@@ -129,6 +150,14 @@
 		overlay.classList.add("reveal");
 		canvas.classList.add("opacity-0");
 		document.getElementById("tombol").classList.add("hidden");
+
+		if (data.openHorse) {
+			const url = new URL(window.location.toString());
+			url.searchParams.delete("id");
+			replaceState(url.pathname, {});
+			data.openHorse = null;
+			data.idHorse = null;
+		}
 
 		setTimeout(() => {
 			selectKuda = null;
@@ -191,6 +220,20 @@
 				// put the model to the scene
 				currentVrm = vrm;
 				document.getElementById("full-loading").classList.add("hidden");
+
+				if (data != null && data.idHorse != null) {
+					for (let i = 0; i < dataKuda.length; i++) {
+						const k = dataKuda[i];
+						if (
+							(data.openHorse.profil != null &&
+								k.name == data.openHorse.profil.nama) ||
+							k.id == data.idHorse
+						) {
+							selectCard(k);
+							break;
+						}
+					}
+				}
 			},
 
 			// called while loading is progressing
@@ -594,6 +637,7 @@
 			const res = await fetch("/api/horse");
 			const json = await res.json();
 			dataKuda = json.data;
+			sortedKuda = dataKuda;
 		} catch (error) {
 			alert(error);
 		}
@@ -604,7 +648,13 @@
 </script>
 
 <svelte:head>
-	<title>Kuda Aktif</title>
+	{#if data.openHorse != null}
+		<title>{decodeHTMLEntities(data.openHorse.profil.nama)}</title>
+	{:else if selectKuda != null}
+		<title>{decodeHTMLEntities(selectKuda.name)}</title>
+	{:else}
+		<title>Kuda Aktif</title>
+	{/if}
 </svelte:head>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -793,8 +843,8 @@
 			</div> -->
 
 			<div class="absolute right-2 top-6 md:right-2" style="z-index: 70;">
-                <UmazingButton type="red" text="X" onClick={closeCard} />
-            </div>
+				<UmazingButton type="red" text="X" onClick={closeCard} />
+			</div>
 
 			<!-- <button
 				class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"

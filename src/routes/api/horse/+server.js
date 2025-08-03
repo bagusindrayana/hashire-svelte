@@ -198,10 +198,10 @@ export async function GET({ url }) {
         }
 
         const kudaLainnya = [
-            { "name": "Princess Gavi", "color_name": "Napas" },
-            { "name": "Wonder Land", "color_name": "Jragem" },
-            { "name": "Kashmir Pararaja", "color_name": "Merah" },
-            { "name": "King Argentin", "color_name": "Jragem", "birth_year": "2021", "gender_name": "Colt", "generation_name": "KP6" },
+            { "id":null,"name": "Princess Gavi", "color_name": "Napas" },
+            { "id":null,"name": "Wonder Land", "color_name": "Jragem" },
+            { "id":null,"name": "Kashmir Pararaja", "color_name": "Merah" },
+            { "id":null,"name": "King Argentin", "color_name": "Jragem", "birth_year": "2021", "gender_name": "Colt", "generation_name": "KP6" },
         ];
 
         data.data = [...data.data, ...kudaLainnya]
