@@ -649,7 +649,7 @@
 
 <svelte:head>
 	{#if data.openHorse != null}
-		<title>{decodeHTMLEntities(data.openHorse.profil.nama)}</title>
+		<title>{data.openHorse.profil.nama}</title>
 	{:else if selectKuda != null}
 		<title>{decodeHTMLEntities(selectKuda.name)}</title>
 	{:else}
