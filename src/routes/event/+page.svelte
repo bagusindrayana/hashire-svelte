@@ -19,10 +19,15 @@
     } from "$lib/utils/generatorWarna";
     import UmazingButton from "$lib/components/UmazingButton.svelte";
 
-    let dataEvent = [];
-    let selectEvent = null;
-    let selectKuda = null;
-    let loadingEvent = true;
+    import { replaceState,pushState } from "$app/navigation";
+
+    /** @type {import('./$types').PageProps} */
+    let { data } = $props();
+
+    let dataEvent = $state([]);
+    let selectEvent = $state(null);
+    let selectKuda = $state(null);
+    let loadingEvent = $state(true);
 
     let canvas,
         scene,
@@ -49,9 +54,29 @@
 
     let loader = null;
 
+    let closeLabel = ["Umazing!","Kudashyat!","Umantap!"];
+	let modalCloseLabel = $state("Umazing!");
+
     function selectCard(event) {
-        const overlay = document.getElementById("overlay");
+        
+        
         selectEvent = event;
+
+        if(selectEvent.upcoming){
+            modalCloseLabel = closeLabel[Math.floor(Math.random() * closeLabel.length)];
+            return;
+        }
+
+        const overlay = document.getElementById("overlay");
+
+        if(data.openEvent == null){
+            // const url = new URL(window.location.toString());
+            // url.searchParams.set("id",selectEvent.id);
+            // url.searchParams.set("type",selectEvent.type);
+            pushState(`/event?id=${selectEvent.id}&type=${selectEvent.type}`);
+            data.openEvent = selectEvent;
+
+        }
 
         setTimeout(() => {
             overlay.classList.remove("reveal");
@@ -87,7 +112,6 @@
 
         let roman = "";
         for (let key in romanMap) {
-   
             while (num >= romanMap[key]) {
                 roman += key;
                 num -= romanMap[key];
@@ -116,74 +140,77 @@
 
         setTimeout(() => {
             const wrapper = document.getElementById("slider-wrapper");
-            const slides = Array.from(wrapper.children);
-            const nextButton = document.getElementById("next-slide");
-            const prevButton = document.getElementById("prev-slide");
-            const paginationContainer =
-                document.getElementById("pagination-dots");
-            const slideCount = slides.length;
-            let currentIndex = 0;
+            if (wrapper) {
+                const slides = Array.from(wrapper.children);
+                const nextButton = document.getElementById("next-slide");
+                const prevButton = document.getElementById("prev-slide");
+                const paginationContainer =
+                    document.getElementById("pagination-dots");
+                const slideCount = slides.length;
+                let currentIndex = 0;
 
-            if (slideCount === 0) return;
+                if (slideCount === 0) return;
 
-            // --- Create Pagination Dots ---
-            slides.forEach((_, index) => {
-                const dot = document.createElement("button");
-                dot.classList.add(
-                    "w-3",
-                    "h-3",
-                    "rounded-full",
-                    "transition-colors",
-                    "cursor-pointer",
-                );
-                dot.addEventListener("click", () => goToSlide(index));
-                paginationContainer.appendChild(dot);
-            });
-            const dots = Array.from(paginationContainer.children);
+                // --- Create Pagination Dots ---
+                slides.forEach((_, index) => {
+                    const dot = document.createElement("button");
+                    dot.classList.add(
+                        "w-3",
+                        "h-3",
+                        "rounded-full",
+                        "transition-colors",
+                        "cursor-pointer",
+                    );
+                    dot.addEventListener("click", () => goToSlide(index));
+                    paginationContainer.appendChild(dot);
+                });
+                const dots = Array.from(paginationContainer.children);
 
-            // --- Function to update slider position and pagination ---
-            function goToSlide(index) {
-                // Calculate the translation based on the current index
-                wrapper.style.transform = `translateX(-${index * 100}%)`;
-                currentIndex = index;
-                console.log(currentIndex);
-                document.getElementById("race-label").innerHTML = `RACE ${konversiKeRomawi(currentIndex+1)}`;
-                updateControls();
-            }
+                // --- Function to update slider position and pagination ---
+                function goToSlide(index) {
+                    // Calculate the translation based on the current index
+                    wrapper.style.transform = `translateX(-${index * 100}%)`;
+                    currentIndex = index;
+                    console.log(currentIndex);
+                    document.getElementById("race-label").innerHTML =
+                        `RACE ${konversiKeRomawi(currentIndex + 1)}`;
+                    updateControls();
+                }
 
-            // --- Function to update button and dot states ---
-            function updateControls() {
-                // Update button disabled states
-                prevButton.disabled = currentIndex === 0;
-                nextButton.disabled = currentIndex === slideCount - 1;
+                // --- Function to update button and dot states ---
+                function updateControls() {
+                    // Update button disabled states
+                    prevButton.disabled = currentIndex === 0;
+                    nextButton.disabled = currentIndex === slideCount - 1;
 
-                // Update pagination dot styles
-                dots.forEach((dot, index) => {
-                    if (index === currentIndex) {
-                        dot.classList.add("bg-pink-400");
-                        dot.classList.remove("bg-gray-300");
-                    } else {
-                        dot.classList.add("bg-gray-300");
-                        dot.classList.remove("bg-pink-400");
+                    // Update pagination dot styles
+                    dots.forEach((dot, index) => {
+                        if (index === currentIndex) {
+                            dot.classList.add("bg-pink-400");
+                            dot.classList.remove("bg-gray-300");
+                        } else {
+                            dot.classList.add("bg-gray-300");
+                            dot.classList.remove("bg-pink-400");
+                        }
+                    });
+                }
+
+                // --- Event Listeners ---
+                nextButton.addEventListener("click", () => {
+                    if (currentIndex < slideCount - 1) {
+                        goToSlide(currentIndex + 1);
                     }
                 });
+
+                prevButton.addEventListener("click", () => {
+                    if (currentIndex > 0) {
+                        goToSlide(currentIndex - 1);
+                    }
+                });
+
+                // --- Initialize Slider ---
+                goToSlide(0);
             }
-
-            // --- Event Listeners ---
-            nextButton.addEventListener("click", () => {
-                if (currentIndex < slideCount - 1) {
-                    goToSlide(currentIndex + 1);
-                }
-            });
-
-            prevButton.addEventListener("click", () => {
-                if (currentIndex > 0) {
-                    goToSlide(currentIndex - 1);
-                }
-            });
-
-            // --- Initialize Slider ---
-            goToSlide(0);
         }, 200);
     }
 
@@ -191,6 +218,14 @@
         const overlay = document.getElementById("overlay");
         overlay.classList.add("reveal");
         canvas.classList.add("opacity-0");
+       
+        if (data.openEvent) {
+            const url = new URL(window.location.toString());
+            url.searchParams.delete("id");
+            url.searchParams.delete("type");
+            replaceState(url.pathname,{});
+            data.openEvent = null;
+        }
         setTimeout(() => {
             selectEvent = null;
             selectKuda = null;
@@ -270,7 +305,6 @@
         loader.load(
             modelUrl,
             (gltf) => {
-                console.log(gltf);
                 const vrm = gltf.userData.vrm;
                 baseGltf = gltf;
 
@@ -285,6 +319,10 @@
                 // put the model to the scene
                 currentVrm = vrm;
                 document.getElementById("full-loading").classList.add("hidden");
+
+                if (data != null && data.openEvent != null) {
+                    selectCard(data.openEvent);
+                }
             },
 
             // called while loading is progressing
@@ -673,6 +711,7 @@
     onMount(async () => {
         loadVRM(defaultModelUrl);
         loadingEvent = true;
+
         try {
             const res = await fetch("/api/event");
             const json = await res.json();
@@ -688,8 +727,51 @@
 </script>
 
 <svelte:head>
-    <title>Event</title>
+    {#if data.openEvent != null || selectEvent != null}
+        <title>{(data.openEvent ?? selectEvent).title}</title>
+    {:else}
+        <title>Event</title>
+    {/if}
 </svelte:head>
+
+{#if selectEvent != null && selectEvent.upcoming}
+    <div
+        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50 m-auto"
+    >
+        <div
+            class="absolute top-0 left-0 bottom-0 right-0 m-auto bg-gray-400 opacity-75"
+        ></div>
+        <div
+            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
+        >
+            <div class=" -mt-16 -ml-10">
+                <div
+                    class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
+                >
+                    <h1 class="transform skew-x-12 text-3xl font-extrabold">
+                        {selectEvent.title}
+                    </h1>
+                </div>
+            </div>
+            <div class="min-h-[60vh] py-4">
+                <p class="md:text-2xl">
+                    {selectEvent.subtitle}
+                </p>
+                
+            </div>
+            <div class="w-full flex justify-center items-center">
+                <UmazingButton
+                    onClick={() => {
+						selectEvent = null;
+                    }}
+                    icon="👍"
+                    text={modalCloseLabel}
+                />
+            </div>
+        </div>
+    </div>
+{/if}
+
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
     <div class="title-banner text-lg md:text-2xl ml-0 md:-ml-4">Event</div>
 
@@ -711,7 +793,9 @@
             {#each dataEvent as event, index}
                 {#if event.upcoming}
                     <div class="bg-white p-4 rounded-xl shadow-md">
-                        <a href="#">
+                        <div onclick={() => {
+                                selectCard(event);
+                            }}  class="cursor-pointer">
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
@@ -722,15 +806,18 @@
                                         "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
                                 }}
                             />
-                        </a>
-                        <a
-                            href="#"
-                            class="flex justify-between items-center w-full group"
+                            </div>
+                        <div
+                           onclick={() => {
+                                selectCard(event);
+                            }}
+                            class="flex justify-between items-center w-full group cursor-pointer"
                         >
                             <div>
                                 <div class="flex items-center mb-1">
                                     <span
-                                        class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full">Race</span
+                                        class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
+                                        >Race</span
                                     >
                                     <span class="text-sm text-gray-500"
                                         >{event.date}</span
@@ -742,7 +829,7 @@
                                     {event.title}
                                 </p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 {/if}
             {/each}
@@ -851,11 +938,14 @@
             {/if}
         </div>
 
-        {#if selectEvent}
-            <div class="absolute right-2 top-6 md:top-6 md:right-2" style="z-index: 70;">
+        {#if selectEvent && !selectEvent.upcoming}
+            <div
+                class="absolute right-2 top-6 md:top-6 md:right-2"
+                style="z-index: 70;"
+            >
                 <UmazingButton type="red" text="X" onClick={closeCard} />
             </div>
-            
+
             <!-- <button
                 class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
                 style="z-index: 70;"
@@ -899,7 +989,7 @@
             class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
             style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
-            {#if selectEvent}
+            {#if selectEvent && !selectEvent.upcoming}
                 <div class="w-full mx-auto mt-0">
                     <h2
                         class="text-xl md:text-3xl font-bold text-gray-800 hidden md:block"
@@ -908,7 +998,10 @@
                     </h2>
                     <div class="mt-2 md:mt-6">
                         <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-xl font-bold text-gray-800" id="race-label">
+                            <h3
+                                class="text-xl font-bold text-gray-800"
+                                id="race-label"
+                            >
                                 Race
                             </h3>
                             <div class="flex items-center space-x-2">
@@ -1000,30 +1093,43 @@
                                                     {#each race.horses as horse, indexHorse}
                                                         <tr
                                                             class={` ${indexHorse % 2 == 0 ? "bg-pink-50" : ""} font-medium text-yellow-800 hover:text-pink-600 cursor-pointer ${horse.selected ? "border border-pink-600" : ""}`}
-                                                            class:bg-yellow-200={horse.place == 1}
+                                                            class:bg-yellow-200={horse.place ==
+                                                                1}
                                                             onclick={() => {
                                                                 selectTableRow(
                                                                     indexRace,
                                                                     indexHorse,
                                                                 );
                                                             }}
-                                                            ><td class="p-2" 
-                                                                >
+                                                            ><td class="p-2">
                                                                 {#if horse.place}
-                                                                    
                                                                     {#if horse.place == 1}
-                                                                        <span class="text-yellow-600 text-shadow-xs text-shadow-yellow-900 text-xl font-bold">1<small>st</small></span>
+                                                                        <span
+                                                                            class="text-yellow-600 text-shadow-xs text-shadow-yellow-900 text-xl font-bold"
+                                                                            >1<small
+                                                                                >st</small
+                                                                            ></span
+                                                                        >
                                                                     {/if}
                                                                     {#if horse.place == 2}
-                                                                        <span class="text-slate-300 text-shadow-xs text-shadow-slate-600 text-xl font-bold">2<small>nd</small></span>
+                                                                        <span
+                                                                            class="text-slate-300 text-shadow-xs text-shadow-slate-600 text-xl font-bold"
+                                                                            >2<small
+                                                                                >nd</small
+                                                                            ></span
+                                                                        >
                                                                     {/if}
                                                                     {#if horse.place == 3}
-                                                                        <span class="text-amber-700 text-shadow-xs text-shadow-amber-900 text-xl font-bold">3<small>rd</small></span>
+                                                                        <span
+                                                                            class="text-amber-700 text-shadow-xs text-shadow-amber-900 text-xl font-bold"
+                                                                            >3<small
+                                                                                >rd</small
+                                                                            ></span
+                                                                        >
                                                                     {/if}
                                                                 {/if}
                                                                 {horse.name}
-                                                                </td
-                                                            ><td class="p-2"
+                                                            </td><td class="p-2"
                                                                 >{horse.gate}</td
                                                             ></tr
                                                         >

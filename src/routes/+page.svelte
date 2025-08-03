@@ -1,6 +1,8 @@
 <script>
 	import UmazingButton from "$lib/components/UmazingButton.svelte";
 	import { onMount } from "svelte";
+	import { goto } from '$app/navigation';
+
 	let dataNews = [];
 	let dataKlasemen = [
 		{
@@ -94,6 +96,11 @@
 	];
 
 	let loadingNews = true;
+
+	let selectNews = null;
+	let closeLabel = ["Umazing!","Kudashyat!","Umantap!"];
+	let modalCloseLabel = "Umazing!";
+
 	onMount(async () => {
 		loadingNews = true;
 		try {
@@ -115,6 +122,44 @@
 		}
 	</style>
 </svelte:head>
+
+{#if selectNews != null}
+    <div
+        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50 m-auto"
+    >
+        <div
+            class="absolute top-0 left-0 bottom-0 right-0 m-auto bg-gray-400 opacity-75"
+        ></div>
+        <div
+            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
+        >
+            <div class=" -mt-16 -ml-10">
+                <div
+                    class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
+                >
+                    <h1 class="transform skew-x-12 text-3xl font-extrabold">
+                        {selectNews.title}
+                    </h1>
+                </div>
+            </div>
+            <div class="min-h-[60vh] py-4">
+                <p class="md:text-2xl">
+                    {selectNews.subtitle}
+                </p>
+                
+            </div>
+            <div class="w-full flex justify-center items-center">
+                <UmazingButton
+                    onClick={() => {
+						selectNews = null;
+                    }}
+                    icon="👍"
+                    text={modalCloseLabel}
+                />
+            </div>
+        </div>
+    </div>
+{/if}
 
 <main class="container mx-auto px-6 py-16 relative min-h-[90vh]">
 	<div class="mx-auto text-center mt-12 min-h-[50vh] flex flex-col justify-center">
@@ -150,7 +195,7 @@
 				{#each dataNews as news, index}
 					<div class="bg-white p-4 rounded-xl shadow-md">
 						{#if news.image != null}
-							<a href="#">
+							<a href={`${(news.type == "race" && news.id != null)?`/event?id=${news.id}&type=race`:"#"}`}>
 								<img
 									src={news.image}
 									alt={`[Gambar dari ${news.title}]`}
@@ -158,9 +203,16 @@
 								/>
 							</a>
 						{/if}
-						<a
-							href="#"
-							class="flex justify-between items-center w-full group"
+						<a type="button"
+							onclick={()=>{
+								if(news.type == "news"){
+									selectNews = news;
+									modalCloseLabel = closeLabel[Math.floor(Math.random() * closeLabel.length)];
+								} else {
+									goto(`${(news.type == "race" && news.id != null)?`/event?id=${news.id}`:"#"}`,{})
+								}
+							}}
+							class="flex justify-between items-center w-full group cursor-pointer"
 						>
 							<div>
 								<div class="flex items-center mb-1">
@@ -186,10 +238,7 @@
 									{news.title}
 								</p>
 							</div>
-							<!-- <span
-							class="text-pink-400 font-extrabold text-2xl ml-4 group-hover:translate-x-1 transition-transform"
-							>>></span
-						> -->
+							
 						</a>
 					</div>
 				{/each}

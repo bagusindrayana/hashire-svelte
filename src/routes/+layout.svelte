@@ -3,8 +3,16 @@
     import Header from "$lib/components/Header.svelte";
     import Footer from "$lib/components/Footer.svelte";
     import UmazingButton from "$lib/components/UmazingButton.svelte";
+    import { onMount } from "svelte";
 
-    let showModal = true;
+    let showModal = false;
+
+    onMount(()=>{
+        const check = window.localStorage.getItem("showedModal") ?? false;
+        if(!check){
+            showModal = true;
+        }
+    })
 </script>
 
 <Header />
@@ -71,6 +79,7 @@
                 <UmazingButton
                     onClick={() => {
                         showModal = false;
+                        window.localStorage.setItem("showedModal",true);
                     }}
                     icon="👍"
                     text="Umazing!"
