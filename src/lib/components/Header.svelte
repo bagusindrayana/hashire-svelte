@@ -1,5 +1,6 @@
 <script>
 	import { page } from "$app/stores";
+    import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 
 	// State untuk mengontrol buka/tutup menu mobile
@@ -9,6 +10,7 @@
 	function closeMenu() {
 		isMobileMenuOpen = false;
 	}
+
 </script>
 
 <header class="bg-white shadow-md fixed w-full z-50">
@@ -28,18 +30,18 @@
 				<a
 					href="/"
 					class="nav-item"
-					class:active={$page.url === "/"}>Home</a
+					class:active={$page.url != undefined && $page.url.pathname === "/"}>Home</a
 				>
 				<a
 					href="/event"
 					class="nav-item"
-					class:active={$page.url.pathname.includes("/event")}
+					class:active={$page.url != undefined && $page.url.pathname.includes("/event")}
 					>Event</a
 				>
 				<a
 					href="/horse"
 					class="nav-item"
-					class:active={$page.url.pathname.includes("/horse")}
+					class:active={$page.url != undefined && $page.url.pathname.includes("/horse")}
 					>Kuda Aktif</a
 				>
 			</nav>

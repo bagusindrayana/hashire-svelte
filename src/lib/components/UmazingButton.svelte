@@ -1,6 +1,7 @@
-
 <script>
     export let onClick;
+    export let icon = null;
+    export let text = null;
 </script>
 
 <button
@@ -12,13 +13,13 @@
                    border-2 border-green-800 border-b-[6px]
                    active:border-b-[2px] active:translate-y-2
                    transition-all duration-100 ease-in-out
-                   shadow-xl overflow-hidden"
+                   shadow-xl overflow-hidden hover:scale-110"
 >
-    <!-- Kontainer untuk Ikon Jempol dan Kilau -->
-    <div class="absolute z-10 left-0 top-1">
-        <!-- Ikon Kilau (SVG) -->
+
+    {#if icon}
+        <div class="absolute z-10 left-0 top-1">
         <div
-            class="absolute top-0 right-0  w-4 h-4 sm:w-5 sm:h-5 transform rotate-12"
+            class="absolute top-0 right-0 w-4 h-4 sm:w-5 sm:h-5 transform rotate-12"
         >
             <svg
                 viewBox="0 0 100 100"
@@ -36,13 +37,13 @@
             </svg>
         </div>
 
-        <div class="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-md">
-            👍
-        </div>
+        <div class="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-md">{icon}</div>
     </div>
+    {/if}
 
-    <!-- Teks Tombol -->
-    <span class="relative z-10 ml-12">Umazing!</span>
+    {#if text}
+        <span class={`relative z-10 ${icon ? "ml-12" : ""}`}>{text}</span>
+    {/if}
 </button>
 
 <style>

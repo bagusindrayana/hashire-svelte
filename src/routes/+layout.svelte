@@ -72,6 +72,8 @@
                     onClick={() => {
                         showModal = false;
                     }}
+                    icon="👍"
+                    text="Umazing!"
                 />
             </div>
         </div>

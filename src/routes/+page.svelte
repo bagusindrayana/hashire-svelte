@@ -1,4 +1,5 @@
 <script>
+    import UmazingButton from "$lib/components/UmazingButton.svelte";
 	import { onMount } from "svelte";
 	let dataNews = [];
 	let dataKlasemen = [
@@ -115,141 +116,162 @@
 	</style>
 </svelte:head>
 
-<main
-	class="container mx-auto px-6 py-16 relative grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[90vh]"
->
-	<div
-		class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
-	>
-		<!-- Judul "News" dengan Latar Belakang Miring -->
-		<div class="absolute -top-6 -left-4">
-			<div
-				class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
-			>
-				<h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
-					News
-				</h1>
-			</div>
-		</div>
-
-		<!-- Daftar Berita -->
-		<div class="space-y-4">
-			{#each dataNews as news, index}
-				<div class="bg-white p-4 rounded-xl shadow-md">
-					{#if news.image != null}
-						<a href="#">
-							<img
-								src={news.image}
-								alt={`[Gambar dari ${news.title}]`}
-								class="rounded-lg mb-3 w-full object-cover"
-							/>
-						</a>
-					{/if}
-					<a
-						href="#"
-						class="flex justify-between items-center w-full group"
+<main class="container mx-auto px-6 py-16 relative min-h-[90vh]">
+	<div class="mx-auto text-center mt-12">
+		<a href="/horse">
+			<UmazingButton
+                    onClick={() => {
+                        showModal = false;
+                    }}
+                    text="Database Kuda Aktif"
+                />
+		</a>
+	</div>
+	<div class="w-full max-w-4xl mx-auto grid grid-cols-1 gap-8">
+		<div
+			class="w-full bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
+		>
+			<div class="absolute -top-6 -left-4">
+				<div
+					class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
+				>
+					<h1
+						class="transform skew-x-12 text-xl md:text-3xl font-extrabold"
 					>
-						<div>
-							<div class="flex items-center mb-1">
-								{#if news.type == "race"}
-									<span
-										class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
-										>Race</span
-									>
-								{:else}
-									<span
-										class="bg-blue-200 text-blue-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
-										>News</span
-									>
-								{/if}
+						News
+					</h1>
+				</div>
+			</div>
 
-								<span class="text-sm text-gray-500"
-									>{news.date}</span
+			<!-- Daftar Berita -->
+			<div class="space-y-4">
+				{#each dataNews as news, index}
+					<div class="bg-white p-4 rounded-xl shadow-md">
+						{#if news.image != null}
+							<a href="#">
+								<img
+									src={news.image}
+									alt={`[Gambar dari ${news.title}]`}
+									class="rounded-lg mb-3 w-full object-cover"
+								/>
+							</a>
+						{/if}
+						<a
+							href="#"
+							class="flex justify-between items-center w-full group"
+						>
+							<div>
+								<div class="flex items-center mb-1">
+									{#if news.type == "race"}
+										<span
+											class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
+											>Race</span
+										>
+									{:else}
+										<span
+											class="bg-blue-200 text-blue-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
+											>News</span
+										>
+									{/if}
+
+									<span class="text-sm text-gray-500"
+										>{news.date}</span
+									>
+								</div>
+								<p
+									class="font-semibold text-gray-800 group-hover:text-pink-600 transition-colors"
 								>
+									{news.title}
+								</p>
 							</div>
-							<p
-								class="font-semibold text-gray-800 group-hover:text-pink-600 transition-colors"
-							>
-								{news.title}
-							</p>
-						</div>
-						<!-- <span
+							<!-- <span
 							class="text-pink-400 font-extrabold text-2xl ml-4 group-hover:translate-x-1 transition-transform"
 							>>></span
 						> -->
-					</a>
-				</div>
-			{/each}
-			{#if loadingNews}
-				<div class="loader w-24 absolute m-auto text-center">
-					<img src="images/Logo_Hashire.png" alt="Loading..." />
-					<small>Loading...</small>
-				</div>
-			{/if}
-		</div>
-	</div>
-	<div
-		class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
-	>
-		<!-- Judul "News" dengan Latar Belakang Miring -->
-		<div class="absolute -top-6 -left-4">
-			<div
-				class="bg-purple-400 text-white py-2 px-10 transform -skew-x-12 shadow-md"
-			>
-				<h1 class="transform skew-x-12 text-xl md:text-3xl font-extrabold">
-					Klasemen
-				</h1>
+						</a>
+					</div>
+				{/each}
+				{#if loadingNews}
+					<div class="loader w-24 absolute m-auto text-center">
+						<img src="images/Logo_Hashire.png" alt="Loading..." />
+						<small>Loading...</small>
+					</div>
+				{/if}
 			</div>
 		</div>
-
-		<!-- Daftar Berita -->
-		<div class="space-y-4">
-			<div class="overflow-auto rounded-xl shadow-md">
-				<table class="w-full text-left text-sm ">
-					<thead
-						class="bg-purple-400 text-white uppercase tracking-wider font-bold"
+		<div
+			class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
+		>
+			<div class="absolute -top-6 -left-4">
+				<div
+					class="bg-purple-400 text-white py-2 px-10 transform -skew-x-12 shadow-md"
+				>
+					<h1
+						class="transform skew-x-12 text-xl md:text-3xl font-extrabold"
 					>
-						<tr
-							><th colspan="9" class="p-2 text-center"
-								>Klasemen Kuda Pacu Indonesia 2025</th
-							></tr
+						Klasemen
+					</h1>
+				</div>
+			</div>
+
+			<!-- Daftar Berita -->
+			<div class="space-y-4">
+				<div class="overflow-auto rounded-xl shadow-md">
+					<table class="w-full text-left">
+						<thead
+							class="bg-purple-400 text-white uppercase tracking-wider font-bold"
 						>
-						<tr
-							><th scope="col" class="px-2 py-1"> Pos </th><th
-								scope="col"
-								class="px-2 py-1">Kuda</th
-							><th scope="col" class="px-2 py-1">Joki</th><th
-								scope="col"
-								class="px-2 py-1">Tim</th
-							><th scope="col" class="px-2 py-1">Balapan</th>
-							<th scope="col" class="px-2 py-1">1st</th><th
-								scope="col"
-								class="px-2 py-1">2nd</th
-							><th scope="col" class="px-2 py-1">3th</th><th
-								scope="col"
-								class="px-2 py-1">Poin</th
-							></tr
-						>
-					</thead>
-					<tbody class="bg-white">
-						{#each dataKlasemen as klasemen, index}
-							<tr class="border-b border-gray-200 text-gray-600">
-								<td class="px-2 py-1">{klasemen.pos}</td>
-								<td class="px-2 py-1">{klasemen.nama_kuda}</td>
-								<td class="px-2 py-1">{klasemen.nama_joki}</td>
-								<td class="px-2 py-1">{klasemen.tim}</td>
-								<td class="px-2 py-1"
-									>{klasemen.total_balapan}</td
+							<tr
+								><th colspan="9" class="p-2 text-center"
+									>Klasemen Kuda Pacu Indonesia 2025</th
+								></tr
+							>
+							<tr
+								><th scope="col" class="px-3 py-2  text-center"> Pos </th><th
+									scope="col"
+									class="px-3 py-2  text-center">Kuda</th
+								><th scope="col" class="px-3 py-2  text-center">Joki</th><th
+									scope="col"
+									class="px-3 py-2  text-center">Tim</th
+								><th scope="col" class="px-3 py-2  text-center">Balapan</th>
+								<th scope="col" class="px-3 py-2  text-center">1st</th><th
+									scope="col"
+									class="px-3 py-2  text-center">2nd</th
+								><th scope="col" class="px-3 py-2  text-center">3th</th><th
+									scope="col"
+									class="px-3 py-2  text-center">Poin</th
+								></tr
+							>
+						</thead>
+						<tbody class="bg-white">
+							{#each dataKlasemen as klasemen, index}
+								<tr
+									class="border-b border-gray-200 text-gray-600"
 								>
-								<td class="px-2 py-1">{klasemen.menang}</td>
-								<td class="px-2 py-1">{klasemen.runner_up}</td>
-								<td class="px-2 py-1">{klasemen.peringkat_3}</td
-								>
-								<td class="px-2 py-1">{klasemen.poin}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
+									<td class="px-3 py-2  text-center">{klasemen.pos}</td>
+									<td class="px-3 py-2  text-center"
+										>{klasemen.nama_kuda}</td
+									>
+									<td class="px-3 py-2  text-center"
+										>{klasemen.nama_joki}</td
+									>
+									<td class="px-3 py-2  text-center">{klasemen.tim}</td>
+									<td class="px-3 py-2  text-center"
+										>{klasemen.total_balapan}</td
+									>
+									<td class="px-3 py-2  text-center">{klasemen.menang}</td>
+									<td class="px-3 py-2  text-center"
+										>{klasemen.runner_up}</td
+									>
+									<td class="px-3 py-2  text-center"
+										>{klasemen.peringkat_3}</td
+									>
+									<td class="px-3 py-2  text-center">{klasemen.poin}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
