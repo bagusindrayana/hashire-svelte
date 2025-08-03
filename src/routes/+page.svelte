@@ -1,5 +1,5 @@
 <script>
-    import UmazingButton from "$lib/components/UmazingButton.svelte";
+	import UmazingButton from "$lib/components/UmazingButton.svelte";
 	import { onMount } from "svelte";
 	let dataNews = [];
 	let dataKlasemen = [
@@ -117,15 +117,17 @@
 </svelte:head>
 
 <main class="container mx-auto px-6 py-16 relative min-h-[90vh]">
-	<div class="mx-auto text-center mt-12">
-		<a href="/horse">
-			<UmazingButton
-                    onClick={() => {
-                        showModal = false;
-                    }}
-                    text="Database Kuda Aktif"
-                />
-		</a>
+	<div class="mx-auto text-center mt-12 min-h-[50vh] flex flex-col justify-center">
+		<img class="mx-auto my-12" src="/images/Logo_Hashire.png" alt="" />
+		<div class="flex gap-4 justify-center">
+			
+			<a href="/event">
+				<UmazingButton text="Event" />
+			</a>
+			<a href="/horse">
+				<UmazingButton text="Kuda Aktif" />
+			</a>
+		</div>
 	</div>
 	<div class="w-full max-w-4xl mx-auto grid grid-cols-1 gap-8">
 		<div
@@ -227,19 +229,26 @@
 								></tr
 							>
 							<tr
-								><th scope="col" class="px-3 py-2  text-center"> Pos </th><th
+								><th scope="col" class="px-3 py-2 text-center">
+									Pos
+								</th><th
 									scope="col"
-									class="px-3 py-2  text-center">Kuda</th
-								><th scope="col" class="px-3 py-2  text-center">Joki</th><th
-									scope="col"
-									class="px-3 py-2  text-center">Tim</th
-								><th scope="col" class="px-3 py-2  text-center">Balapan</th>
-								<th scope="col" class="px-3 py-2  text-center">1st</th><th
-									scope="col"
-									class="px-3 py-2  text-center">2nd</th
-								><th scope="col" class="px-3 py-2  text-center">3th</th><th
-									scope="col"
-									class="px-3 py-2  text-center">Poin</th
+									class="px-3 py-2 text-center">Kuda</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>Joki</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>Tim</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>Balapan</th
+								>
+								<th scope="col" class="px-3 py-2 text-center"
+									>1st</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>2nd</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>3th</th
+								><th scope="col" class="px-3 py-2 text-center"
+									>Poin</th
 								></tr
 							>
 						</thead>
@@ -248,25 +257,33 @@
 								<tr
 									class="border-b border-gray-200 text-gray-600"
 								>
-									<td class="px-3 py-2  text-center">{klasemen.pos}</td>
-									<td class="px-3 py-2  text-center"
+									<td class="px-3 py-2 text-center"
+										>{klasemen.pos}</td
+									>
+									<td class="px-3 py-2 text-center"
 										>{klasemen.nama_kuda}</td
 									>
-									<td class="px-3 py-2  text-center"
+									<td class="px-3 py-2 text-center"
 										>{klasemen.nama_joki}</td
 									>
-									<td class="px-3 py-2  text-center">{klasemen.tim}</td>
-									<td class="px-3 py-2  text-center"
+									<td class="px-3 py-2 text-center"
+										>{klasemen.tim}</td
+									>
+									<td class="px-3 py-2 text-center"
 										>{klasemen.total_balapan}</td
 									>
-									<td class="px-3 py-2  text-center">{klasemen.menang}</td>
-									<td class="px-3 py-2  text-center"
+									<td class="px-3 py-2 text-center"
+										>{klasemen.menang}</td
+									>
+									<td class="px-3 py-2 text-center"
 										>{klasemen.runner_up}</td
 									>
-									<td class="px-3 py-2  text-center"
+									<td class="px-3 py-2 text-center"
 										>{klasemen.peringkat_3}</td
 									>
-									<td class="px-3 py-2  text-center">{klasemen.poin}</td>
+									<td class="px-3 py-2 text-center"
+										>{klasemen.poin}</td
+									>
 								</tr>
 							{/each}
 						</tbody>
