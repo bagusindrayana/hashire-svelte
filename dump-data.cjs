@@ -168,11 +168,11 @@ async function scrapeData() {
                         "color_name": updateData.profil.warna,
                         "gender_name": updateData.profil.jenis_kelamin == "Jantan" ? "Colt" : "Filly",
                         "birth_year": updateData.profil.tanggal_lahir != null && updateData.profil.tanggal_lahir != "" ? updateData.profil.tanggal_lahir.split(" ")[2] : null,
-                        "generation_name": updateData.trah,
+                        "generation_name": updateData.profil.trah,
                         "contact": null,
-                        "father_name": updateData.profil.silsilah != null && updateData.profil.silsilah.pejantan != null ? updateData.profil.silsilah.pejantan.nama : null,
-                        "mother_name": updateData.profil.silsilah != null && updateData.profil.silsilah.induk != null ? updateData.profil.silsilah.induk.nama : null,
-                        "breed_name": updateData.trah,
+                        "father_name": updateData.silsilah != null && updateData.silsilah.pejantan != null ? updateData.silsilah.pejantan.nama : null,
+                        "mother_name": updateData.silsilah != null && updateData.silsilah.induk != null ? updateData.silsilah.induk.nama : null,
+                        "breed_name": updateData.profil.trah,
                     };
                     dumpData.data.push(newData);
                     console.log(newData);
