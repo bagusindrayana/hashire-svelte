@@ -105,6 +105,16 @@
 		"/animation/Shoulder Rubbing.fbx",
 		"/animation/Blow A Kiss.fbx",
 		"/animation/Crazy Gesture.fbx",
+
+		"/animation/Being Cocky.fbx",
+		"/animation/Excited.fbx",
+		"/animation/Fist Pump.fbx",
+		"/animation/Happy Idle (1).fbx",
+		"/animation/Happy Idle.fbx",
+		"/animation/Happy.fbx",
+		"/animation/Listening To Music.fbx",
+		"/animation/Offensive Idle.fbx",
+		"/animation/Warrior Idle.fbx",
 	];
 
 	const defaultModelUrl = "/combine_vrm_007.vrm";
