@@ -76,8 +76,7 @@
 
 	<div class="px-1 flex-grow">
 		<h3
-			class="font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b"
-			style="background-color:  #{hexColor};"
+			class={`font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b bg-2-${kuda.color_name}`}
 		>
 			{decodeHTMLEntities(kuda.name)}
 		</h3>
