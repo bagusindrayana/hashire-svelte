@@ -9,7 +9,9 @@
     import { VRMLoaderPlugin, VRMUtils, VRM } from "@pixiv/three-vrm";
 
     import { loadMixamoAnimation } from "$lib/utils/loadMixamoAnimation.js";
-    import { cloneVRM } from "$lib/utils/cloneVRM.js"; // Import the function
+    // import { cloneVRM } from "$lib/utils/cloneVRM.js";
+    import { cleanName } from "$lib/utils/cleanName.js";
+    import { randomChar } from "$lib/utils/randomChar.js";
 
     import {
         generateWarnaDenganSeed,
@@ -135,7 +137,7 @@
         ) {
             selectEvent.races[0].horses[0].selected = true;
             selectKuda = selectEvent.races[0].horses[0];
-            randomChar(selectKuda);
+            randomKuda(selectKuda);
         }
 
         setTimeout(() => {
@@ -248,7 +250,7 @@
                 }
             }
             selectKuda = selectEvent.races[indexRow].horses[indexHorse];
-            randomChar(selectKuda);
+            randomKuda(selectKuda);
             selectEvent = selectEvent;
         }
     }
@@ -342,7 +344,7 @@
         );
     }
 
-    function randomChar(kuda) {
+    function randomKuda(kuda) {
         if (currentVrm) {
             if (scene) {
                 scene.remove(currentVrm.scene);
@@ -350,255 +352,20 @@
             VRMUtils.deepDispose(currentVrm.scene);
         }
 
+        const rc = randomChar(kuda,currentVrm);
+        currentVrm = rc.vrm;
+        
+        
         if (scene) {
             scene.add(currentVrm.scene);
         }
-        const seed = stringToSeed(kuda.name);
-        var random = mulberry32(seed);
-        currentAnimationUrl =
-            listRunAnimation[Math.floor(random() * listRunAnimation.length)];
-        // create AnimationMixer for VRM
+        
+        currentAnimationUrl = listRunAnimation[Math.floor(rc.random() * listRunAnimation.length)];
         currentMixer = new THREE.AnimationMixer(currentVrm.scene);
 
-        const randomSame = Math.floor(random() * 2);
-        const hex = generateWarnaDenganSeed(
-            kuda.color_name,
-            Math.floor(random() * 1000),
-        );
-
-        var hairHex = hex;
-
-        // scene.background = new THREE.Color(getBrightColor(Math.floor(random() * 100)))
-
-        // Generate a random integer from 1 to 10
-        const randomFrontHair = Math.floor(random() * 6) + 1;
-        const randomBackHair = Math.floor(random() * 6) + 1;
-        const randomFace = Math.floor(random() * 6) + 1;
-        let randomBody = 1;
-        if (kuda.gender_name == "Colt") {
-            randomBody = 1;
-        } else if (kuda.gender_name == "Filly") {
-            randomBody = 2;
-        } else {
-            randomBody = Math.floor(random() * 2) + 1;
+        if(rc.cameraLookAtPos != null && rc.cameraLookAtPos != undefined){
+            camera.lookAt(rc.cameraLookAtPos);
         }
-
-        currentVrm.scene.traverse((obj) => {
-            obj.frustumCulled = false;
-
-            // console.log(obj.name);
-            obj.frustumCulled = false;
-            if (
-                obj.isMesh &&
-                (obj.name.includes("Face") ||
-                    obj.name.includes("Hair") ||
-                    obj.name.includes("Body"))
-            ) {
-                obj.visible = false;
-            }
-
-            if (
-                obj.isMesh &&
-                (obj.name.includes(
-                    "Hair_Front_" + String(randomFrontHair).padStart(3, "0"),
-                ) ||
-                    obj.name.includes(
-                        "Hair_Back_" + String(randomBackHair).padStart(3, "0"),
-                    ) ||
-                    obj.name.includes(
-                        "Face_" + String(randomFace).padStart(3, "0"),
-                    ) ||
-                    obj.name.includes(
-                        "Body_" + String(randomBody).padStart(3, "0"),
-                    ))
-            ) {
-                obj.visible = true;
-            }
-
-            if (obj.isMesh && obj.material.uniforms != undefined) {
-                if (obj.name.includes("Ribbon")) {
-                    const ribbonColor = generateWarnaKuda(kuda.color_name, {
-                        seed: Math.floor(random() * 100),
-                        versi: "terang",
-                    });
-                    obj.material.uniforms.litFactor.value.setHex(
-                        `${ribbonColor}`,
-                    );
-                    obj.material.uniforms.shadeColorFactor.value.setHex(
-                        `${ribbonColor}`,
-                    );
-                }
-                if (randomBody == 2) {
-                    if (obj.name == "Ribbon_R") {
-                        obj.visible = false;
-                    } else if (obj.name == "Ribbon_L") {
-                        obj.visible = true;
-                    }
-                } else if (randomBody == 1) {
-                    if (obj.name == "Ribbon_R") {
-                        obj.visible = true;
-                    } else if (obj.name == "Ribbon_L") {
-                        obj.visible = false;
-                    }
-                }
-
-                if (obj.material.name.includes("EyeIris")) {
-                    if (randomSame == 1) {
-                        const eyeHex = createSeededDarkColorGenerator(
-                            Math.floor(random() * 100),
-                            100,
-                        )();
-                        obj.material.uniforms.litFactor.value.setHex(
-                            `${eyeHex}`,
-                        );
-                        obj.material.uniforms.shadeColorFactor.value.setHex(
-                            `${hex}`,
-                        );
-                    } else {
-                        obj.material.uniforms.litFactor.value.setHex(`${hex}`);
-                        obj.material.uniforms.shadeColorFactor.value.setHex(
-                            `${hex}`,
-                        );
-                    }
-                }
-
-                if (obj.material.name.includes("Hair")) {
-                    //obj.material.color.setHex(`${hairHex}`)
-                    obj.material.uniforms.litFactor.value.setHex(`${hairHex}`);
-                    obj.material.uniforms.shadeColorFactor.value.setHex(
-                        `${hairHex}`,
-                    );
-                }
-
-                if (obj.material.name.includes("Tail")) {
-                    //obj.material.color.setHex(`${hairHex}`)
-                    obj.material.uniforms.litFactor.value.setHex(`${hairHex}`);
-                    obj.material.uniforms.shadeColorFactor.value.setHex(
-                        `${hairHex}`,
-                    );
-                }
-
-                if (obj.material.name.includes("FaceBrow")) {
-                    obj.material.uniforms.litFactor.value.setHex(`${hairHex}`);
-                    obj.material.uniforms.shadeColorFactor.value.setHex(
-                        `${hairHex}`,
-                    );
-                }
-
-                if (obj.material.name.includes("FaceEyeline")) {
-                    obj.material.uniforms.litFactor.value.setHex(`${hairHex}`);
-                    obj.material.uniforms.shadeColorFactor.value.setHex(
-                        `${hairHex}`,
-                    );
-                }
-            }
-
-            if (obj.isSkinnedMesh) {
-                const skinnedMesh = obj;
-
-                if (obj.name.includes("Face")) {
-                    // Get the bone by name
-                    const targetBone =
-                        skinnedMesh.skeleton.getBoneByName("J_Bip_C_Head");
-
-                    if (targetBone) {
-                        if (randomFace == 2) {
-                            targetBone.scale.set(0.9, 0.9, 0.9);
-                        } else {
-                            targetBone.scale.set(1, 1, 1);
-                        }
-                        if (randomFace == 2 || randomFace == 5) {
-                            targetBone.position.y =
-                                random() * 0.02 + 0.07374341040849686;
-                        } else {
-                            targetBone.position.y =
-                                random() * 0.01 + 0.07374341040849686;
-                        }
-                    }
-
-                    // const focusBone =
-                    // 	skinnedMesh.skeleton.getBoneByName("J_Bip_C_Spine");
-
-                    // if (focusBone) {
-                    // 	const headWorldPos = new THREE.Vector3();
-                    // 	focusBone.getWorldPosition(headWorldPos);
-                    // 	camera.lookAt(headWorldPos);
-                    // }
-                }
-
-                if (obj.name.includes("Body")) {
-                    const targetBone =
-                        skinnedMesh.skeleton.getBoneByName("J_Bip_C_Spine"); // or any bone name
-
-                    if (targetBone) {
-                        if (kuda.height != "" && kuda.height != undefined) {
-                            let cleanedStr = kuda.height
-                                .replace(",", ".")
-                                .replace(" cm", "");
-                            let value = parseFloat(cleanedStr);
-                            targetBone.position.y = value * 0.0003331;
-                        } else {
-                            if (randomFace == 2 || randomFace == 5) {
-                                targetBone.position.y =
-                                    random() * 0.1 + 0.05323030799627304;
-                            } else {
-                                targetBone.position.y =
-                                    random() * 0.1 - 0.05 + 0.05323030799627304;
-                            }
-                        }
-
-                        const headWorldPos = new THREE.Vector3();
-                        targetBone.getWorldPosition(headWorldPos);
-                        camera.lookAt(headWorldPos);
-                    }
-
-                    const J_Bip_L_UpperArm =
-                        skinnedMesh.skeleton.getBoneByName("J_Bip_L_UpperArm"); // or any bone name
-
-                    if (J_Bip_L_UpperArm) {
-                        if (randomFace == 2 || randomFace == 5) {
-                            J_Bip_L_UpperArm.scale.x = random() * 0.2 + 1;
-                        }
-                    }
-
-                    const J_Bip_R_UpperArm =
-                        skinnedMesh.skeleton.getBoneByName("J_Bip_R_UpperArm"); // or any bone name
-
-                    if (J_Bip_R_UpperArm) {
-                        if (randomFace == 2 || randomFace == 5) {
-                            J_Bip_R_UpperArm.scale.x = random() * 0.2 + 1;
-                        }
-                    }
-                }
-
-                if (obj.name.includes("Ear")) {
-                    const randomScale = random() * 0.1 - 0.05 + 1;
-                    const targetBone1 =
-                        skinnedMesh.skeleton.getBoneByName("Ear_L"); // or any bone name
-
-                    if (targetBone1) {
-                        targetBone1.scale.set(
-                            randomScale,
-                            randomScale,
-                            randomScale,
-                        );
-                        targetBone1.rotation.z = random() * -1;
-                    }
-
-                    const targetBone2 =
-                        skinnedMesh.skeleton.getBoneByName("Ear_R"); // or any bone name
-
-                    if (targetBone2) {
-                        targetBone2.scale.set(
-                            randomScale,
-                            randomScale,
-                            randomScale,
-                        );
-                        targetBone2.rotation.z = random() * 1;
-                    }
-                }
-            }
-        });
 
         if (currentAnimationUrl) {
             loadFBX(currentAnimationUrl);
@@ -699,13 +466,6 @@
         // Remove renderer canvas
         renderer.domElement.remove();
         renderer.dispose();
-    }
-
-    function decodeHTMLEntities(str) {
-        const div = document.createElement("div");
-        div.innerHTML = str;
-        const textName = div.textContent;
-        return textName;
     }
 
     onMount(async () => {
@@ -938,7 +698,7 @@
                     style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
                 >
                     <h2 class="text-sm md:text-lg font-bold text-yellow-900">
-                        {decodeHTMLEntities(selectKuda.name)}
+                        {cleanName(selectKuda.name)}
                     </h2>
                 </div>
             {/if}
@@ -987,7 +747,7 @@
                 style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:50;"
             >
                 <h2 class="text-lg md:text-5xl font-bold text-gray-800">
-                    {decodeHTMLEntities(selectEvent.title)}
+                    {cleanName(selectEvent.title)}
                 </h2>
             </div>
         {/if}
@@ -1000,7 +760,7 @@
                     <h2
                         class="text-xl md:text-3xl font-bold text-gray-800 hidden md:block"
                     >
-                        {decodeHTMLEntities(selectEvent.title)}
+                        {cleanName(selectEvent.title)}
                     </h2>
                     <div class="mt-2 md:mt-6">
                         <div class="flex justify-between items-center mb-2">

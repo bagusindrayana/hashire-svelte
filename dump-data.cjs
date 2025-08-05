@@ -1,4 +1,7 @@
-import * as cheerio from 'cheerio';
+const dumpData = require('./static/dummy-data/dump-horse.json');
+const unknownData = require('./static/dummy-data/indo-derby-2025.json');
+const cheerio = require('cheerio');
+const fs = require('fs/promises');
 
 async function detailHorse(id) {
     const myHeaders = new Headers();
@@ -22,9 +25,9 @@ async function detailHorse(id) {
     };
 
     const targetUrl = `https://studbook.or.id/${id}`;
- 
+
     try {
-        
+
         const response = await fetch(targetUrl, requestOptions);
         const html = await response.text();
 
@@ -69,13 +72,13 @@ async function detailHorse(id) {
 
         if (pedigreeTable.length > 0) {
             const ancestors = {};
-        
+
             ancestors.gen1 = pedigreeTable.find('td[rowspan="16"]').map((i, el) => cleanText($(el).text())).get();
             ancestors.gen2 = pedigreeTable.find('td[rowspan="8"]').map((i, el) => cleanText($(el).text())).get();
             ancestors.gen3 = pedigreeTable.find('td[rowspan="4"]').map((i, el) => cleanText($(el).text())).get();
             ancestors.gen4 = pedigreeTable.find('td[rowspan="2"]').map((i, el) => cleanText($(el).text())).get();
 
-  
+
             horseData.silsilah = {
                 pejantan: {
                     nama: ancestors.gen1[0],
@@ -140,85 +143,52 @@ async function detailHorse(id) {
 
         return horseData;
     } catch (error) {
+        console.log(error);
         return null;
     }
 }
 
-/** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
-    const id = url.searchParams.get('id');
+async function scrapeData() {
+    for (let i = 0; i < unknownData.length; i++) {
+        const d = unknownData[i];
+        for (let x = 0; x < d.horses.length; x++) {
+            const h = d.horses[x];
+            let hindex = dumpData.data.findIndex(function (dd) {
+                return dd.name != null && dd.name.toLowerCase().includes(h.name.toLowerCase());
+            });
+            if (hindex == -1) {
+                const updateData = await detailHorse(h.name);
+                if(updateData && updateData.profil.nama != null){
+                    const newData = {
+                        "name": updateData.profil.nama,
+                        "owner": updateData.pemilik,
+                        "height": updateData.profil.tinggi,
+                        "trainer": updateData.pelatih,
+                        "discipline": updateData.profil.disiplin,
+                        "color_name": updateData.profil.warna,
+                        "gender_name": updateData.profil.jenis_kelamin == "Jantan" ? "Colt" : "Filly",
+                        "birth_year": updateData.profil.tanggal_lahir != null && updateData.profil.tanggal_lahir != "" ? updateData.profil.tanggal_lahir.split(" ")[2] : null,
+                        "generation_name": updateData.trah,
+                        "contact": null,
+                        "father_name": updateData.profil.silsilah != null && updateData.profil.silsilah.pejantan != null ? updateData.profil.silsilah.pejantan.nama : null,
+                        "mother_name": updateData.profil.silsilah != null && updateData.profil.silsilah.induk != null ? updateData.profil.silsilah.induk.nama : null,
+                        "breed_name": updateData.trah,
+                    };
+                    dumpData.data.push(newData);
+                    console.log(newData);
+                }
+            }
 
-    if(id != "" && id != null){
-        const data = await detailHorse(id);
-        if(data != null){
-            return new Response(JSON.stringify(data), {
-                headers: { "Content-Type": "application/json" },
-                status: 200
-            });
-        } else {
-            return new Response(JSON.stringify({ error: "Not Found" }), {
-                headers: { "Content-Type": "application/json" },
-                status: 404
-            });
+
         }
     }
 
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json, text/javascript, */*; q=0.01");
-    myHeaders.append("Accept-Language", "en-GB,en;q=0.9,en-US;q=0.8,id;q=0.7");
-    myHeaders.append("Connection", "keep-alive");
-    myHeaders.append("Referer", "https://studbook.or.id/database-kuda-aktif");
-    myHeaders.append("Sec-Fetch-Dest", "empty");
-    myHeaders.append("Sec-Fetch-Mode", "cors");
-    myHeaders.append("Sec-Fetch-Site", "same-origin");
-    myHeaders.append("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0");
-    myHeaders.append("X-Requested-With", "XMLHttpRequest");
-    myHeaders.append("sec-ch-ua", "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Microsoft Edge\";v=\"138\"");
-    myHeaders.append("sec-ch-ua-mobile", "?0");
-    myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
-
-    const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow"
-    };
-
-    // const targetUrl = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
-    const targetUrl = "https://hashire.pages.dev/dummy-data/dump-horse.json";
     try {
-        const response = await fetch(targetUrl, requestOptions);
-        const text = await response.text();
-
-        // If it's JSON, try to parse it
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            data = { raw: text }; // fallback if not valid JSON
-        }
-
-        // const kudaLainnya = [
-        //     { "id":null,"name": "Princess Gavi", "color_name": "Napas" },
-        //     { "id":null,"name": "Wonder Land", "color_name": "Jragem" },
-        //     { "id":null,"name": "Kashmir Pararaja", "color_name": "Merah" },
-        //     { "id":null,"name": "King Argentin", "color_name": "Jragem", "birth_year": "2021", "gender_name": "Colt", "generation_name": "KP6" },
-        // ];
-
-        // data.data = [...data.data, ...kudaLainnya]
-
-        data.data = data.data.filter((item, index, self) =>
-            index === self.findIndex((t) => t.name === item.name)
-        );
-
-        return new Response(JSON.stringify(data), {
-            headers: { "Content-Type": "application/json" },
-            status: 200
-        });
-    } catch (error) {
-        console.log(error);
-        return new Response(JSON.stringify({ error: error.message }), {
-            headers: { "Content-Type": "application/json" },
-            status: 500
-        });
+        await fs.writeFile('./static/dummy-data/dump-horse.json', JSON.stringify(dumpData, null, 2));
+        console.log('Data written to json file');
+    } catch (err) {
+        console.error('Error writing file:', err);
     }
 }
+
+scrapeData();

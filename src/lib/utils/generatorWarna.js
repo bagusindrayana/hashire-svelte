@@ -192,3 +192,20 @@ export function generateWarnaKuda(warnaDasar, opsi = {}) {
 
   return `0x${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
+
+export function generateSkinTone(seed) {
+  const random = mulberry32(seed);
+
+  // Define tan and white RGB boundaries
+  const min = { r: 210, g: 180, b: 140 }; // tan
+  const max = { r: 255, g: 255, b: 255 }; // white
+
+  // Generate RGB within range
+  const r = Math.floor(random() * (max.r - min.r + 1)) + min.r;
+  const g = Math.floor(random() * (max.g - min.g + 1)) + min.g;
+  const b = Math.floor(random() * (max.b - min.b + 1)) + min.b;
+
+  // Convert to 0xRRGGBB
+  const hexColor = (r << 16) | (g << 8) | b;
+  return `0x${hexColor.toString(16).padStart(6, '0')}`;
+}
