@@ -127,6 +127,15 @@
 
 	let selectKudaIndex = 0;
 
+	let blinkMesh;
+	let blinkIndex;
+
+	let blinkCooldown = 0;
+	let blinkTimer = 0;
+	let isBlinking = false;
+	let blinkProgress = 0;
+	let faceType = 0;
+
 	function selectCard(kuda, index) {
 		disposeThreeJS();
 		const overlay = document.getElementById("overlay");
@@ -291,6 +300,25 @@
 		);
 		currentAnimationUrl = listIdleAnimation[randomAnimationIndex];
 
+		blinkMesh = null;
+		blinkIndex = null;
+		blinkCooldown = 0;
+		blinkTimer = 0;
+		isBlinking = false;
+		blinkProgress = 0;
+
+		faceType = rc.randomFace;
+
+		// currentVrm.scene.traverse((child) => {
+		// 	if (child.isMesh && child.morphTargetDictionary && child.name.includes("Face_" + String(rc.randomFace).padStart(3, "0"))) {
+		// 		// Find the index of the "Blink" shape key
+		// 		if ("Fcl_EYE_Close" in child.morphTargetDictionary) {
+		// 			blinkMesh = child;
+		// 			blinkIndex = child.morphTargetDictionary["Fcl_EYE_Close"];
+		// 		}
+		// 	}
+		// });
+
 		if (randomAnimationIndex == 7) {
 			currentVrm.scene.traverse((obj) => {
 				if (obj.isMesh && obj.morphTargetInfluences) {
@@ -396,6 +424,10 @@
 				currentVrm.update(deltaTime);
 			}
 
+			if(faceType > 0 && currentVrm != null){
+				updateBlink(deltaTime);
+			}
+
 			renderer.render(scene, camera);
 		}
 
@@ -422,6 +454,50 @@
 			// Remove renderer canvas
 			renderer.domElement.remove();
 			renderer.dispose();
+		}
+	}
+
+	function updateBlink(deltaTime) {
+		if (!currentVrm) return;
+
+		// Countdown until next blink
+		blinkCooldown -= deltaTime;
+
+		if (!isBlinking && blinkCooldown <= 0) {
+			isBlinking = true;
+			blinkProgress = 0;
+		}
+
+		if (isBlinking) {
+			blinkProgress += deltaTime;
+
+			const blinkDuration = 0.2; // seconds
+			const half = blinkDuration / 2;
+
+			let value = 0;
+			if (blinkProgress < half) {
+				// Closing eyes
+				value = blinkProgress / half;
+			} else if (blinkProgress < blinkDuration) {
+				// Opening eyes
+				value = 1 - (blinkProgress - half) / half;
+			} else {
+				// End of blink
+				value = 0;
+				isBlinking = false;
+				blinkCooldown = 3 + Math.random() * 4; // next blink in 3–7 sec
+			}
+
+			// blinkMesh.morphTargetInfluences[blinkIndex] = value;
+
+			currentVrm.scene.traverse((child) => {
+				if (child.isMesh && child.morphTargetDictionary && child.name.includes("Face_" + String(faceType).padStart(3, "0"))) {
+					// Find the index of the "Blink" shape key
+					if ("Fcl_EYE_Close" in child.morphTargetDictionary) {
+						child.morphTargetInfluences[child.morphTargetDictionary["Fcl_EYE_Close"]] = value;
+					}
+				}
+			});
 		}
 	}
 
@@ -457,7 +533,7 @@
 
 <svelte:head>
 	{#if data.openHorse != null}
-		<title>{data.openHorse.profil.nama}</title>
+		<title>{cleanName(data.openHorse.profil.nama)}</title>
 	{:else if selectKuda != null}
 		<title>{cleanName(selectKuda.name)}</title>
 	{:else}

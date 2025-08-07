@@ -390,6 +390,7 @@ export function randomChar(kuda, currentVrm) {
     return {
         vrm: currentVrm,
         random: random,
-        cameraLookAtPos
+        cameraLookAtPos,
+        randomFace: randomFace
     }
 }
