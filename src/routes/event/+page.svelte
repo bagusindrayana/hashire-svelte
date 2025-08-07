@@ -541,7 +541,7 @@
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover h-[150px]"
+                                class="rounded-lg mb-3 w-full object-cover  h-[300px] md:h-[150px] lg:h-[250px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
@@ -612,7 +612,7 @@
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover"
+                                class="rounded-lg mb-3 w-full object-cover  h-[300px] md:h-[150px] lg:h-[250px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
