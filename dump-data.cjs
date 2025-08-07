@@ -166,7 +166,7 @@ async function scrapeData() {
                         fatherName = matchFather ? matchFather[1] : null;
                     }
 
-                    const silsilahMother = updateData.silsilah != null && updateData.silsilah.pejantan != null ? updateData.silsilah.pejantan.nama : null;
+                    const silsilahMother = updateData.silsilah != null && updateData.silsilah.induk != null ? updateData.silsilah.induk.nama : null;
                     let motherName = null;
                     if(silsilahMother){
                         const matchMother = silsilahMother.match(/^(.*?)\s\([A-Z]{2,3}\)\s-\s\d{4}$/);

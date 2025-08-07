@@ -67,7 +67,7 @@
 </script>
 
 <div
-	class="kuda-card bg-white shadow-lg overflow-hidden card-border-{kuda.color_name} cursor-pointer"
+	class="kuda-card bg-white shadow-lg overflow-hidden card-border-{kuda.color_name ?? "Hitam"} cursor-pointer"
 	style="transition-delay: {(index % currentBreakpoint) * 100}ms;"
 	data-index={index}
 	use:viewport
@@ -76,7 +76,7 @@
 
 	<div class="px-1 flex-grow">
 		<h3
-			class={`font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b bg-2-${kuda.color_name}`}
+			class={`font-extrabold text-xl text-center text-gray-100 mb-2 md:mb-4 py-1 md:py-2 border-b bg-2-${kuda.color_name ?? "Hitam"}`}
 		>
 			{decodeHTMLEntities(kuda.name)}
 		</h3>
