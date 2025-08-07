@@ -190,7 +190,6 @@
 				</div>
 			</div>
 
-			<!-- Daftar Berita -->
 			<div class="space-y-4">
 				{#each dataNews as news, index}
 					<div class="bg-white p-4 rounded-xl shadow-md">
@@ -250,7 +249,7 @@
 				{/if}
 			</div>
 		</div>
-		<div
+		<!-- <div
 			class="w-full bg-purple-200 border-4 border-purple-500 rounded-2xl shadow-lg relative p-3 py-6 md:p-6 md:py-12 m-auto mt-12"
 		>
 			<div class="absolute -top-6 -left-4">
@@ -265,7 +264,6 @@
 				</div>
 			</div>
 
-			<!-- Daftar Berita -->
 			<div class="space-y-4">
 				<div class="overflow-auto rounded-xl shadow-md">
 					<table class="w-full text-left">
@@ -339,6 +337,6 @@
 					</table>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </main>

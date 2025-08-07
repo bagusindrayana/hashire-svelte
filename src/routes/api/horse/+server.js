@@ -183,8 +183,10 @@ export async function GET({ url }) {
         redirect: "follow"
     };
 
-    // const targetUrl = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
-    const targetUrl = "https://hashire.pages.dev/dummy-data/dump-horse.json";
+    let targetUrl = "https://hashire.pages.dev/dummy-data/dump-horse.json";
+    if(url.searchParams.get("update")){
+        targetUrl = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
+    }
     try {
         const response = await fetch(targetUrl, requestOptions);
         const text = await response.text();

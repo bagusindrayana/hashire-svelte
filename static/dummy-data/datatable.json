@@ -5,7 +5,7 @@
     "data": [
         {
             "id": "201",
-            "name": "<a href=\"https://studbook.or.id/ajisaka\">Ajisaka</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ajisaka\"\u003EAjisaka\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000007",
             "created_at": "2020-06-19 18:23:53",
@@ -27,7 +27,7 @@
         },
         {
             "id": "3374",
-            "name": "<a href=\"https://studbook.or.id/al-sakbu\">Al Sakbu</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/al-sakbu\"\u003EAl Sakbu\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000093",
             "created_at": "2022-02-18 11:21:56",
@@ -49,7 +49,7 @@
         },
         {
             "id": "4682",
-            "name": "<a href=\"https://studbook.or.id/aleena\">Aleena</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/aleena\"\u003EAleena\u003C/a\u003E",
             "status": "1",
             "brk_number": "420/KPI/18",
             "created_at": "2023-09-01 19:11:50",
@@ -71,7 +71,7 @@
         },
         {
             "id": "3666",
-            "name": "<a href=\"https://studbook.or.id/altair-tonsea\">Altair Tonsea</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/altair-tonsea\"\u003EAltair Tonsea\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000133",
             "created_at": "2022-07-13 15:33:45",
@@ -93,7 +93,7 @@
         },
         {
             "id": "4301",
-            "name": "<a href=\"https://studbook.or.id/amanecer-nagari\">Amanecer Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/amanecer-nagari\"\u003EAmanecer Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000212",
             "created_at": "2023-04-13 18:10:08",
@@ -115,7 +115,7 @@
         },
         {
             "id": "4284",
-            "name": "<a href=\"https://studbook.or.id/amaranggana\">Amaranggana</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/amaranggana\"\u003EAmaranggana\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000259",
             "created_at": "2023-04-05 16:34:18",
@@ -137,7 +137,7 @@
         },
         {
             "id": "3625",
-            "name": "<a href=\"https://studbook.or.id/andalan-sion\">Andalan Sion</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/andalan-sion\"\u003EAndalan Sion\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000166",
             "created_at": "2022-07-08 17:53:32",
@@ -159,7 +159,7 @@
         },
         {
             "id": "4066",
-            "name": "<a href=\"https://studbook.or.id/angin-segar\">Angin Segar</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/angin-segar\"\u003EAngin Segar\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000081",
             "created_at": "2022-12-29 15:34:04",
@@ -181,7 +181,7 @@
         },
         {
             "id": "4303",
-            "name": "<a href=\"https://studbook.or.id/arceus-nagari\">Arceus Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/arceus-nagari\"\u003EArceus Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000109",
             "created_at": "2023-04-13 18:22:12",
@@ -203,7 +203,7 @@
         },
         {
             "id": "4537",
-            "name": "<a href=\"https://studbook.or.id/ardiaa-star\">Ardiaa Star</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ardiaa-star\"\u003EArdiaa Star\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000247",
             "created_at": "2023-07-15 19:21:49",
@@ -225,7 +225,7 @@
         },
         {
             "id": "4543",
-            "name": "<a href=\"https://studbook.or.id/ardiaa-sun\">Ardiaa Sun</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ardiaa-sun\"\u003EArdiaa Sun\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000248",
             "created_at": "2023-07-15 22:01:57",
@@ -247,7 +247,7 @@
         },
         {
             "id": "4662",
-            "name": "<a href=\"https://studbook.or.id/artemis\">Artemis</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/artemis\"\u003EArtemis\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000123",
             "created_at": "2023-08-25 15:38:58",
@@ -269,7 +269,7 @@
         },
         {
             "id": "4651",
-            "name": "<a href=\"https://studbook.or.id/asmara-dupont\">Asmara Dupont</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/asmara-dupont\"\u003EAsmara Dupont\u003C/a\u003E",
             "status": "1",
             "brk_number": "12786/RK/KP.5",
             "created_at": "2023-08-18 17:52:44",
@@ -291,7 +291,7 @@
         },
         {
             "id": "4645",
-            "name": "<a href=\"https://studbook.or.id/assakaf-star\">Assakaf Star</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/assakaf-star\"\u003EAssakaf Star\u003C/a\u003E",
             "status": "1",
             "brk_number": "13642/RK/G4/KI",
             "created_at": "2023-08-18 17:14:50",
@@ -313,7 +313,7 @@
         },
         {
             "id": "4302",
-            "name": "<a href=\"https://studbook.or.id/atardecer-nagari\">Atardecer Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/atardecer-nagari\"\u003EAtardecer Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000108",
             "created_at": "2023-04-13 18:18:38",
@@ -335,7 +335,7 @@
         },
         {
             "id": "4558",
-            "name": "<a href=\"https://studbook.or.id/azarya-eclipse\">Azarya Eclipse</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/azarya-eclipse\"\u003EAzarya Eclipse\u003C/a\u003E",
             "status": "1",
             "brk_number": "14200/RK/KP.5",
             "created_at": "2023-07-16 09:00:42",
@@ -357,7 +357,7 @@
         },
         {
             "id": "3892",
-            "name": "<a href=\"https://studbook.or.id/baldomire\">Baldomire</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/baldomire\"\u003EBaldomire\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000053",
             "created_at": "2022-11-09 14:53:49",
@@ -379,7 +379,7 @@
         },
         {
             "id": "2814",
-            "name": "<a href=\"https://studbook.or.id/beauty-generation\">Beauty Generation</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/beauty-generation\"\u003EBeauty Generation\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000047",
             "created_at": "2021-04-29 16:55:31",
@@ -401,7 +401,7 @@
         },
         {
             "id": "4421",
-            "name": "<a href=\"https://studbook.or.id/berlian-istana\">Berlian Istana</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/berlian-istana\"\u003EBerlian Istana\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000231",
             "created_at": "2023-06-23 16:48:43",
@@ -423,7 +423,7 @@
         },
         {
             "id": "3834",
-            "name": "<a href=\"https://studbook.or.id/besse-wanua\">Besse Wanua</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/besse-wanua\"\u003EBesse Wanua\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000158",
             "created_at": "2022-09-30 16:58:01",
@@ -445,7 +445,7 @@
         },
         {
             "id": "4531",
-            "name": "<a href=\"https://studbook.or.id/bintang-kalsel\">Bintang Kalsel</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/bintang-kalsel\"\u003EBintang Kalsel\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000246",
             "created_at": "2023-07-15 17:21:18",
@@ -467,7 +467,7 @@
         },
         {
             "id": "3275",
-            "name": "<a href=\"https://studbook.or.id/bintang-maja\">Bintang Maja</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/bintang-maja\"\u003EBintang Maja\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000086",
             "created_at": "2022-01-12 15:42:30",
@@ -489,7 +489,7 @@
         },
         {
             "id": "1186",
-            "name": "<a href=\"https://studbook.or.id/black-mamba-tanjungsari\">Black Mamba Tanjungsari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/black-mamba-tanjungsari\"\u003EBlack Mamba Tanjungsari\u003C/a\u003E",
             "status": "1",
             "brk_number": "501/KPI/19",
             "created_at": "2020-09-23 15:02:08",
@@ -511,7 +511,7 @@
         },
         {
             "id": "4536",
-            "name": "<a href=\"https://studbook.or.id/blaze-kobar\">Blaze Kobar</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/blaze-kobar\"\u003EBlaze Kobar\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000297",
             "created_at": "2023-07-15 18:45:03",
@@ -533,7 +533,7 @@
         },
         {
             "id": "4506",
-            "name": "<a href=\"https://studbook.or.id/blezzing-star\">Blezzing Star</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/blezzing-star\"\u003EBlezzing Star\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000242",
             "created_at": "2023-07-13 23:22:41",
@@ -555,7 +555,7 @@
         },
         {
             "id": "4678",
-            "name": "<a href=\"https://studbook.or.id/bomber-biaro\">Bomber Biaro</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/bomber-biaro\"\u003EBomber Biaro\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001007000012",
             "created_at": "2023-09-01 18:07:49",
@@ -577,7 +577,7 @@
         },
         {
             "id": "4541",
-            "name": "<a href=\"https://studbook.or.id/brilian-maestro\">Brilian Maestro</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/brilian-maestro\"\u003EBrilian Maestro\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000298",
             "created_at": "2023-07-15 21:42:34",
@@ -599,7 +599,7 @@
         },
         {
             "id": "4533",
-            "name": "<a href=\"https://studbook.or.id/brown-velvet\">Brown Velvet</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/brown-velvet\"\u003EBrown Velvet\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000296",
             "created_at": "2023-07-15 17:42:59",
@@ -621,7 +621,7 @@
         },
         {
             "id": "4465",
-            "name": "<a href=\"https://studbook.or.id/cahaya-kemilau\">Cahaya Kemilau</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/cahaya-kemilau\"\u003ECahaya Kemilau\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000286",
             "created_at": "2023-07-10 17:48:30",
@@ -643,7 +643,7 @@
         },
         {
             "id": "4514",
-            "name": "<a href=\"https://studbook.or.id/california\">California</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/california\"\u003ECalifornia\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000244",
             "created_at": "2023-07-14 20:13:57",
@@ -665,7 +665,7 @@
         },
         {
             "id": "4509",
-            "name": "<a href=\"https://studbook.or.id/camar-laut\">Camar Laut</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/camar-laut\"\u003ECamar Laut\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000243",
             "created_at": "2023-07-14 00:27:31",
@@ -687,7 +687,7 @@
         },
         {
             "id": "3583",
-            "name": "<a href=\"https://studbook.or.id/celebrity\">Celebrity</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/celebrity\"\u003ECelebrity\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000158",
             "created_at": "2022-06-23 17:28:26",
@@ -709,7 +709,7 @@
         },
         {
             "id": "1193",
-            "name": "<a href=\"https://studbook.or.id/chel-leng-manis\">Chel'leng Manis</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/chel-leng-manis\"\u003EChel'leng Manis\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000051",
             "created_at": "2020-09-23 16:39:20",
@@ -731,7 +731,7 @@
         },
         {
             "id": "3657",
-            "name": "<a href=\"https://studbook.or.id/chelsie\">Chelsie</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/chelsie\"\u003EChelsie\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000130",
             "created_at": "2022-07-12 18:01:12",
@@ -753,7 +753,7 @@
         },
         {
             "id": "4319",
-            "name": "<a href=\"https://studbook.or.id/citra-jelita\">Citra Jelita</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/citra-jelita\"\u003ECitra Jelita\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000213",
             "created_at": "2023-04-18 15:45:19",
@@ -775,7 +775,7 @@
         },
         {
             "id": "3561",
-            "name": "<a href=\"https://studbook.or.id/dae-gaga-sumbar\">Dae Gaga Sumbar</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/dae-gaga-sumbar\"\u003EDae Gaga Sumbar\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000155",
             "created_at": "2022-04-28 15:46:07",
@@ -797,7 +797,7 @@
         },
         {
             "id": "4468",
-            "name": "<a href=\"https://studbook.or.id/dahcota\">Dahcota</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/dahcota\"\u003EDahcota\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000288",
             "created_at": "2023-07-11 19:41:55",
@@ -819,7 +819,7 @@
         },
         {
             "id": "4545",
-            "name": "<a href=\"https://studbook.or.id/dewi-artha\">Dewi Artha</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/dewi-artha\"\u003EDewi Artha\u003C/a\u003E",
             "status": "1",
             "brk_number": "2407/G3/KI/20",
             "created_at": "2023-07-15 22:23:32",
@@ -841,7 +841,7 @@
         },
         {
             "id": "4594",
-            "name": "<a href=\"https://studbook.or.id/dilodari-serumpun\">Dilodari Serumpun</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/dilodari-serumpun\"\u003EDilodari Serumpun\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000118",
             "created_at": "2023-08-01 10:35:08",
@@ -863,7 +863,7 @@
         },
         {
             "id": "3097",
-            "name": "<a href=\"https://studbook.or.id/faithful-tonsea\">Faithful Tonsea</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/faithful-tonsea\"\u003EFaithful Tonsea\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000109",
             "created_at": "2021-10-25 15:59:16",
@@ -885,7 +885,7 @@
         },
         {
             "id": "1327",
-            "name": "<a href=\"https://studbook.or.id/felice\">Felice</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/felice\"\u003EFelice\u003C/a\u003E",
             "status": "1",
             "brk_number": "458/KP.5/19",
             "created_at": "2020-09-28 14:28:21",
@@ -907,7 +907,7 @@
         },
         {
             "id": "4477",
-            "name": "<a href=\"https://studbook.or.id/flicka-sprint\">Flicka Sprint</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/flicka-sprint\"\u003EFlicka Sprint\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000099",
             "created_at": "2023-07-11 22:00:53",
@@ -929,7 +929,7 @@
         },
         {
             "id": "4547",
-            "name": "<a href=\"https://studbook.or.id/gabriella-eclipse\">Gabriella Eclipse</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/gabriella-eclipse\"\u003EGabriella Eclipse\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000299",
             "created_at": "2023-07-15 22:40:06",
@@ -951,7 +951,7 @@
         },
         {
             "id": "4679",
-            "name": "<a href=\"https://studbook.or.id/gagak-lumayung\">Gagak Lumayung</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/gagak-lumayung\"\u003EGagak Lumayung\u003C/a\u003E",
             "status": "1",
             "brk_number": "314/KPI/16",
             "created_at": "2023-09-01 18:19:20",
@@ -973,7 +973,7 @@
         },
         {
             "id": "3344",
-            "name": "<a href=\"https://studbook.or.id/genoa\">Genoa</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/genoa\"\u003EGenoa\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000051",
             "created_at": "2022-02-09 11:39:26",
@@ -995,7 +995,7 @@
         },
         {
             "id": "4674",
-            "name": "<a href=\"https://studbook.or.id/gibsy\">Gibsy</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/gibsy\"\u003EGibsy\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000118",
             "created_at": "2023-09-01 16:58:23",
@@ -1017,7 +1017,7 @@
         },
         {
             "id": "4538",
-            "name": "<a href=\"https://studbook.or.id/gunung-rajo-boy\">Gunung Rajo Boy</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/gunung-rajo-boy\"\u003EGunung Rajo Boy\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000085",
             "created_at": "2023-07-15 19:34:59",
@@ -1039,7 +1039,7 @@
         },
         {
             "id": "4437",
-            "name": "<a href=\"https://studbook.or.id/guti-spirit\">Guti Spirit</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/guti-spirit\"\u003EGuti Spirit\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000235",
             "created_at": "2023-07-04 17:32:41",
@@ -1061,7 +1061,7 @@
         },
         {
             "id": "3701",
-            "name": "<a href=\"https://studbook.or.id/haidar-rey\">Haidar Rey</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/haidar-rey\"\u003EHaidar Rey\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000177",
             "created_at": "2022-07-29 11:35:18",
@@ -1083,7 +1083,7 @@
         },
         {
             "id": "1447",
-            "name": "<a href=\"https://studbook.or.id/haqul-yakin\">Haqul Yakin</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/haqul-yakin\"\u003EHaqul Yakin\u003C/a\u003E",
             "status": "1",
             "brk_number": "901/G4/KI/11",
             "created_at": "2020-10-02 13:46:55",
@@ -1105,7 +1105,7 @@
         },
         {
             "id": "4669",
-            "name": "<a href=\"https://studbook.or.id/herbie-queen\">Herbie Queen</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/herbie-queen\"\u003EHerbie Queen\u003C/a\u003E",
             "status": "1",
             "brk_number": "14046/RK/G4/KI",
             "created_at": "2023-09-01 13:44:43",
@@ -1127,7 +1127,7 @@
         },
         {
             "id": "3627",
-            "name": "<a href=\"https://studbook.or.id/ibrani-sion\">Ibrani Sion</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ibrani-sion\"\u003EIbrani Sion\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000167",
             "created_at": "2022-07-08 18:00:48",
@@ -1149,7 +1149,7 @@
         },
         {
             "id": "936",
-            "name": "<a href=\"https://studbook.or.id/intan-perkasa\">Intan Perkasa</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/intan-perkasa\"\u003EIntan Perkasa\u003C/a\u003E",
             "status": "1",
             "brk_number": "2361/G3/KI/19",
             "created_at": "2020-09-10 13:38:52",
@@ -1171,7 +1171,7 @@
         },
         {
             "id": "4196",
-            "name": "<a href=\"https://studbook.or.id/intan-saphire\">Intan Saphire</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/intan-saphire\"\u003EIntan Saphire\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000247",
             "created_at": "2023-02-23 16:35:20",
@@ -1193,7 +1193,7 @@
         },
         {
             "id": "4165",
-            "name": "<a href=\"https://studbook.or.id/jati-halilintar\">Jati Halilintar</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/jati-halilintar\"\u003EJati Halilintar\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000190",
             "created_at": "2023-02-07 16:21:45",
@@ -1215,7 +1215,7 @@
         },
         {
             "id": "4542",
-            "name": "<a href=\"https://studbook.or.id/john-people\">John People</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/john-people\"\u003EJohn People\u003C/a\u003E",
             "status": "1",
             "brk_number": "2400/G3/KI/20",
             "created_at": "2023-07-15 21:45:46",
@@ -1237,7 +1237,7 @@
         },
         {
             "id": "4481",
-            "name": "<a href=\"https://studbook.or.id/kinandari-fakhira\">Kinandari Fakhira</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/kinandari-fakhira\"\u003EKinandari Fakhira\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000100",
             "created_at": "2023-07-11 22:40:35",
@@ -1259,7 +1259,7 @@
         },
         {
             "id": "4677",
-            "name": "<a href=\"https://studbook.or.id/king-barbaro\">King Barbaro</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/king-barbaro\"\u003EKing Barbaro\u003C/a\u003E",
             "status": "1",
             "brk_number": "472/KP.5/19",
             "created_at": "2023-09-01 18:07:16",
@@ -1281,7 +1281,7 @@
         },
         {
             "id": "3776",
-            "name": "<a href=\"https://studbook.or.id/king-ghazi\">King Ghazi</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/king-ghazi\"\u003EKing Ghazi\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000072",
             "created_at": "2022-09-06 15:10:23",
@@ -1303,7 +1303,7 @@
         },
         {
             "id": "4485",
-            "name": "<a href=\"https://studbook.or.id/king-talago\">King Talago</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/king-talago\"\u003EKing Talago\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000238",
             "created_at": "2023-07-13 13:23:22",
@@ -1325,7 +1325,7 @@
         },
         {
             "id": "3320",
-            "name": "<a href=\"https://studbook.or.id/lady-athena\">Lady Athena</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/lady-athena\"\u003ELady Athena\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000134",
             "created_at": "2022-01-28 16:06:31",
@@ -1347,7 +1347,7 @@
         },
         {
             "id": "3505",
-            "name": "<a href=\"https://studbook.or.id/laksamana-rokan\">Laksamana Rokan</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/laksamana-rokan\"\u003ELaksamana Rokan\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000039",
             "created_at": "2022-04-06 14:02:51",
@@ -1369,7 +1369,7 @@
         },
         {
             "id": "3283",
-            "name": "<a href=\"https://studbook.or.id/lea-chintya\">Lea Chintya</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/lea-chintya\"\u003ELea Chintya\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000128",
             "created_at": "2022-01-17 13:33:15",
@@ -1391,7 +1391,7 @@
         },
         {
             "id": "4653",
-            "name": "<a href=\"https://studbook.or.id/little-rabbit\">Little Rabbit</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/little-rabbit\"\u003ELittle Rabbit\u003C/a\u003E",
             "status": "1",
             "brk_number": "14115/RK/KPI",
             "created_at": "2023-08-18 18:10:40",
@@ -1413,7 +1413,7 @@
         },
         {
             "id": "3636",
-            "name": "<a href=\"https://studbook.or.id/lovely-sion\">Lovely Sion</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/lovely-sion\"\u003ELovely Sion\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000066",
             "created_at": "2022-07-11 16:01:53",
@@ -1435,7 +1435,7 @@
         },
         {
             "id": "4072",
-            "name": "<a href=\"https://studbook.or.id/malsipa\">Malsipa</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/malsipa\"\u003EMalsipa\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000230",
             "created_at": "2022-12-30 13:56:11",
@@ -1457,7 +1457,7 @@
         },
         {
             "id": "849",
-            "name": "<a href=\"https://studbook.or.id/marshall\">Marshall</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/marshall\"\u003EMarshall\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000016",
             "created_at": "2020-09-02 11:37:00",
@@ -1479,7 +1479,7 @@
         },
         {
             "id": "1067",
-            "name": "<a href=\"https://studbook.or.id/matador-jr\">Matador JR</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/matador-jr\"\u003EMatador JR\u003C/a\u003E",
             "status": "1",
             "brk_number": "1684/G4/KI/19",
             "created_at": "2020-09-21 16:12:34",
@@ -1501,7 +1501,7 @@
         },
         {
             "id": "2711",
-            "name": "<a href=\"https://studbook.or.id/megantara\">Megantara</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/megantara\"\u003EMegantara\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000075",
             "created_at": "2021-03-30 17:24:34",
@@ -1523,7 +1523,7 @@
         },
         {
             "id": "1110",
-            "name": "<a href=\"https://studbook.or.id/merdeka-jatim\">Merdeka Jatim</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/merdeka-jatim\"\u003EMerdeka Jatim\u003C/a\u003E",
             "status": "1",
             "brk_number": "466//KP.5/19",
             "created_at": "2020-09-22 16:29:18",
@@ -1545,7 +1545,7 @@
         },
         {
             "id": "4648",
-            "name": "<a href=\"https://studbook.or.id/miracle-jatinom\">Miracle Jatinom</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/miracle-jatinom\"\u003EMiracle Jatinom\u003C/a\u003E",
             "status": "1",
             "brk_number": "14267/RK/G4/KI",
             "created_at": "2023-08-18 17:27:52",
@@ -1567,7 +1567,7 @@
         },
         {
             "id": "2836",
-            "name": "<a href=\"https://studbook.or.id/mojang-siliwangi\">Mojang Siliwangi</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/mojang-siliwangi\"\u003EMojang Siliwangi\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000051",
             "created_at": "2021-06-08 11:25:32",
@@ -1589,7 +1589,7 @@
         },
         {
             "id": "4101",
-            "name": "<a href=\"https://studbook.or.id/monstera-minang\">Monstera Minang</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/monstera-minang\"\u003EMonstera Minang\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000083",
             "created_at": "2023-01-09 16:23:42",
@@ -1611,7 +1611,7 @@
         },
         {
             "id": "4658",
-            "name": "<a href=\"https://studbook.or.id/mumun\">Mumun</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/mumun\"\u003EMumun\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000121",
             "created_at": "2023-08-25 11:45:34",
@@ -1633,7 +1633,7 @@
         },
         {
             "id": "3100",
-            "name": "<a href=\"https://studbook.or.id/myboy-tonsea\">Myboy Tonsea</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/myboy-tonsea\"\u003EMyboy Tonsea\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000112",
             "created_at": "2021-10-25 16:30:45",
@@ -1655,7 +1655,7 @@
         },
         {
             "id": "1049",
-            "name": "<a href=\"https://studbook.or.id/nagini\">Nagini</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/nagini\"\u003ENagini\u003C/a\u003E",
             "status": "1",
             "brk_number": "505/KPI/19",
             "created_at": "2020-09-21 15:27:19",
@@ -1677,7 +1677,7 @@
         },
         {
             "id": "3406",
-            "name": "<a href=\"https://studbook.or.id/narayana\">Narayana</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/narayana\"\u003ENarayana\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000144",
             "created_at": "2022-02-25 15:06:15",
@@ -1699,7 +1699,7 @@
         },
         {
             "id": "4457",
-            "name": "<a href=\"https://studbook.or.id/nilam-bukati\">Nilam Bukati</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/nilam-bukati\"\u003ENilam Bukati\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000082",
             "created_at": "2023-07-04 19:41:27",
@@ -1721,7 +1721,7 @@
         },
         {
             "id": "4224",
-            "name": "<a href=\"https://studbook.or.id/nyalo-agogo\">Nyalo Agogo</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/nyalo-agogo\"\u003ENyalo Agogo\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001007000008",
             "created_at": "2023-03-21 15:39:40",
@@ -1743,7 +1743,7 @@
         },
         {
             "id": "1335",
-            "name": "<a href=\"https://studbook.or.id/p-super-blood\">P. Super Blood</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/p-super-blood\"\u003EP. Super Blood\u003C/a\u003E",
             "status": "1",
             "brk_number": "459/KP.5/19",
             "created_at": "2020-09-28 14:53:56",
@@ -1765,7 +1765,7 @@
         },
         {
             "id": "4665",
-            "name": "<a href=\"https://studbook.or.id/pablo-montana\">Pablo Montana</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/pablo-montana\"\u003EPablo Montana\u003C/a\u003E",
             "status": "1",
             "brk_number": "1745/G4/KI/20",
             "created_at": "2023-08-30 16:56:31",
@@ -1787,7 +1787,7 @@
         },
         {
             "id": "1077",
-            "name": "<a href=\"https://studbook.or.id/panco\">Panco</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/panco\"\u003EPanco\u003C/a\u003E",
             "status": "1",
             "brk_number": "1660/G4/KI/19",
             "created_at": "2020-09-22 11:27:58",
@@ -1809,7 +1809,7 @@
         },
         {
             "id": "3863",
-            "name": "<a href=\"https://studbook.or.id/pangang-ari\">Pangang Ari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/pangang-ari\"\u003EPangang Ari\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000074",
             "created_at": "2022-10-11 16:07:35",
@@ -1831,7 +1831,7 @@
         },
         {
             "id": "3201",
-            "name": "<a href=\"https://studbook.or.id/panglime-nanggroe\">Panglime Nanggroe</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/panglime-nanggroe\"\u003EPanglime Nanggroe\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000080",
             "created_at": "2021-11-19 10:54:01",
@@ -1853,7 +1853,7 @@
         },
         {
             "id": "3025",
-            "name": "<a href=\"https://studbook.or.id/panji-rama-perpeta\">Panji Rama Perpeta</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/panji-rama-perpeta\"\u003EPanji Rama Perpeta\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000060",
             "created_at": "2021-09-21 14:00:53",
@@ -1875,7 +1875,7 @@
         },
         {
             "id": "3000",
-            "name": "<a href=\"https://studbook.or.id/pendekar-siak\">Pendekar Siak</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/pendekar-siak\"\u003EPendekar Siak\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000028",
             "created_at": "2021-09-02 12:00:42",
@@ -1897,7 +1897,7 @@
         },
         {
             "id": "4637",
-            "name": "<a href=\"https://studbook.or.id/penggalang\">Penggalang</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/penggalang\"\u003EPenggalang\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000115",
             "created_at": "2023-08-18 12:05:59",
@@ -1919,7 +1919,7 @@
         },
         {
             "id": "4554",
-            "name": "<a href=\"https://studbook.or.id/permata-rokan\">Permata Rokan</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/permata-rokan\"\u003EPermata Rokan\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000107",
             "created_at": "2023-07-16 02:19:42",
@@ -1941,7 +1941,7 @@
         },
         {
             "id": "3568",
-            "name": "<a href=\"https://studbook.or.id/pilot-jet\">Pilot Jet</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/pilot-jet\"\u003EPilot Jet\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000156",
             "created_at": "2022-05-27 16:34:18",
@@ -1963,7 +1963,7 @@
         },
         {
             "id": "2894",
-            "name": "<a href=\"https://studbook.or.id/pison-sion\">Pison Sion</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/pison-sion\"\u003EPison Sion\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000089",
             "created_at": "2021-08-13 15:37:45",
@@ -1985,7 +1985,7 @@
         },
         {
             "id": "4348",
-            "name": "<a href=\"https://studbook.or.id/preman-yunior\">Preman Yunior</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/preman-yunior\"\u003EPreman Yunior\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000091",
             "created_at": "2023-05-23 16:58:41",
@@ -2007,7 +2007,7 @@
         },
         {
             "id": "4452",
-            "name": "<a href=\"https://studbook.or.id/prince-patriot\">Prince Patriot</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/prince-patriot\"\u003EPrince Patriot\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000284",
             "created_at": "2023-07-04 18:57:31",
@@ -2029,7 +2029,7 @@
         },
         {
             "id": "3404",
-            "name": "<a href=\"https://studbook.or.id/putra-raja\">Putra Raja</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/putra-raja\"\u003EPutra Raja\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000056",
             "created_at": "2022-02-25 14:12:17",
@@ -2051,7 +2051,7 @@
         },
         {
             "id": "3831",
-            "name": "<a href=\"https://studbook.or.id/putri-jentak\">Putri Jentak</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/putri-jentak\"\u003EPutri Jentak\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000157",
             "created_at": "2022-09-29 17:05:13",
@@ -2073,7 +2073,7 @@
         },
         {
             "id": "1132",
-            "name": "<a href=\"https://studbook.or.id/quana-eclipse\">Quana Eclipse</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/quana-eclipse\"\u003EQuana Eclipse\u003C/a\u003E",
             "status": "1",
             "brk_number": "452/KP.5/19",
             "created_at": "2020-09-23 09:40:54",
@@ -2095,7 +2095,7 @@
         },
         {
             "id": "3388",
-            "name": "<a href=\"https://studbook.or.id/queen-divona-kh\">Queen Divona KH</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/queen-divona-kh\"\u003EQueen Divona KH\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000139",
             "created_at": "2022-02-18 17:01:54",
@@ -2117,7 +2117,7 @@
         },
         {
             "id": "4668",
-            "name": "<a href=\"https://studbook.or.id/queen-kharoy\">Queen Kharoy</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/queen-kharoy\"\u003EQueen Kharoy\u003C/a\u003E",
             "status": "1",
             "brk_number": "463/KP.5/19",
             "created_at": "2023-09-01 13:34:06",
@@ -2139,7 +2139,7 @@
         },
         {
             "id": "4638",
-            "name": "<a href=\"https://studbook.or.id/queen-of-baharna\">Queen Of Baharna</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/queen-of-baharna\"\u003EQueen Of Baharna\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000089",
             "created_at": "2023-08-18 16:03:30",
@@ -2161,7 +2161,7 @@
         },
         {
             "id": "4448",
-            "name": "<a href=\"https://studbook.or.id/queen-ramona\">Queen Ramona</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/queen-ramona\"\u003EQueen Ramona\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000283",
             "created_at": "2023-07-04 18:40:59",
@@ -2183,7 +2183,7 @@
         },
         {
             "id": "1304",
-            "name": "<a href=\"https://studbook.or.id/queen-thalassa\">Queen Thalassa</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/queen-thalassa\"\u003EQueen Thalassa\u003C/a\u003E",
             "status": "1",
             "brk_number": "1617/G4/KI/18",
             "created_at": "2020-09-28 13:32:27",
@@ -2205,7 +2205,7 @@
         },
         {
             "id": "198",
-            "name": "<a href=\"https://studbook.or.id/raja-sankhara\">Raja Sankhara</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/raja-sankhara\"\u003ERaja Sankhara\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000006",
             "created_at": "2020-06-19 17:41:29",
@@ -2227,7 +2227,7 @@
         },
         {
             "id": "4504",
-            "name": "<a href=\"https://studbook.or.id/rajo-sejati\">Rajo Sejati</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/rajo-sejati\"\u003ERajo Sejati\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000101",
             "created_at": "2023-07-13 23:01:06",
@@ -2249,7 +2249,7 @@
         },
         {
             "id": "4443",
-            "name": "<a href=\"https://studbook.or.id/ratu-anggun-suri\">Ratu Anggun Suri</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-anggun-suri\"\u003ERatu Anggun Suri\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000237",
             "created_at": "2023-07-04 18:09:35",
@@ -2271,7 +2271,7 @@
         },
         {
             "id": "4067",
-            "name": "<a href=\"https://studbook.or.id/ratu-aquila\">Ratu Aquila</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-aquila\"\u003ERatu Aquila\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000229",
             "created_at": "2022-12-29 16:26:49",
@@ -2293,7 +2293,7 @@
         },
         {
             "id": "4676",
-            "name": "<a href=\"https://studbook.or.id/ratu-berlin\">Ratu Berlin</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-berlin\"\u003ERatu Berlin\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000312",
             "created_at": "2023-09-01 17:45:39",
@@ -2315,7 +2315,7 @@
         },
         {
             "id": "4475",
-            "name": "<a href=\"https://studbook.or.id/ratu-mayang\">Ratu Mayang</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-mayang\"\u003ERatu Mayang\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000098",
             "created_at": "2023-07-11 21:20:36",
@@ -2337,7 +2337,7 @@
         },
         {
             "id": "4052",
-            "name": "<a href=\"https://studbook.or.id/ratu-serumpun\">Ratu Serumpun</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-serumpun\"\u003ERatu Serumpun\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000080",
             "created_at": "2022-12-21 16:05:53",
@@ -2359,7 +2359,7 @@
         },
         {
             "id": "4559",
-            "name": "<a href=\"https://studbook.or.id/ratu-suramadu\">Ratu Suramadu</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-suramadu\"\u003ERatu Suramadu\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000249",
             "created_at": "2023-07-16 10:08:00",
@@ -2381,7 +2381,7 @@
         },
         {
             "id": "3855",
-            "name": "<a href=\"https://studbook.or.id/ratu-s\">Ratu's</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/ratu-s\"\u003ERatu's\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000160",
             "created_at": "2022-10-10 14:59:55",
@@ -2403,7 +2403,7 @@
         },
         {
             "id": "4522",
-            "name": "<a href=\"https://studbook.or.id/red-malindo\">Red Malindo</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/red-malindo\"\u003ERed Malindo\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000104",
             "created_at": "2023-07-14 22:23:37",
@@ -2425,7 +2425,7 @@
         },
         {
             "id": "2787",
-            "name": "<a href=\"https://studbook.or.id/red-rose-one\">Red Rose One</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/red-rose-one\"\u003ERed Rose One\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000045",
             "created_at": "2021-04-20 17:25:43",
@@ -2447,7 +2447,7 @@
         },
         {
             "id": "4225",
-            "name": "<a href=\"https://studbook.or.id/rembulan-maja\">Rembulan Maja</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/rembulan-maja\"\u003ERembulan Maja\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000067",
             "created_at": "2023-03-24 11:14:45",
@@ -2469,7 +2469,7 @@
         },
         {
             "id": "3189",
-            "name": "<a href=\"https://studbook.or.id/resmop\">Resmop</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/resmop\"\u003EResmop\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000049",
             "created_at": "2021-11-15 11:50:16",
@@ -2491,7 +2491,7 @@
         },
         {
             "id": "4664",
-            "name": "<a href=\"https://studbook.or.id/rhaenys-nagari\">Rhaenys Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/rhaenys-nagari\"\u003ERhaenys Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "1567/G4/KI/1/8",
             "created_at": "2023-08-30 16:54:20",
@@ -2513,7 +2513,7 @@
         },
         {
             "id": "1101",
-            "name": "<a href=\"https://studbook.or.id/rosso-jatim\">Rosso Jatim</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/rosso-jatim\"\u003ERosso Jatim\u003C/a\u003E",
             "status": "1",
             "brk_number": "075/KP.6/20",
             "created_at": "2020-09-22 15:05:36",
@@ -2535,7 +2535,7 @@
         },
         {
             "id": "263",
-            "name": "<a href=\"https://studbook.or.id/royal-dinasty\">Royal Dinasty</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/royal-dinasty\"\u003ERoyal Dinasty\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000016",
             "created_at": "2020-06-22 14:43:13",
@@ -2557,7 +2557,7 @@
         },
         {
             "id": "3111",
-            "name": "<a href=\"https://studbook.or.id/savannah-all-star\">Savannah All Star</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/savannah-all-star\"\u003ESavannah All Star\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000070",
             "created_at": "2021-10-28 16:24:44",
@@ -2579,7 +2579,7 @@
         },
         {
             "id": "4471",
-            "name": "<a href=\"https://studbook.or.id/selintas-badai\">Selintas Badai</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/selintas-badai\"\u003ESelintas Badai\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000097",
             "created_at": "2023-07-11 20:54:31",
@@ -2601,7 +2601,7 @@
         },
         {
             "id": "4529",
-            "name": "<a href=\"https://studbook.or.id/senyorita\">Senyorita</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/senyorita\"\u003ESenyorita\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000245",
             "created_at": "2023-07-15 01:06:10",
@@ -2623,7 +2623,7 @@
         },
         {
             "id": "4479",
-            "name": "<a href=\"https://studbook.or.id/shanum\">Shanum</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/shanum\"\u003EShanum\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000083",
             "created_at": "2023-07-11 22:14:19",
@@ -2645,7 +2645,7 @@
         },
         {
             "id": "4616",
-            "name": "<a href=\"https://studbook.or.id/silangit\">Silangit</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/silangit\"\u003ESilangit\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001002000023",
             "created_at": "2023-08-09 14:29:42",
@@ -2667,7 +2667,7 @@
         },
         {
             "id": "1155",
-            "name": "<a href=\"https://studbook.or.id/sitaro-nagari\">Sitaro Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/sitaro-nagari\"\u003ESitaro Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "489/KP.5/20",
             "created_at": "2020-09-23 11:30:19",
@@ -2689,7 +2689,7 @@
         },
         {
             "id": "4436",
-            "name": "<a href=\"https://studbook.or.id/siti-batu-balang\">Siti Batu Balang</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/siti-batu-balang\"\u003ESiti Batu Balang\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000234",
             "created_at": "2023-07-04 17:21:04",
@@ -2711,7 +2711,7 @@
         },
         {
             "id": "4344",
-            "name": "<a href=\"https://studbook.or.id/smart-ray\">Smart Ray</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/smart-ray\"\u003ESmart Ray\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000218",
             "created_at": "2023-05-17 19:11:43",
@@ -2733,7 +2733,7 @@
         },
         {
             "id": "4556",
-            "name": "<a href=\"https://studbook.or.id/solo-eclipse\">Solo Eclipse</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/solo-eclipse\"\u003ESolo Eclipse\u003C/a\u003E",
             "status": "1",
             "brk_number": "14196/RK/KP.5",
             "created_at": "2023-07-16 08:50:44",
@@ -2755,7 +2755,7 @@
         },
         {
             "id": "4642",
-            "name": "<a href=\"https://studbook.or.id/stoner\">Stoner</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/stoner\"\u003EStoner\u003C/a\u003E",
             "status": "1",
             "brk_number": "11983/RK/G3/KI",
             "created_at": "2023-08-18 17:02:21",
@@ -2777,7 +2777,7 @@
         },
         {
             "id": "2957",
-            "name": "<a href=\"https://studbook.or.id/sukma-agogo-sumbar\">Sukma Agogo Sumbar</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/sukma-agogo-sumbar\"\u003ESukma Agogo Sumbar\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000025",
             "created_at": "2021-08-23 17:36:47",
@@ -2799,7 +2799,7 @@
         },
         {
             "id": "3637",
-            "name": "<a href=\"https://studbook.or.id/sultan-jentak\">Sultan Jentak</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/sultan-jentak\"\u003ESultan Jentak\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000122",
             "created_at": "2022-07-11 16:52:04",
@@ -2821,7 +2821,7 @@
         },
         {
             "id": "4634",
-            "name": "<a href=\"https://studbook.or.id/suluh-terang\">Suluh Terang</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/suluh-terang\"\u003ESuluh Terang\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000114",
             "created_at": "2023-08-18 11:28:57",
@@ -2843,7 +2843,7 @@
         },
         {
             "id": "3639",
-            "name": "<a href=\"https://studbook.or.id/sunlight-nagari\">Sunlight Nagari</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/sunlight-nagari\"\u003ESunlight Nagari\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000124",
             "created_at": "2022-07-12 13:24:03",
@@ -2865,7 +2865,7 @@
         },
         {
             "id": "4667",
-            "name": "<a href=\"https://studbook.or.id/super-bahama\">Super Bahama</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/super-bahama\"\u003ESuper Bahama\u003C/a\u003E",
             "status": "1",
             "brk_number": "12992/RK/KPI",
             "created_at": "2023-08-30 17:08:22",
@@ -2887,7 +2887,7 @@
         },
         {
             "id": "1266",
-            "name": "<a href=\"https://studbook.or.id/super-star-pikatan\">Super Star Pikatan</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/super-star-pikatan\"\u003ESuper Star Pikatan\u003C/a\u003E",
             "status": "1",
             "brk_number": "077/KP.6/20",
             "created_at": "2020-09-28 10:41:26",
@@ -2909,7 +2909,7 @@
         },
         {
             "id": "4486",
-            "name": "<a href=\"https://studbook.or.id/talago-queen\">Talago Queen</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/talago-queen\"\u003ETalago Queen\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000239",
             "created_at": "2023-07-13 13:56:41",
@@ -2931,7 +2931,7 @@
         },
         {
             "id": "3105",
-            "name": "<a href=\"https://studbook.or.id/tanagoya\">Tanagoya</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/tanagoya\"\u003ETanagoya\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001006000029",
             "created_at": "2021-10-27 17:41:57",
@@ -2953,7 +2953,7 @@
         },
         {
             "id": "4491",
-            "name": "<a href=\"https://studbook.or.id/tauma-minahasa\">Tauma Minahasa</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/tauma-minahasa\"\u003ETauma Minahasa\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000290",
             "created_at": "2023-07-13 18:39:25",
@@ -2975,7 +2975,7 @@
         },
         {
             "id": "4469",
-            "name": "<a href=\"https://studbook.or.id/terminal-chrome\">Terminal Chrome</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/terminal-chrome\"\u003ETerminal Chrome\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001003000096",
             "created_at": "2023-07-11 20:20:08",
@@ -2997,7 +2997,7 @@
         },
         {
             "id": "1240",
-            "name": "<a href=\"https://studbook.or.id/terminator-woman\">Terminator Woman</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/terminator-woman\"\u003ETerminator Woman\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000024",
             "created_at": "2020-09-25 13:56:59",
@@ -3019,7 +3019,7 @@
         },
         {
             "id": "4488",
-            "name": "<a href=\"https://studbook.or.id/tiro-serumpun\">Tiro Serumpun</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/tiro-serumpun\"\u003ETiro Serumpun\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000240",
             "created_at": "2023-07-13 15:50:10",
@@ -3041,7 +3041,7 @@
         },
         {
             "id": "3407",
-            "name": "<a href=\"https://studbook.or.id/toreto\">Toreto</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/toreto\"\u003EToreto\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000145",
             "created_at": "2022-02-25 16:04:28",
@@ -3063,7 +3063,7 @@
         },
         {
             "id": "2893",
-            "name": "<a href=\"https://studbook.or.id/triple-s\">Triple's</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/triple-s\"\u003ETriple's\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001004000088",
             "created_at": "2021-08-13 15:26:31",
@@ -3085,7 +3085,7 @@
         },
         {
             "id": "3615",
-            "name": "<a href=\"https://studbook.or.id/vaux-lemoape\">Vaux Lemoape</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/vaux-lemoape\"\u003EVaux Lemoape\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001005000116",
             "created_at": "2022-07-05 11:27:49",
@@ -3107,7 +3107,7 @@
         },
         {
             "id": "186",
-            "name": "<a href=\"https://studbook.or.id/yuwaraja\">Yuwaraja</a>",
+            "name": "\u003Ca href=\"https://studbook.or.id/yuwaraja\"\u003EYuwaraja\u003C/a\u003E",
             "status": "1",
             "brk_number": "360001KPI000005",
             "created_at": "2020-06-19 15:09:23",

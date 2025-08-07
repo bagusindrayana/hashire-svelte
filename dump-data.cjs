@@ -159,6 +159,19 @@ async function scrapeData() {
             if (hindex == -1) {
                 const updateData = await detailHorse(h.name);
                 if(updateData && updateData.profil.nama != null){
+                    const silsilahFather = updateData.silsilah != null && updateData.silsilah.pejantan != null ? updateData.silsilah.pejantan.nama : null;
+                    let fatherName = null;
+                    if(silsilahFather){
+                        const matchFather = silsilahFather.match(/^(.*?)\s\([A-Z]{2,3}\)\s-\s\d{4}$/);
+                        fatherName = matchFather ? matchFather[1] : null;
+                    }
+
+                    const silsilahMother = updateData.silsilah != null && updateData.silsilah.pejantan != null ? updateData.silsilah.pejantan.nama : null;
+                    let motherName = null;
+                    if(silsilahMother){
+                        const matchMother = silsilahMother.match(/^(.*?)\s\([A-Z]{2,3}\)\s-\s\d{4}$/);
+                        motherName = matchMother ? matchMother[1] : null;
+                    }
                     const newData = {
                         "name": updateData.profil.nama,
                         "owner": updateData.pemilik,
@@ -170,9 +183,27 @@ async function scrapeData() {
                         "birth_year": updateData.profil.tanggal_lahir != null && updateData.profil.tanggal_lahir != "" ? updateData.profil.tanggal_lahir.split(" ")[2] : null,
                         "generation_name": updateData.profil.trah,
                         "contact": null,
-                        "father_name": updateData.silsilah != null && updateData.silsilah.pejantan != null ? updateData.silsilah.pejantan.nama : null,
-                        "mother_name": updateData.silsilah != null && updateData.silsilah.induk != null ? updateData.silsilah.induk.nama : null,
+                        "father_name": fatherName,
+                        "mother_name": motherName,
                         "breed_name": updateData.profil.trah,
+                    };
+                    dumpData.data.push(newData);
+                    console.log(newData);
+                } else {
+                    const newData = {
+                        "name": h.name,
+                        "owner": null,
+                        "height": null,
+                        "trainer": null,
+                        "discipline": null,
+                        "color_name": null,
+                        "gender_name": null,
+                        "birth_year": null,
+                        "generation_name": null,
+                        "contact": null,
+                        "father_name": null,
+                        "mother_name": null,
+                        "breed_name": null,
                     };
                     dumpData.data.push(newData);
                     console.log(newData);
