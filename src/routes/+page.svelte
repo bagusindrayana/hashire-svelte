@@ -1,7 +1,8 @@
 <script>
 	import UmazingButton from "$lib/components/UmazingButton.svelte";
 	import { onMount } from "svelte";
-	import { goto } from '$app/navigation';
+	import { goto } from "$app/navigation";
+	import ModalDetail from "$lib/components/ModalDetail.svelte";
 
 	let dataNews = [];
 	let dataKlasemen = [
@@ -98,7 +99,7 @@
 	let loadingNews = true;
 
 	let selectNews = null;
-	let closeLabel = ["Umazing!","Kudashyat!","Umantap!"];
+	let closeLabel = ["Umazing!", "Kudashyat!", "Umantap!"];
 	let modalCloseLabel = "Umazing!";
 
 	onMount(async () => {
@@ -124,48 +125,36 @@
 </svelte:head>
 
 {#if selectNews != null}
-    <div
-        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50 m-auto"
-    >
-        <div
-            class="absolute top-0 left-0 bottom-0 right-0 m-auto bg-gray-400 opacity-75"
-        ></div>
-        <div
-            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
-        >
-            <div class=" ml-0 -mt-16 md:-ml-10">
-                <div
-                    class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
-                >
-                    <h1 class="transform skew-x-12 text-lg md:text-3xl font-extrabold">
-                        {selectNews.title}
-                    </h1>
-                </div>
-            </div>
-            <div class="min-h-[50vh] py-4">
-                <p class="md:text-2xl">
-                    {selectNews.subtitle}
-                </p>
-                
-            </div>
-            <div class="w-full flex justify-center items-center">
-                <UmazingButton
-                    onClick={() => {
-						selectNews = null;
-                    }}
-                    icon="👍"
-                    text={modalCloseLabel}
-                />
-            </div>
-        </div>
-    </div>
+	<ModalDetail
+		title={selectNews.title}
+		onClose={() => {
+			selectNews = null;
+		}}
+	>
+		{#if selectNews.image}
+			<img
+				src={selectNews.image}
+				alt={`Gambar ${selectNews.title}`}
+				class="rounded-lg mb-3 w-full object-cover"
+				onerror={() => {
+					this.onerror = null;
+					this.src =
+						"https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+				}}
+			/>
+		{/if}
+
+		<p class="md:text-lg">{selectNews.date}</p>
+		<p class="md:text-2xl">{selectNews.subtitle}</p>
+	</ModalDetail>
 {/if}
 
 <main class="container mx-auto px-6 py-16 relative min-h-[90vh]">
-	<div class="mx-auto text-center mt-12 min-h-[50vh] flex flex-col justify-center">
+	<div
+		class="mx-auto text-center mt-12 min-h-[50vh] flex flex-col justify-center"
+	>
 		<img class="mx-auto my-12" src="/images/Logo_Hashire.png" alt="" />
 		<div class="flex gap-4 justify-center">
-			
 			<a href="/event">
 				<UmazingButton text="Event" />
 			</a>
@@ -194,7 +183,9 @@
 				{#each dataNews as news, index}
 					<div class="bg-white p-4 rounded-xl shadow-md">
 						{#if news.image != null}
-							<a href={`${(news.type == "race" && news.id != null)?`/event?id=${news.id}&type=race`:"#"}`}>
+							<a
+								href={`${news.type == "race" && news.id != null ? `/event?id=${news.id}&type=race` : "#"}`}
+							>
 								<img
 									src={news.image}
 									alt={`[Gambar dari ${news.title}]`}
@@ -202,13 +193,23 @@
 								/>
 							</a>
 						{/if}
-						<a type="button"
-							onclick={()=>{
-								if(news.type == "news"){
+						<a
+							type="button"
+							onclick={() => {
+								if (news.type == "news") {
 									selectNews = news;
-									modalCloseLabel = closeLabel[Math.floor(Math.random() * closeLabel.length)];
+									modalCloseLabel =
+										closeLabel[
+											Math.floor(
+												Math.random() *
+													closeLabel.length,
+											)
+										];
 								} else {
-									goto(`${(news.type == "race" && news.id != null)?`/event?id=${news.id}`:"#"}`,{})
+									goto(
+										`${news.type == "race" && news.id != null ? `/event?id=${news.id}` : "#"}`,
+										{},
+									);
 								}
 							}}
 							class="flex justify-between items-center w-full group cursor-pointer"
@@ -237,7 +238,6 @@
 									{news.title}
 								</p>
 							</div>
-							
 						</a>
 					</div>
 				{/each}

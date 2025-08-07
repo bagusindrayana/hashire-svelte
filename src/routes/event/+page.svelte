@@ -22,6 +22,7 @@
     import UmazingButton from "$lib/components/UmazingButton.svelte";
 
     import { replaceState,pushState } from "$app/navigation";
+    import ModalDetail from "$lib/components/ModalDetail.svelte";
 
     /** @type {import('./$types').PageProps} */
     let { data } = $props();
@@ -56,8 +57,6 @@
 
     let loader = null;
 
-    let closeLabel = ["Umazing!","Kudashyat!","Umantap!"];
-	let modalCloseLabel = $state("Umazing!");
 
     function selectCard(event) {
         
@@ -65,7 +64,6 @@
         selectEvent = event;
 
         if(selectEvent.upcoming){
-            modalCloseLabel = closeLabel[Math.floor(Math.random() * closeLabel.length)];
             return;
         }
 
@@ -495,44 +493,25 @@
 </svelte:head>
 
 {#if selectEvent != null && selectEvent.upcoming}
-    <div
-        class="fixed top-0 left-0 bottom-0 right-0 p-2 md:p-12 flex justify-center items-center z-50 m-auto"
-    >
-        <div
-            class="absolute top-0 left-0 bottom-0 right-0 m-auto bg-gray-400 opacity-75"
-        ></div>
-        <div
-            class="w-full max-w-4xl bg-[#FFF6FA] border-4 border-[#F472B6] rounded-2xl shadow-lg relative p-3 md:p-6 pt-8 md:pt-12 "
-        >
-            <div class="ml-0 -mt-16 md:-ml-10">
-                <div
-                    class="bg-[#F472B6] text-white py-2 px-10 transform -skew-x-12 shadow-md"
-                >
-                    <h1 class="transform skew-x-12 text-lg md:text-3xl font-extrabold">
-                        {selectEvent.title}
-                    </h1>
-                </div>
-            </div>
-            <div class="min-h-[50vh] py-4">
-                <p class="md:text-2xl">
-                    {selectEvent.subtitle}
-                </p>
-                <p class="md:text-2xl">
-                    {selectEvent.date}
-                </p>
-                
-            </div>
-            <div class="w-full flex justify-center items-center">
-                <UmazingButton
-                    onClick={() => {
-						selectEvent = null;
-                    }}
-                    icon="👍"
-                    text={modalCloseLabel}
-                />
-            </div>
-        </div>
-    </div>
+    <ModalDetail title={selectEvent.title} onClose={() => {
+                            selectEvent = null;
+                        }}>
+        {#if selectEvent.image}
+            <img
+                src={selectEvent.image}
+                alt={`Gambar ${selectEvent.title}`}
+                class="rounded-lg mb-3 w-full object-cover"
+                onerror={() => {
+                    this.onerror = null;
+                    this.src = "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+                }}
+            />
+        {/if}
+
+        <p class="md:text-lg">{selectEvent.date}</p>
+        <p class="md:text-2xl">{selectEvent.subtitle}</p>
+    </ModalDetail>
+
 {/if}
 
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
@@ -562,7 +541,7 @@
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover"
+                                class="rounded-lg mb-3 w-full object-cover h-[150px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
@@ -712,36 +691,6 @@
                 <UmazingButton type="red" text="X" onClick={closeCard} />
             </div>
 
-            <!-- <button
-                class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
-                style="z-index: 70;"
-                onclick={closeCard}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="50"
-                    height="50"
-                    viewBox="0 0 128 128"
-                >
-                    <path
-                        fill="#fff"
-                        d="M64 9A55 55 0 1 0 64 119A55 55 0 1 0 64 9Z"
-                        transform="rotate(-45.001 64 64.001)"
-                    ></path><path
-                        fill="#ff5576"
-                        d="M64 24A40 40 0 1 0 64 104A40 40 0 1 0 64 24Z"
-                        transform="rotate(-45.001 64 64.001)"
-                    ></path><path
-                        fill="#444b54"
-                        d="M64,122c-15.5,0-30.1-6-41-17C12,94.1,6,79.5,6,64s6-30.1,17-41c11-11,25.5-17,41-17s30.1,6,41,17l0,0l0,0 c11,11,17,25.5,17,41s-6,30.1-17,41C94.1,116,79.5,122,64,122z M64,12c-13.9,0-26.9,5.4-36.8,15.2S12,50.1,12,64 s5.4,26.9,15.2,36.8S50.1,116,64,116s26.9-5.4,36.8-15.2S116,77.9,116,64s-5.4-26.9-15.2-36.8l0,0C90.9,17.4,77.9,12,64,12z"
-                    ></path><path
-                        fill="#fff"
-                        d="M68.2,64l11.3-11.3c1.2-1.2,1.2-3.1,0-4.2c-1.2-1.2-3.1-1.2-4.2,0L64,59.8L52.7,48.4c-1.2-1.2-3.1-1.2-4.2,0 c-1.2,1.2-1.2,3.1,0,4.2L59.8,64L48.4,75.3c-1.2,1.2-1.2,3.1,0,4.2c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9L64,68.2l11.3,11.3 c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2L68.2,64z"
-                    ></path>
-                </svg>
-            </button> -->
             <div
                 class="panel-top-center absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-2 md:p-10 pr-10 md:pr-auto"
                 style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:50;"

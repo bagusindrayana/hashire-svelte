@@ -11,6 +11,15 @@ const baseData = [
     },
     {
         "id": null,
+        "title": "Merdeka Cup 2025",
+        "subtitle": "Pangadaran, Jawab Barat",
+        "date": "24 Agustus 2025",
+        "image": "https://s6.imgcdn.dev/YCmmLo.jpg",
+        "type": "race",
+        "upcoming": true,
+    },
+    {
+        "id": null,
         "title": "Derby Nusantara: Kejuaraan Pacuan Kuda Indonesia",
         "subtitle": "Jakarta",
         "date": "15-17 Agustus 2025",
