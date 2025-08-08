@@ -652,11 +652,11 @@
 		class={`fixed inset-0 z-10 top-[50px] overflow-hidden reveal ${selectKuda == null ? "hidden" : ""}`}
 	>
 		<div
-			class={`panel-top-left absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-2-${selectKuda.color_name}` : ""}`}
+			class={`panel-top-left absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-2-${selectKuda.color_name ?? 'Hitam'}` : ""}`}
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);"
 		></div>
 		<div
-			class={`panel-bottom-right absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-1-${selectKuda.color_name}` : ""}`}
+			class={`panel-bottom-right absolute inset-0 transition-transform duration-1000 ${selectKuda !== null ? `bg-1-${selectKuda.color_name ?? 'Hitam'}` : ""}`}
 			style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);"
 		></div>
 		<div
