@@ -42,7 +42,7 @@
 					href="/horse"
 					class="nav-item"
 					class:active={$page.url != undefined && $page.url.pathname.includes("/horse")}
-					>Kuda Aktif</a
+					>Kuda Pacu</a
 				>
 			</nav>
 

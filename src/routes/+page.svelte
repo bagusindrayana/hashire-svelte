@@ -159,7 +159,7 @@
 				<UmazingButton text="Event" />
 			</a>
 			<a href="/horse">
-				<UmazingButton text="Kuda Aktif" />
+				<UmazingButton text="Kuda Pacu" />
 			</a>
 		</div>
 	</div>

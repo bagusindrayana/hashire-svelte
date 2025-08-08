@@ -54,6 +54,8 @@
 				return `${a.height}`.localeCompare(`${b.height}`);
 			} else if (sortBy === "birth_year") {
 				return `${a.birth_year}`.localeCompare(b.birth_year);
+			} else {
+				return true;
 			}
 		});
 	});
@@ -163,10 +165,10 @@
 
 		getDetail(selectKuda.id ?? selectKuda.name);
 
-		setTimeout(() => {
+		setTimeout(async () => {
 			overlay.classList.remove("reveal");
 			initThreeJS();
-			randomKuda(kuda);
+			await randomKuda(kuda);
 			setTimeout(() => {
 				document.getElementById("tombol").classList.remove("hidden");
 				canvas.classList.remove("opacity-0");
@@ -281,7 +283,7 @@
 		);
 	}
 
-	function randomKuda(kuda) {
+	async function randomKuda(kuda) {
 		if (currentVrm) {
 			if (scene) {
 				scene.remove(currentVrm.scene);
@@ -350,12 +352,14 @@
 		}
 		currentMixer = new THREE.AnimationMixer(currentVrm.scene);
 
-		if (rc.cameraLookAtPos != null && rc.cameraLookAtPos != undefined) {
-			camera.lookAt(rc.cameraLookAtPos);
-		}
+		
 
 		if (currentAnimationUrl) {
-			loadFBX(currentAnimationUrl);
+			await loadFBX(currentAnimationUrl);
+		}
+
+		if (rc.cameraLookAtPos != null && rc.cameraLookAtPos != undefined) {
+			camera.lookAt(rc.cameraLookAtPos);
 		}
 	}
 
@@ -537,23 +541,24 @@
 	{:else if selectKuda != null}
 		<title>{cleanName(selectKuda.name)}</title>
 	{:else}
-		<title>Kuda Aktif</title>
+		<title>Database Kuda Pacu</title>
 	{/if}
+	<meta name="description" content="Database Kuda Pacu">
 </svelte:head>
 
 <svelte:window on:keydown={handleKeydown} />
 
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
-	<div class="title-banner text-lg md:text-2xl ml-0 md:-ml-4">Kuda Aktif</div>
+	<div class="title-banner text-lg md:text-2xl ml-0 md:-ml-4">Kuda Pacu</div>
 
 	<div class="mt-4 md:mt-8">
 		<div
 			class="flex flex-col md:flex-row items-start md:items-center justify-between"
 		>
 			<h2
-				class="text-xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0"
+				class="text-xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0 relative"
 			>
-				Database Kuda Aktif
+				Database Kuda Pacu <small class="px-2 py-1 bg-purple-400 rounded-full text-xs absolute -top-1 text-white">{ sortedKuda.length }</small>
 			</h2>
 			<div class="flex items-center space-x-4">
 				<div class="relative">
@@ -717,49 +722,11 @@
 			</button>
 		</div>
 		{#if selectKuda}
-			<!-- <div
-				class="absolute w-full block md:hidden top-3 left-0 right-auto bg-white transition-transform duration-1000 p-4 md:p-10"
-				style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
-			>
-				<h2 class="text-2xl md:text-5xl font-bold text-gray-800">
-					{cleanName(selectKuda.name)}
-				</h2>
-			</div> -->
-
+			
 			<div class="absolute right-2 top-6 md:right-2" style="z-index: 70;">
 				<UmazingButton type="red" text="X" onClick={closeCard} />
 			</div>
 
-			<!-- <button
-				class="absolute right-2 top-6 md:top-6 md:right-0 hover:scale-125 transition duration-300 cursor-pointer"
-				style="z-index: 70;"
-				onclick={closeCard}
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					x="0px"
-					y="0px"
-					width="50"
-					height="50"
-					viewBox="0 0 128 128"
-				>
-					<path
-						fill="#fff"
-						d="M64 9A55 55 0 1 0 64 119A55 55 0 1 0 64 9Z"
-						transform="rotate(-45.001 64 64.001)"
-					></path><path
-						fill="#ff5576"
-						d="M64 24A40 40 0 1 0 64 104A40 40 0 1 0 64 24Z"
-						transform="rotate(-45.001 64 64.001)"
-					></path><path
-						fill="#444b54"
-						d="M64,122c-15.5,0-30.1-6-41-17C12,94.1,6,79.5,6,64s6-30.1,17-41c11-11,25.5-17,41-17s30.1,6,41,17l0,0l0,0 c11,11,17,25.5,17,41s-6,30.1-17,41C94.1,116,79.5,122,64,122z M64,12c-13.9,0-26.9,5.4-36.8,15.2S12,50.1,12,64 s5.4,26.9,15.2,36.8S50.1,116,64,116s26.9-5.4,36.8-15.2S116,77.9,116,64s-5.4-26.9-15.2-36.8l0,0C90.9,17.4,77.9,12,64,12z"
-					></path><path
-						fill="#fff"
-						d="M68.2,64l11.3-11.3c1.2-1.2,1.2-3.1,0-4.2c-1.2-1.2-3.1-1.2-4.2,0L64,59.8L52.7,48.4c-1.2-1.2-3.1-1.2-4.2,0 c-1.2,1.2-1.2,3.1,0,4.2L59.8,64L48.4,75.3c-1.2,1.2-1.2,3.1,0,4.2c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9L64,68.2l11.3,11.3 c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2L68.2,64z"
-					></path>
-				</svg>
-			</button> -->
 		{/if}
 		<div
 			class="absolute w-full md:w-1/2 bottom-0 left-0 md:left-auto top-auto md:top-0 right-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
