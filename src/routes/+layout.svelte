@@ -52,11 +52,6 @@
                     Semua informasi di situs ini bersumber dari data <a
                         class="border-b border-blue-500 text-blue-500"
                         href="https://studbook.or.id/">Studbook Indonesia</a
-                    >
-                    serta
-                    <a
-                        class="border-b border-blue-500 text-blue-500"
-                        href="https://pordasi.id/pacu/">Pordasi</a
                     >. Gambar dan media yang ditampilkan pada situs ini hanya
                     sebagai illustrasi dan tidak merepresentasikan aslinya.
                 </p>
