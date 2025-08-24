@@ -10,13 +10,13 @@ const baseData = [
         "upcoming": true,
     },
     {
-        "id": null,
+        "id": "merdeka-cup-2025.json",
         "title": "Merdeka Cup 2025",
         "subtitle": "Lapangan Pacuan Kuda Legok Jawa, Pangadaran, Jawab Barat",
         "date": "24 Agustus 2025",
         "image": "https://freeimghost.net/images/2025/08/24/Sarga-Sarga-Banner-Mobile-Race_889x480-2.jpg",
         "type": "race",
-        "upcoming": true,
+        "upcoming": false,
     },
     {
         "id": null,
@@ -25,7 +25,7 @@ const baseData = [
         "date": "23 Agustus 2025",
         "image": "https://s6.imgcdn.dev/YImIca.jpg",
         "type": "race",
-        "upcoming": true,
+        "upcoming": false,
     },
     {
         "id": "indo-derby-2025.json",

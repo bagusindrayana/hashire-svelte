@@ -145,7 +145,7 @@ async function detailHorse(id) {
 }
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
+export async function GET({ url, request }) {
     const id = url.searchParams.get('id');
 
     if(id != "" && id != null){
@@ -183,7 +183,9 @@ export async function GET({ url }) {
         redirect: "follow"
     };
 
-    let targetUrl = "https://hashire.pages.dev/dummy-data/dump-horse.json";
+
+    const host = request.url.replace("/api/horse","");
+    let targetUrl = host+"/dummy-data/dump-horse.json?d=24-08-2025";
     if(url.searchParams.get("update")){
         targetUrl = "https://studbook.or.id/database-kuda-aktif?draw=1&columns%5B0%5D%5Bdata%5D=name&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=";
     }

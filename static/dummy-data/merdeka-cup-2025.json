@@ -1,0 +1,648 @@
+[
+    {
+        "race": "Kelas 3 Tahun Perdana C/D",
+        "distance": 1000,
+        "prize": 20000000,
+        "time": "09.00 WIB",
+        "horses": [
+            {
+                "name": "RASTABAN",
+                "gate": 2,
+                "region": "JABAR"
+            },
+            {
+                "name": "BLESS WANI",
+                "gate": 4,
+                "region": "JABAR"
+            },
+            {
+                "name": "JOHN TAPPOR",
+                "gate": 1,
+                "region": "JATIM"
+            },
+            {
+                "name": "KEMBANG TANJUNG",
+                "gate": 3,
+                "region": "JAKARTA"
+            }
+        ]
+    },
+    {
+        "race": "Kelas F",
+        "distance": 1000,
+        "prize": 15000000,
+        "time": "09.20 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "DANASURA",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "HERCULES",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 3,
+                "name": "AARE",
+                "region": "JABAR",
+                "gate": 8
+            },
+            {
+                "no": 4,
+                "name": "INDAH KIRANA",
+                "region": "JAKARTA",
+                "gate": 6
+            },
+            {
+                "no": 5,
+                "name": "KASMARAN",
+                "region": "JAKARTA",
+                "gate": 7
+            },
+            {
+                "no": 6,
+                "name": "TINI THUNDER dh. Sunzone",
+                "region": "JATENG",
+                "gate": 2
+            },
+            {
+                "no": 7,
+                "name": "PUTRI MESSANGGE",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 8,
+                "name": "MAYANGSARI",
+                "region": "JABAR",
+                "gate": 9
+            },
+            {
+                "no": 9,
+                "name": "BERLIN",
+                "region": "JABAR",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Kelas C Sprint",
+        "distance": 1100,
+        "prize": 25000000,
+        "time": "09.40 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "RAJA SHANKARA",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "MAESA DEWI",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 3,
+                "name": "ROSALIN SORAYA",
+                "region": "JATIM",
+                "gate": 4
+            },
+            {
+                "no": 4,
+                "name": "CANZU",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 5,
+                "name": "GEGANA MAJA",
+                "region": "JAKARTA",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Kelas C Sprint",
+        "distance": 1100,
+        "prize": 30000000,
+        "time": "10.00 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "RAJA SHANKARA",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "MAESA DEWI",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 3,
+                "name": "ROSALIN SORAYA",
+                "region": "JATIM",
+                "gate": 4
+            },
+            {
+                "no": 4,
+                "name": "CANZU",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 5,
+                "name": "GEGANA MAJA",
+                "region": "JAKARTA",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Kelas E",
+        "distance": 1200,
+        "prize": 20000000,
+        "time": "10.20 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "PUTRA RAJA",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "LIVERPOOL T.A",
+                "region": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "LANG LANG JAGAD T.A",
+                "region": "JATENG",
+                "gate": 6
+            },
+            {
+                "no": 4,
+                "name": "SERIBU BUNGA",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 5,
+                "name": "CARVELO DNA",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 6,
+                "name": "GADIS ARUNA",
+                "region": "JAKARTA",
+                "gate": 4
+            }
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun KPI",
+        "distance": 1200,
+        "prize": 30000000,
+        "time": "10.40 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "RAJADEWI",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "ELGAWIRA",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "SURYA DANASTRY",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "BURRITO LIBRE dh. Cempaka Jatim",
+                "region": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 5,
+                "name": "MENTENG MINISTER",
+                "region": "JAKARTA",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Remaja",
+        "distance": 1200,
+        "prize": 40000000,
+        "time": "11.00 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "FIONA OF KHALIM",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "INNA FATANA T.A",
+                "region": "JATENG",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "RED MINISTER",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 4,
+                "name": "BLESS ARION",
+                "region": "JABAR",
+                "gate": 6
+            },
+            {
+                "no": 5,
+                "name": "TITIAN MONACO",
+                "region": "SUMBAR",
+                "gate": 7
+            },
+            {
+                "no": 6,
+                "name": "TRUDY",
+                "region": "SUMUT",
+                "gate": 5
+            },
+            {
+                "no": 7,
+                "name": "DIVA ISTANA",
+                "region": "JATIM",
+                "gate": 2
+            }
+        ]
+    },
+    {
+        "race": "Kelas D",
+        "distance": 1400,
+        "prize": 25000000,
+        "time": "11.20 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "AMARANGGANA",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "KING ALFAYET",
+                "region": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 3,
+                "name": "SULTAN NAGARI",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 4,
+                "name": "KUJANG MAS",
+                "region": "JABAR",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Derby",
+        "distance": 1400,
+        "prize": 60000000,
+        "time": "12.30 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "AURORA OF KHALIM",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 2,
+                "name": "SUNTORA NAGARI",
+                "region": "SULUT",
+                "gate": 6
+            },
+            {
+                "no": 3,
+                "name": "VICTORIA OF KHALIM",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 4,
+                "name": "FOX RANGER",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 5,
+                "name": "DANIA STAR",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 6,
+                "name": "PUSAKA PADJAJARAN dh. Golden Star",
+                "region": "JAKARTA",
+                "gate": 4
+            }
+        ]
+    },
+    {
+        "race": "Kelas C",
+        "distance": 1600,
+        "prize": 30000000,
+        "time": "12.50 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "ROYAL DINASTY",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "KANCIL MAS T.A",
+                "region": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "YUWARAJA",
+                "region": "JABAR",
+                "gate": 2
+            }
+        ]
+    },
+    {
+        "race": "Kelas THB INA",
+        "distance": 1600,
+        "prize": 30000000,
+        "time": "13.10 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "SHE'S COMING",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "LORD MONTJEU T.A",
+                "region": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "STAR MONTJEU T.A",
+                "region": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 4,
+                "name": "VAUX THEATER",
+                "region": "JAKARTA",
+                "gate": 4
+            }
+        ]
+    },
+    {
+        "race": "Kelas Terbuka Sprint",
+        "distance": 1300,
+        "prize": 60000000,
+        "time": "13.30 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "BLAZE KOBAR",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 2,
+                "name": "QUEEN ZEDNA",
+                "region": "JABAR",
+                "gate": 6
+            },
+            {
+                "no": 3,
+                "name": "ROMEO BERJAYA",
+                "region": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "LEA CHINTYA",
+                "region": "JAKARTA",
+                "gate": 4
+            },
+            {
+                "no": 5,
+                "name": "ALWARD",
+                "region": "JAKARTA",
+                "gate": 1
+            },
+            {
+                "no": 6,
+                "name": "WAR KUDETA",
+                "region": "JABAR",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Kelas J",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "13.50 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "MC QUEEN",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "AJENG SAKETI",
+                "region": "JAKARTA",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "KING DZ",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 4,
+                "name": "RADEN ASKARA",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 5,
+                "name": "AMOY",
+                "region": "JABAR",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Kelas 1",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "14.10 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "PUTRA DNA",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 2,
+                "name": "ALHAMBRA",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "BLACK MARMER",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 4,
+                "name": "PUTRI JAYANTI",
+                "region": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 5,
+                "name": "AURA AJHAR",
+                "region": "JABAR",
+                "gate": 2
+            }
+        ]
+    },
+    {
+        "race": "Kelas H",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "14.30 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "CISUNDAWU",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "ARBAY STAR",
+                "region": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "ANDIN",
+                "region": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "AYYA SAPPINA",
+                "region": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 5,
+                "name": "DESMOSEDECI GP",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 6,
+                "name": "PECO PAGNAYA",
+                "region": "JABAR",
+                "gate": 6
+            }
+        ]
+    },
+    {
+        "race": "Kelas G",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "14.50 WIB",
+        "horses": [
+            {
+                "no": 1,
+                "name": "PRINCE LOUPAN",
+                "region": "JABAR",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "DICAPRIO",
+                "region": "JABAR",
+                "gate": 7
+            },
+            {
+                "no": 3,
+                "name": "PUTRI GACI",
+                "region": "JABAR",
+                "gate": 6
+            },
+            {
+                "no": 4,
+                "name": "JUNA SAYEMBARA",
+                "region": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 5,
+                "name": "D BOS",
+                "region": "JABAR",
+                "gate": 3
+            },
+            {
+                "no": 6,
+                "name": "HYSTERIA",
+                "region": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 7,
+                "name": "NAGA MAJA",
+                "region": "JAKARTA",
+                "gate": 5
+            }
+        ]
+    }
+]

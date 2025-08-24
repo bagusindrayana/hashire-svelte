@@ -4,7 +4,7 @@
 export async function GET() {
     const data = [
         {
-            "id": null,
+            "id": "merdeka-cup-2025.json",
             "title": "Merdeka Cup 2025",
             "subtitle": "Lapangan Pacuan Kuda Legok Jawa, Pangadaran, Jawab Barat",
             "date": "24 Agustus 2025",
