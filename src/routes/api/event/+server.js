@@ -12,9 +12,9 @@ const baseData = [
     {
         "id": null,
         "title": "Merdeka Cup 2025",
-        "subtitle": "Pangadaran, Jawab Barat",
+        "subtitle": "Lapangan Pacuan Kuda Legok Jawa, Pangadaran, Jawab Barat",
         "date": "24 Agustus 2025",
-        "image": "https://s6.imgcdn.dev/YCmmLo.jpg",
+        "image": "https://freeimghost.net/images/2025/08/24/Sarga-Sarga-Banner-Mobile-Race_889x480-2.jpg",
         "type": "race",
         "upcoming": true,
     },
