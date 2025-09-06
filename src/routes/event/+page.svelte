@@ -21,7 +21,7 @@
     } from "$lib/utils/generatorWarna";
     import UmazingButton from "$lib/components/UmazingButton.svelte";
 
-    import { replaceState,pushState } from "$app/navigation";
+    import { replaceState, pushState } from "$app/navigation";
     import ModalDetail from "$lib/components/ModalDetail.svelte";
 
     /** @type {import('./$types').PageProps} */
@@ -57,25 +57,21 @@
 
     let loader = null;
 
-
     function selectCard(event) {
-        
-        
         selectEvent = event;
-
-        if(selectEvent.upcoming){
+        console.log(event);
+        if (selectEvent.upcoming || selectEvent.id == null) {
             return;
         }
 
         const overlay = document.getElementById("overlay");
 
-        if(data.openEvent == null){
+        if (data.openEvent == null) {
             // const url = new URL(window.location.toString());
             // url.searchParams.set("id",selectEvent.id);
             // url.searchParams.set("type",selectEvent.type);
             pushState(`/event?id=${selectEvent.id}&type=${selectEvent.type}`);
             data.openEvent = selectEvent;
-
         }
 
         setTimeout(() => {
@@ -218,12 +214,12 @@
         const overlay = document.getElementById("overlay");
         overlay.classList.add("reveal");
         canvas.classList.add("opacity-0");
-       
+
         if (data.openEvent) {
             const url = new URL(window.location.toString());
             url.searchParams.delete("id");
             url.searchParams.delete("type");
-            replaceState(url.pathname,{});
+            replaceState(url.pathname, {});
             data.openEvent = null;
         }
         setTimeout(() => {
@@ -350,18 +346,18 @@
             VRMUtils.deepDispose(currentVrm.scene);
         }
 
-        const rc = randomChar(kuda,currentVrm);
+        const rc = randomChar(kuda, currentVrm);
         currentVrm = rc.vrm;
-        
-        
+
         if (scene) {
             scene.add(currentVrm.scene);
         }
-        
-        currentAnimationUrl = listRunAnimation[Math.floor(rc.random() * listRunAnimation.length)];
+
+        currentAnimationUrl =
+            listRunAnimation[Math.floor(rc.random() * listRunAnimation.length)];
         currentMixer = new THREE.AnimationMixer(currentVrm.scene);
 
-        if(rc.cameraLookAtPos != null && rc.cameraLookAtPos != undefined){
+        if (rc.cameraLookAtPos != null && rc.cameraLookAtPos != undefined) {
             camera.lookAt(rc.cameraLookAtPos);
         }
 
@@ -450,20 +446,24 @@
         cancelAnimationFrame(animationId);
 
         // Dispose scene
-        scene.traverse((object) => {
-            if (object.geometry) object.geometry.dispose();
-            if (object.material) {
-                if (Array.isArray(object.material)) {
-                    object.material.forEach((mat) => mat.dispose());
-                } else {
-                    object.material.dispose();
+        if (scene) {
+            scene.traverse((object) => {
+                if (object.geometry) object.geometry.dispose();
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach((mat) => mat.dispose());
+                    } else {
+                        object.material.dispose();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         // Remove renderer canvas
-        renderer.domElement.remove();
-        renderer.dispose();
+        if (renderer) {
+            renderer.domElement.remove();
+            renderer.dispose();
+        }
     }
 
     onMount(async () => {
@@ -492,10 +492,13 @@
     {/if}
 </svelte:head>
 
-{#if selectEvent != null && selectEvent.upcoming}
-    <ModalDetail title={selectEvent.title} onClose={() => {
-                            selectEvent = null;
-                        }}>
+{#if selectEvent != null && (selectEvent.upcoming || selectEvent.id === null)}
+    <ModalDetail
+        title={selectEvent.title}
+        onClose={() => {
+            selectEvent = null;
+        }}
+    >
         {#if selectEvent.image}
             <img
                 src={selectEvent.image}
@@ -503,7 +506,8 @@
                 class="rounded-lg mb-3 w-full object-cover"
                 onerror={() => {
                     this.onerror = null;
-                    this.src = "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+                    this.src =
+                        "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
                 }}
             />
         {/if}
@@ -511,7 +515,6 @@
         <p class="md:text-lg">{selectEvent.date}</p>
         <p class="md:text-2xl">{selectEvent.subtitle}</p>
     </ModalDetail>
-
 {/if}
 
 <main class="container mx-auto px-6 py-20 relative min-h-[90vh]">
@@ -535,22 +538,25 @@
             {#each dataEvent as event, index}
                 {#if event.upcoming}
                     <div class="bg-white p-4 rounded-xl shadow-md">
-                        <div onclick={() => {
+                        <div
+                            onclick={() => {
                                 selectCard(event);
-                            }}  class="cursor-pointer">
+                            }}
+                            class="cursor-pointer"
+                        >
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover  h-[300px] md:h-[150px] lg:h-[250px]"
+                                class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
                                         "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
                                 }}
                             />
-                            </div>
+                        </div>
                         <div
-                           onclick={() => {
+                            onclick={() => {
                                 selectCard(event);
                             }}
                             class="flex justify-between items-center w-full group cursor-pointer"
@@ -612,7 +618,7 @@
                             <img
                                 src={event.image}
                                 alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover  h-[300px] md:h-[150px] lg:h-[250px]"
+                                class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
@@ -621,7 +627,7 @@
                             />
                         </div>
                         <div
-                        onclick={() => {
+                            onclick={() => {
                                 selectCard(event);
                             }}
                             class="flex justify-between items-center w-full group cursor-pointer"
@@ -683,7 +689,7 @@
             {/if}
         </div>
 
-        {#if selectEvent && !selectEvent.upcoming}
+        {#if selectEvent && !selectEvent.upcoming && selectEvent.id !== null}
             <div
                 class="absolute right-2 top-6 md:top-6 md:right-2"
                 style="z-index: 70;"
@@ -704,7 +710,7 @@
             class="absolute w-full md:w-1/2 h-[40vh] md:h-screen bottom-0 left-0 top-auto md:top-0 bg-white side-panel transition-transform duration-1000 p-4 md:p-10"
             style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
         >
-            {#if selectEvent && !selectEvent.upcoming}
+            {#if selectEvent && !selectEvent.upcoming && selectEvent.id !== null}
                 <div class="w-full mx-auto mt-0">
                     <h2
                         class="text-xl md:text-3xl font-bold text-gray-800 hidden md:block"
