@@ -8,7 +8,7 @@ export async function GET() {
             "title": "Merdeka Cup 2025",
             "subtitle": "Lapangan Pacuan Kuda Legok Jawa, Pangadaran, Jawab Barat",
             "date": "24 Agustus 2025",
-            "image": "https://freeimghost.net/images/2025/08/24/Sarga-Sarga-Banner-Mobile-Race_889x480-2.jpg",
+            "image": "https://freeimghost.net/images/2025/09/06/Sarga-Sarga-Banner-Mobile-Race_889x480-2-1.jpg",
             "type": "race",
         },
         {
@@ -16,7 +16,7 @@ export async function GET() {
             "title": '"Merdeka Cup" Piala Bupati Minahasa Utara',
             "subtitle": "Balitka Mapanget, Manado, Sulawesi Utara ",
             "date": "23 Agustus 2025",
-            "image": "https://s6.imgcdn.dev/YImIca.jpg",
+            "image": "https://freeimghost.net/images/2025/09/06/535042949_17890003692325261_8917072490609251599_n_11zon.webp",
             "type": "race",
         },
         {
@@ -40,7 +40,7 @@ export async function GET() {
             "title": "Indonesia's Horse Racing: Indonesia Derby 20255",
             "subtitle": "Lapangan Pacu Kuda Sultan Agung, Bantul, DIY​",
             "date": "Minggu, 27 Juli 2025",
-            "image": "https://sarga.co/wp-content/uploads/2025/07/Sarga-IHR-Derby-2025-Homepage-889x480-1.png",
+            "image": "https://freeimghost.net/images/2025/09/06/Sarga-IHR-Derby-2025-Homepage-889x480-1-min.png",
             "type": "race"
         },
         {
