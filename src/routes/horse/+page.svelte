@@ -259,7 +259,7 @@
 									data.openHorse.profil.nama.toLowerCase()) ||
 							k.id == data.idHorse
 						) {
-							selectCard(k);
+							selectCard(k,i);
 							break;
 						}
 					}

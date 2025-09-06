@@ -1,5 +1,4 @@
 ## Sumber Data
-- https://pordasi.id/pacu
 - https://studbook.or.id
 - https://sarga.co/past-events
 
