@@ -23,7 +23,7 @@ async function detailHorse(id) {
     };
 
     const targetUrl = `https://studbook.or.id/${id}`;
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
     try {
         
         const response = await fetch(targetUrl, requestOptions);
