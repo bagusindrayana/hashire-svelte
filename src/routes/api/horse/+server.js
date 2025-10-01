@@ -1,5 +1,10 @@
 import * as cheerio from 'cheerio';
+import * as https from 'https';
 
+// custom agent as global variable
+const agent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 async function detailHorse(id) {
     const myHeaders = new Headers();
@@ -19,13 +24,14 @@ async function detailHorse(id) {
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
-        redirect: "follow"
+        redirect: "follow",
+        agent:agent,
+        
     };
 
     const targetUrl = `https://studbook.or.id/${id}`;
     // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
     try {
-        
         const response = await fetch(targetUrl, requestOptions);
         const html = await response.text();
         const $ = cheerio.load(html);
@@ -181,7 +187,8 @@ export async function GET({ url, request }) {
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
-        redirect: "follow"
+        redirect: "follow",
+        agent:agent
     };
 
 
