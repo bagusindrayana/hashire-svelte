@@ -536,7 +536,7 @@
 </script>
 
 <svelte:head>
-	{#if data.openHorse != null}
+	{#if data.openHorse != null && data.openHorse.profil != null}
 		<title>{cleanName(data.openHorse.profil.nama)}</title>
 	{:else if selectKuda != null}
 		<title>{cleanName(selectKuda.name)}</title>

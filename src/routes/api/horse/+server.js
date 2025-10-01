@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 
+
 async function detailHorse(id) {
     const myHeaders = new Headers();
     // myHeaders.append("Accept", "application/json, text/javascript, */*; q=0.01");
@@ -22,12 +23,11 @@ async function detailHorse(id) {
     };
 
     const targetUrl = `https://studbook.or.id/${id}`;
- 
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
     try {
         
         const response = await fetch(targetUrl, requestOptions);
         const html = await response.text();
-
         const $ = cheerio.load(html);
         const horseData = {};
 
@@ -140,6 +140,7 @@ async function detailHorse(id) {
 
         return horseData;
     } catch (error) {
+        console.log(error);
         return null;
     }
 }
