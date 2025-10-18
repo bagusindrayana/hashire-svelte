@@ -1,0 +1,173 @@
+[
+    {
+        "race": "Kelas Draf Bogie Baru",
+        "distance": 2400,
+        "prize": 10000000,
+        "time": "08:30",
+        "horses": [
+            {"name": "BINTANG PAYO BADAR"},
+            {"name": "KHARANGGO CHANIAGO"},
+            {"name": "BINTANG PULAI"},
+            {"name": "PUTRA AIE TAJUN"},
+            {"name": "MERAH TAMBAGO"},
+            {"name": "PUTRI KAPUAK"},
+            {"name": "KALUPAK BK"}
+        ]
+    },
+    {
+        "race": "Kelas Draf Bogie Usang Baru",
+        "distance": 3200,
+        "prize": 10000000,
+        "time": "08:50",
+        "horses": [
+            {"name": "EMBUN PAGI"},
+            {"name": "BINTANG SELEB"},
+            {"name": "KALUPAK GOSIP"},
+            {"name": "SALIMADO MERAH"}
+        ]
+    },
+    {
+        "race": "Kelas Draf Bogie Usang Lamo",
+        "distance": 3200,
+        "prize": 10000000,
+        "time": "09:10",
+        "horses": [
+            {"name": "MUTIARA KINOY"},
+            {"name": "MERAH TANDO"},
+            {"name": "ANAK RANTAU"},
+            {"name": "BUDI ALUIH"}
+        ]
+    },
+    {
+        "race": "Kelas Extra",
+        "distance": 600,
+        "prize": 10000000,
+        "time": "10:30",
+        "horses": [
+            {"name": "SIR ALOY", "gate": 3},
+            {"name": "BUNGA", "gate": 1},
+            {"name": "PRINCES XENA", "gate": 4},
+            {"name": "WARNA SARI", "gate": 2}
+        ]
+    },
+    {
+        "race": "Kelas E Pertama Berpacu",
+        "distance": 600,
+        "prize": 15000000,
+        "time": "10:55",
+        "horses": [
+            {"name": "BLYZE TRIPLE BEE", "gate": 2},
+            {"name": "VENOM", "gate": 3},
+            {"name": "INVICTA NAVARO", "gate": 1},
+            {"name": "ARYA SPRINT", "gate": 5},
+            {"name": "LUXCY CHINTYA", "gate": 4}
+        ]
+    },
+    {
+        "race": "Kelas 2 Tahun Perdana C/D",
+        "distance": 600,
+        "prize": 20000000,
+        "time": "11:20",
+        "horses": [
+            {"name": "CAPTAIN NAGURA", "gate": 1},
+            {"name": "PUTRA SIKUMBANG", "gate": 5},
+            {"name": "QUEEN AMISYAH", "gate": 3},
+            {"name": "PAYAKUMBUH STAKE", "gate": 2},
+            {"name": "MIRACLE SAMUDRA", "gate": 4}
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Perdana A/B",
+        "distance": 800,
+        "prize": 20000000,
+        "time": "11:45",
+        "horses": [
+            {"name": "MARKONI", "gate": 3},
+            {"name": "QUBTAN", "gate": 2},
+            {"name": "BLACK TANDER", "gate": 1}
+        ]
+    },
+    {
+        "race": "Kelas E Terbuka",
+        "distance": 1200,
+        "prize": 20000000,
+        "time": "12:10",
+        "horses": [
+            {"name": "LEON", "gate": 1},
+            {"name": "KING OIL dh. Rajo Bintang", "gate": 4},
+            {"name": "BLACK SWEET", "gate": 2},
+            {"name": "PUTRI LINGGA", "gate": 3}
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Remaja Div II",
+        "distance": 1200,
+        "prize": 45000000,
+        "time": "13:15",
+        "horses": [
+            {"name": "NARASAKI", "gate": 4},
+            {"name": "BENAZIRA", "gate": 6},
+            {"name": "BLACK DYNAMITE", "gate": 5},
+            {"name": "KITARA CELSY", "gate": 3},
+            {"name": "PUTRA NANGGALO", "gate": 2},
+            {"name": "LADY ANTIK II", "gate": 1}
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Remaja Div I",
+        "distance": 1200,
+        "prize": 70000000,
+        "time": "13:40",
+        "horses": [
+            {"name": "HISTORIA GUTI", "gate": 3},
+            {"name": "FREYA QUEEN", "gate": 5},
+            {"name": "SAGA SERUMPUN", "gate": 4},
+            {"name": "VOLCANIC", "gate": 2},
+            {"name": "MARLINI RENGGANIS", "gate": 1}
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Derby Div. II",
+        "distance": 1400,
+        "prize": 65000000,
+        "time": "14:05",
+        "horses": [
+            {"name": "INTAN SARTIKA", "gate": 4},
+            {"name": "RAJA BHAYANGKARA", "gate": 1},
+            {"name": "MUTIARA MELAYU", "gate": 6},
+            {"name": "SATRIA JATI", "gate": 2},
+            {"name": "RATU SUMINTEK", "gate": 5},
+            {"name": "KANAYA NAVAJO", "gate": 8},
+            {"name": "ZENYATTA", "gate": 7},
+            {"name": "MAXIMUS", "gate": 3}
+        ]
+    },
+    {
+        "race": "Kelas 3 Tahun Calon Derby Div. I",
+        "distance": 1400,
+        "prize": 85000000,
+        "time": "14:30",
+        "horses": [
+            {"name": "MILEA GUTI", "gate": 1},
+            {"name": "EMMERA", "gate": 5},
+            {"name": "CAROLINA", "gate": 6},
+            {"name": "AGAM SENATOR", "gate": 3},
+            {"name": "SIMANIS IMPIAN", "gate": 4},
+            {"name": "TUAN NAGURA", "gate": 2},
+            {"name": "NOOR AQIRA", "gate": 7}
+        ]
+    },
+    {
+        "race": "Kelas 4 Tahun A/B",
+        "distance": 1600,
+        "prize": 45000000,
+        "time": "14:55",
+        "horses": [
+            {"name": "ROMANTIC SPARTAN", "gate": 1},
+            {"name": "DARA TILATANG", "gate": 4},
+            {"name": "YATIM PUTRI", "gate": 3},
+            {"name": "AXA TANPA NAMA", "gate": 2},
+            {"name": "JUNDU BATU BALANG", "gate": 5}
+        ]
+    }
+]
