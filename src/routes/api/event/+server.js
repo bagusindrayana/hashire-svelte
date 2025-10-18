@@ -22,7 +22,7 @@ const baseData = [
         "id": "ihr-championship-cup-2-2025.json",
         "title": "Championship Cup II 2025",
         "subtitle": "Indonesian Horse Championship Cup II 2025",
-        "date": "19 Oktober 2025",
+        "date": "28 September 2025",
         "image": "/images/payakumbuh-championship-cup-2-2025.jpg",
         "type": "race",
         "upcoming": false,
