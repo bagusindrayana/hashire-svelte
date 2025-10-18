@@ -1,10 +1,8 @@
 import * as cheerio from 'cheerio';
-import * as https from 'https';
-
-// custom agent as global variable
-const agent = new https.Agent({
-  rejectUnauthorized: false,
-});
+// import * as https from 'https';
+// const agent = new https.Agent({
+//   rejectUnauthorized: false,
+// });
 
 async function detailHorse(id) {
     const myHeaders = new Headers();
@@ -25,7 +23,7 @@ async function detailHorse(id) {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
-        agent:agent,
+        // agent:agent,
         
     };
 
@@ -188,7 +186,7 @@ export async function GET({ url, request }) {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
-        agent:agent
+        // agent:agent
     };
 
 
