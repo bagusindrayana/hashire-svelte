@@ -1,0 +1,797 @@
+[
+    {
+        "race": "Race I - Kelas I/J",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "08:00",
+        "horses": [
+            {
+                "no": 1,
+                "name": "JANSAE",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "ROCKY BALBOA dh. Nilam Umbara",
+                "daerah": "JATIM",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "ORFEVRE",
+                "daerah": "JABAR",
+                "gate": 8
+            },
+            {
+                "no": 4,
+                "name": "KILET TERANG",
+                "daerah": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 5,
+                "name": "PUTRA DNA dh. Jhon",
+                "daerah": "JABAR",
+                "gate": 7
+            },
+            {
+                "no": 6,
+                "name": "RATU SABRANG",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 7,
+                "name": "ASAHI",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 8,
+                "name": "BENARA HARLYN",
+                "daerah": "JATENG",
+                "gate": 6
+            },
+            {
+                "no": 9,
+                "name": "DEWI PLOROT",
+                "daerah": "JATIM",
+                "gate": 9
+            },
+            {
+                "no": 10,
+                "name": "POWER RANGERS",
+                "daerah": "JATIM",
+                "gate": 10
+            },
+            {
+                "no": 11,
+                "name": "BRIO",
+                "daerah": "JABAR",
+                "gate": 11
+            },
+            {
+                "no": 12,
+                "name": "INTAN MUSTIKA",
+                "daerah": "JATENG",
+                "gate": 12
+            }
+        ]
+    },
+    {
+        "race": "Race II - Kelas H",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "08:20",
+        "horses": [
+            {
+                "no": 1,
+                "name": "FALLING IN LOVE",
+                "daerah": "JAKARTA",
+                "gate": 7
+            },
+            {
+                "no": 2,
+                "name": "OPERA O",
+                "daerah": "JABAR",
+                "gate": 10
+            },
+            {
+                "no": 3,
+                "name": "BRIMOB dh. Cisumdawu",
+                "daerah": "JABAR",
+                "gate": 6
+            },
+            {
+                "no": 4,
+                "name": "ATHENA AJ",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 5,
+                "name": "HIBURAN ANDA",
+                "daerah": "JATIM",
+                "gate": 11
+            },
+            {
+                "no": 6,
+                "name": "HAPPY ASMARA",
+                "daerah": "DIY",
+                "gate": 9
+            },
+            {
+                "no": 7,
+                "name": "TARSAN",
+                "daerah": "DIY",
+                "gate": 5
+            },
+            {
+                "no": 8,
+                "name": "ROSSI JR",
+                "daerah": "JATENG",
+                "gate": 4
+            },
+            {
+                "no": 9,
+                "name": "ROKET PJ",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 10,
+                "name": "RANTING BERSEMI",
+                "daerah": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 11,
+                "name": "SHINTA",
+                "daerah": "JATENG",
+                "gate": 8
+            },
+            {
+                "no": 12,
+                "name": "JUPE",
+                "daerah": "JATENG",
+                "gate": 12
+            }
+        ]
+    },
+    {
+        "race": "Race III - Kelas G",
+        "distance": 1000,
+        "prize": 10000000,
+        "time": "08:40",
+        "horses": [
+            {
+                "no": 1,
+                "name": "EVELYN SALT",
+                "daerah": "JABAR",
+                "gate": 5
+            },
+            {
+                "no": 2,
+                "name": "PRINCE OF SUMBA",
+                "daerah": "JATIM",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "P. BLESS VIRGINIA",
+                "daerah": "KALSEL",
+                "gate": 6
+            },
+            {
+                "no": 4,
+                "name": "NAGOYA MD",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 5,
+                "name": "BERKAH SARI",
+                "daerah": "DIY",
+                "gate": 1
+            },
+            {
+                "no": 6,
+                "name": "NONA KHAULA",
+                "daerah": "JATENG",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Race IV - Kelas F",
+        "distance": 1000,
+        "prize": 30000000,
+        "time": "09:00",
+        "horses": [
+            {
+                "no": 1,
+                "name": "KASMARAN",
+                "daerah": "JAKARTA",
+                "gate": 5
+            },
+            {
+                "no": 2,
+                "name": "BELLADONA",
+                "daerah": "JATIM",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "AYUMI SHARAYU",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "GENTAYU",
+                "daerah": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 5,
+                "name": "STARLIGHT",
+                "daerah": "JATENG",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Race V - Kelas 2 Tahun Perdana A/B",
+        "distance": 1000,
+        "prize": 40000000,
+        "time": "09:20",
+        "horses": [
+            {
+                "no": 1,
+                "name": "MAHOGANI TONSEA",
+                "daerah": "SULUT",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "PRAHARA",
+                "daerah": "NTT",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "REMO ECLIPSE",
+                "daerah": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 4,
+                "name": "BLACK MAMBA",
+                "daerah": "JATENG",
+                "gate": 4
+            }
+        ]
+    },
+    {
+        "race": "Race VI - Kelas D Sprint",
+        "distance": 1000,
+        "prize": 40000000,
+        "time": "09:40",
+        "horses": [
+            {
+                "no": 1,
+                "name": "LADY BAHARNA",
+                "daerah": "JAKARTA",
+                "gate": 6
+            },
+            {
+                "no": 2,
+                "name": "P. CINTA NEGARA dh. Sitaro Nagari",
+                "daerah": "KALSEL",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "P. LOVE BORNEO dh. Lovely Sion",
+                "daerah": "KALSEL",
+                "gate": 3
+            },
+            {
+                "no": 4,
+                "name": "HARATA ECLIPSE",
+                "daerah": "JATENG",
+                "gate": 8
+            },
+            {
+                "no": 5,
+                "name": "ALEXA ZIGEN",
+                "daerah": "JATENG",
+                "gate": 2
+            },
+            {
+                "no": 6,
+                "name": "KABISAT",
+                "daerah": "DIY",
+                "gate": 7
+            },
+            {
+                "no": 7,
+                "name": "MAYLIN PRIMA",
+                "daerah": "JATIM",
+                "gate": 1
+            },
+            {
+                "no": 8,
+                "name": "ALESHA",
+                "daerah": "JATIM",
+                "gate": 5
+            }
+        ]
+    },
+    {
+        "race": "Race VII - Kelas C Sprint",
+        "distance": 1100,
+        "prize": 50000000,
+        "time": "10:30",
+        "horses": [
+            {
+                "no": 1,
+                "name": "DRAGON",
+                "daerah": "JATIM",
+                "gate": 6
+            },
+            {
+                "no": 2,
+                "name": "WULAN NUANGAN",
+                "daerah": "SULUT",
+                "gate": 4
+            },
+            {
+                "no": 3,
+                "name": "P. HAJAR",
+                "daerah": "KALSEL",
+                "gate": 3
+            },
+            {
+                "no": 4,
+                "name": "CITRA BERJAYA",
+                "daerah": "JAKARTA",
+                "gate": 7
+            },
+            {
+                "no": 5,
+                "name": "CITRA LAKSMI",
+                "daerah": "JABAR",
+                "gate": 1
+            },
+            {
+                "no": 6,
+                "name": "KING R. S. dh. Aero Santana",
+                "daerah": "JATIM",
+                "gate": 8
+            },
+            {
+                "no": 7,
+                "name": "ALEA MD",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 8,
+                "name": "CANTERELLA 42",
+                "daerah": "JATENG",
+                "gate": 2
+            }
+        ]
+    },
+    {
+        "race": "Race VIII - Kelas E",
+        "distance": 1200,
+        "prize": 40000000,
+        "time": "10:55",
+        "horses": [
+            {
+                "no": 1,
+                "name": "P. SUPER MONTONG dh. Predator Istana",
+                "daerah": "KALSEL",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "ARTEMIS",
+                "daerah": "JAKARTA",
+                "gate": 5
+            },
+            {
+                "no": 3,
+                "name": "SIENNA",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "LIVERPOOL T.A",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 5,
+                "name": "KEMBANG ILALANG",
+                "daerah": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 6,
+                "name": "RED ZIGEN",
+                "daerah": "JATIM",
+                "gate": 6
+            }
+        ]
+    },
+    {
+        "race": "Race IX - Kelas 3 Tahun Remaja Div. II",
+        "distance": 1200,
+        "prize": 50000000,
+        "time": "11:20",
+        "horses": [
+            {
+                "no": 3,
+                "name": "INNA FATAHNA T.A",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "ROYAL BLAZE",
+                "daerah": "JATIM",
+                "gate": 2
+            },
+            {
+                "no": 5,
+                "name": "LUNA NOVA",
+                "daerah": "JATENG",
+                "gate": 5
+            },
+            {
+                "no": 1,
+                "name": "MANDOGE",
+                "daerah": "KALTIM",
+                "gate": 1
+            },
+            
+            {
+                "no": 4,
+                "name": "VALERIA AJ",
+                "daerah": "JATENG",
+                "gate": 4
+            },
+            {
+                "no": 6,
+                "name": "SUNSET NAGARI",
+                "daerah": "SULUT",
+                "gate": 6
+            }
+        ]
+    },
+    {
+        "race": "Race X - Kelas 3 Tahun Remaja Div. I",
+        "distance": 1200,
+        "prize": 80000000,
+        "time": "11:45",
+        "horses": [
+            {
+                "no": 1,
+                "name": "KANA ECLIPSE",
+                "daerah": "JATENG",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "KIMBERLY",
+                "daerah": "JATIM",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "RED RICEE KC",
+                "daerah": "SUMUT",
+                "gate": 4
+            },
+            {
+                "no": 4,
+                "name": "P. PUTRI BORNEO dh. Geneva All Star",
+                "daerah": "KALSEL",
+                "gate": 6
+            },
+            {
+                "no": 5,
+                "name": "SHANGRILA",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 6,
+                "name": "RAJA DEWI",
+                "daerah": "JABAR",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Race XI - Kelas Terbuka Sprint",
+        "distance": 1300,
+        "prize": 100000000,
+        "time": "12:30",
+        "horses": [
+            {"no": 1, "name": "DOMINATOR dh. King Talago", "daerah": "JAKARTA", "gate": 1},
+            {"no": 2, "name": "DEWA UNITED dh. Sunlight Nagari", "daerah": "JAKARTA", "gate": 7},
+            {"no": 3, "name": "WAR KUDETA", "daerah": "JABAR", "gate": 6},
+            {"no": 4, "name": "AZARYA ECLIPSE", "daerah": "JATENG", "gate": 5},
+            {"no": 5, "name": "KING NAGURA", "daerah": "SUMBAR", "gate": 3},
+            {"no": 6, "name": "AGATHA STAR", "daerah": "JATIM", "gate": 2},
+            {"no": 7, "name": "RED SEA", "daerah": "DIY", "gate": 4}
+        ]
+    },
+    {
+        "race": "Race XII - Kelas 3 Tahun Derby Div. II",
+        "distance": 1400,
+        "prize": 60000000,
+        "time": "13:00",
+        "horses": [
+            {"no": 1, "name": "BURRITO LIBRE", "daerah": "JATIM", "gate": 2},
+            {"no": 2, "name": "FOX RANGER", "daerah": "JABAR", "gate": 7},
+            {"no": 3, "name": "DE BOSS ISTANA dh. Kingsaw", "daerah": "JATIM", "gate": 6},
+            {"no": 4, "name": "P. JACK JHON", "daerah": "KALSEL", "gate": 5},
+            {"no": 5, "name": "P. SUPER TEMBAGA", "daerah": "KALSEL", "gate": 1},
+            {"no": 6, "name": "TABASSAM T.A", "daerah": "JATENG", "gate": 3},
+            {"no": 7, "name": "OSHIN ECLIPSE", "daerah": "JATENG", "gate": 4}
+        ]
+    },
+    {
+        "race": "Race XIII - Kelas D",
+        "distance": 1400,
+        "prize": 50000000,
+        "time": "13:30",
+        "horses": [
+            {
+                "no": 1,
+                "name": "SANTANA REMBULAN",
+                "daerah": "JATENG",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "ARCEUS NAGARI",
+                "daerah": "JAKARTA",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "MERKAVA",
+                "daerah": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "PUTRA KENANGA SARI",
+                "daerah": "SULSEL",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Race XIV - Kelas 3 Tahun Derby Div. I",
+        "distance": 1400,
+        "prize": 110000000,
+        "time": "13:55",
+        "horses": [
+            {
+                "no": 1,
+                "name": "MONOCHROME",
+                "daerah": "SULUT",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "TOKUGAWA ECLIPSE",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "P. BINTANG SAKTI",
+                "daerah": "KALSEL",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "SUNTORA NAGARI",
+                "daerah": "SULUT",
+                "gate": 6
+            },
+            {
+                "no": 5,
+                "name": "CASSIUS WARRIOR",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 6,
+                "name": "KENANGAN SION",
+                "daerah": "SULUT",
+                "gate": 1
+            },
+            {
+                "no": 7,
+                "name": "BULAN SABIT",
+                "daerah": "DIY",
+                "gate": 7
+            }
+        ]
+    },
+    {
+        "race": "Race XV - Kelas C",
+        "distance": 1600,
+        "prize": 50000000,
+        "time": "14:20",
+        "horses": [
+            {
+                "no": 1,
+                "name": "LUCYNERO",
+                "daerah": "JATENG",
+                "gate": 2
+            },
+            {
+                "no": 2,
+                "name": "MS QUEEN",
+                "daerah": "SULUT",
+                "gate": 3
+            },
+            {
+                "no": 3,
+                "name": "SAMURAI",
+                "daerah": "JATIM",
+                "gate": 6
+            },
+            {
+                "no": 4,
+                "name": "P. SAPU JAGAT dh. Faithful Tonsea",
+                "daerah": "KALSEL",
+                "gate": 1
+            },
+            {
+                "no": 5,
+                "name": "BEAUTY HABIBAH",
+                "daerah": "JAKARTA",
+                "gate": 7
+            },
+            {
+                "no": 6,
+                "name": "FLAMBOYAN",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 7,
+                "name": "P. PUTRA BARBARA",
+                "daerah": "KALSEL",
+                "gate": 4
+            }
+        ]
+    },
+    {
+        "race": "Race XVI - Kelas THB INA",
+        "distance": 1600,
+        "prize": 40000000,
+        "time": "14:45",
+        "horses": [
+            {
+                "no": 1,
+                "name": "LORD MONTJEU T.A",
+                "daerah": "JATENG",
+                "gate": 4
+            },
+            {
+                "no": 2,
+                "name": "STAR MONTJEU T.A",
+                "daerah": "JATENG",
+                "gate": 1
+            },
+            {
+                "no": 3,
+                "name": "VAUX THEATRE",
+                "daerah": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 4,
+                "name": "SUNGLOW NAGARI",
+                "daerah": "KALTIM",
+                "gate": 3
+            }
+        ]
+    },
+    {
+        "race": "Race XVII - Kelas Terbuka (HB X Cup)",
+        "distance": 2000,
+        "prize": 200000000,
+        "time": "15:10",
+        "horses": [
+            {
+                "no": 1,
+                "name": "PRINCESS GAVI",
+                "daerah": "JABAR",
+                "gate": 6
+            },
+            {
+                "no": 2,
+                "name": "NAGA SEMBILAN dh. Leonidas",
+                "daerah": "JAKARTA",
+                "gate": 2
+            },
+            {
+                "no": 3,
+                "name": "TRIPLE SS dh. Noel Sion",
+                "daerah": "JATENG",
+                "gate": 3
+            },
+            {
+                "no": 4,
+                "name": "QUEEN DIVONA",
+                "daerah": "JABAR",
+                "gate": 4
+            },
+            {
+                "no": 5,
+                "name": "NAURA AYU",
+                "daerah": "JATIM",
+                "gate": 5
+            },
+            {
+                "no": 6,
+                "name": "PRINCE PATRIOT",
+                "daerah": "DIY",
+                "gate": 7
+            },
+            {
+                "no": 7,
+                "name": "P. RATU SAMUDRA",
+                "daerah": "KALSEL",
+                "gate": 1
+            }
+        ]
+    },
+    {
+        "race": "Race XVIII - Kelas 2 Tahun Perdana C/D",
+        "distance": 800,
+        "prize": 30000000,
+        "time": "15:35",
+        "horses": [
+            {
+                "no": 1,
+                "name": "BERKAH SEGOROYOSO dh. Godspeed Tonsea",
+                "daerah": "DIY",
+                "gate": 3
+            },
+            {
+                "no": 2,
+                "name": "WITHNEY ECLIPSE",
+                "daerah": "JATENG",
+                "gate": 2
+            },
+            {
+                "no": 3,
+                "name": "RAJA ASMARA",
+                "daerah": "JAKARTA",
+                "gate": 4
+            },
+            {
+                "no": 4,
+                "name": "PUTRA AUDY",
+                "daerah": "DIY",
+                "gate": 1
+            }
+        ]
+    }
+]

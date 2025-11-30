@@ -535,56 +535,60 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {#each dataEvent as event, index}
-                {#if event.upcoming}
-                    <div class="bg-white p-4 rounded-xl shadow-md">
-                        <div
-                            onclick={() => {
-                                selectCard(event);
+            {#each dataEvent.filter(i => i.upcoming) as event, index}
+                <div class="bg-white p-4 rounded-xl shadow-md">
+                    <div
+                        onclick={() => {
+                            selectCard(event);
+                        }}
+                        class="cursor-pointer"
+                    >
+                        <img
+                            src={event.image}
+                            alt={`Gambar ${event.title}`}
+                            class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
+                            onerror={() => {
+                                this.onerror = null;
+                                this.src =
+                                    "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
                             }}
-                            class="cursor-pointer"
-                        >
-                            <img
-                                src={event.image}
-                                alt={`Gambar ${event.title}`}
-                                class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
-                                onerror={() => {
-                                    this.onerror = null;
-                                    this.src =
-                                        "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
-                                }}
-                            />
-                        </div>
-                        <div
-                            onclick={() => {
-                                selectCard(event);
-                            }}
-                            class="flex justify-between items-center w-full group cursor-pointer"
-                        >
-                            <div>
-                                <div class="flex items-center mb-1">
-                                    <span
-                                        class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
-                                        >Race</span
-                                    >
-                                    <span class="text-sm text-gray-500"
-                                        >{event.date}</span
-                                    >
-                                </div>
-                                <p
-                                    class="font-semibold text-gray-800 group-hover:text-pink-600 transition-colors"
+                        />
+                    </div>
+                    <div
+                        onclick={() => {
+                            selectCard(event);
+                        }}
+                        class="flex justify-between items-center w-full group cursor-pointer"
+                    >
+                        <div>
+                            <div class="flex items-center mb-1">
+                                <span
+                                    class="bg-lime-200 text-lime-800 text-xs font-bold mr-2 px-2.5 py-0.5 rounded-full"
+                                    >Race</span
                                 >
-                                    {event.title}
-                                </p>
+                                <span class="text-sm text-gray-500"
+                                    >{event.date}</span
+                                >
                             </div>
+                            <p
+                                class="font-semibold text-gray-800 group-hover:text-pink-600 transition-colors"
+                            >
+                                {event.title}
+                            </p>
                         </div>
                     </div>
-                {/if}
+                </div>
+           
             {/each}
+     
             {#if loadingEvent}
                 <div class="loader w-24 absolute m-auto text-center">
                     <img src="images/Logo_Hashire.png" alt="Loading..." />
                     <small>Loading...</small>
+                </div>
+            {:else if dataEvent.filter(i => i.upcoming).length == 0}
+                <div class="col-span-3 text-center text-gray-500 py-10">
+                    No upcoming events.
                 </div>
             {/if}
         </div>

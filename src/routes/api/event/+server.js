@@ -1,13 +1,22 @@
 
 const baseData = [
+    // {
+    //     "id": null,
+    //     "title": "Grand Nasional Indonesia",
+    //     "subtitle": "Jakarta",
+    //     "date": "Cooming soon",
+    //     "image": "https://placehold.co/800x400/5de346/208500?text=Grand Nasional Indonesia",
+    //     "type": "race",
+    //     "upcoming": true,
+    // },
     {
-        "id": null,
-        "title": "Grand Nasional Indonesia",
-        "subtitle": "Jakarta",
-        "date": "Cooming soon",
-        "image": "https://placehold.co/800x400/5de346/208500?text=Grand Nasional Indonesia",
+        "id": "ihr-piala-raja-hamengku-buwono-x-2025.json",
+        "title": "Indonesian Horse Racing Piala Raja Hamengku Buwono X 2025",
+        "subtitle": "DI Yogyakarta",
+        "date": "9 November 2025",
+        "image": "https://placehold.co/800x400/5de346/208500?text=Piala Raja Hamengku Buwono",
         "type": "race",
-        "upcoming": true,
+        "upcoming": false,
     },
     {
         "id": "ihr-seri-2-2025.json",
