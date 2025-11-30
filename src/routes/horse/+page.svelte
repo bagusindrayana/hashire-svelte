@@ -35,6 +35,7 @@
 	let selectKuda = $state(null);
 	let detailKuda = $state(null);
 	let loadingDetail = $state(false);
+	let loadingCanvas = $state(false);
 
 	let sortBy = $state("name");
 
@@ -143,6 +144,7 @@
 		const overlay = document.getElementById("overlay");
 		selectKuda = kuda;
 		selectKudaIndex = index;
+		loadingCanvas = true;
 
 		if (data.openHorse) {
 			const url = new URL(window.location.toString());
@@ -172,6 +174,7 @@
 			setTimeout(() => {
 				document.getElementById("tombol").classList.remove("hidden");
 				canvas.classList.remove("opacity-0");
+				loadingCanvas = false;
 			}, 500);
 		}, 100);
 	}
@@ -181,6 +184,7 @@
 		overlay.classList.add("reveal");
 		canvas.classList.add("opacity-0");
 		document.getElementById("tombol").classList.add("hidden");
+		loadingCanvas = false;
 
 		const url = new URL(window.location.toString());
 		url.searchParams.delete("id");
@@ -254,7 +258,7 @@
 					for (let i = 0; i < dataKuda.length; i++) {
 						const k = dataKuda[i];
 						if (
-							(data.openHorse.profil != null &&
+							(data.openHorse.profil != null && data.openHorse.profil.nama != null &&
 								k.name.toLowerCase() ==
 									data.openHorse.profil.nama.toLowerCase()) ||
 							k.id == data.idHorse
@@ -661,8 +665,17 @@
 		></div>
 		<div
 			id="myCanvasContainer"
-			class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen z-50 opacity-0 transition-all duration-500"
-		></div>
+			class="absolute w-full md:w-1/2 bottom-0 top-0 left-0 right-0 md:right-auto h-screen z-50 opacity-0 transition-all duration-500 "
+		>
+			{#if loadingCanvas}
+				<div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-900/50 to-gray-900/30 z-50">
+					<div class="loader w-24 text-center">
+						<img src="images/Logo_Hashire.png" alt="Loading..." class="mx-auto mb-4" />
+						<small class="text-white text-sm">Loading Model...</small>
+					</div>
+				</div>
+			{/if}
+		</div>
 
 		<div
 			id="tombol"
@@ -691,7 +704,7 @@
 			</button>
 			{#if selectKuda}
 				<div
-					class="absolute h-8 w-auto top-0 md:top-auto bottom-0 md:bottom-20 left-20 right-20 m-auto bg-white/75 transition-transform duration-1000 p-1 md:p-4 text-center rounded-full shadow-md flex justify-center items-center"
+					class="absolute min-h-8 w-auto top-0 md:top-auto bottom-0 md:bottom-20 left-20 right-20 m-auto bg-white/75 transition-transform duration-1000 p-1 md:p-4 text-center rounded-full shadow-md flex justify-center items-center"
 					style="transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);z-index:60;"
 				>
 					<h2 class="text-sm md:text-lg font-bold text-yellow-900">
