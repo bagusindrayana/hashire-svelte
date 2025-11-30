@@ -23,13 +23,13 @@ function stringToSeed(str) {
 
 export function randomChar(kuda, currentVrm) {
 
-    const seed = stringToSeed(cleanName(kuda.name));
+    const seed = stringToSeed(cleanName(kuda.name ?? kuda.nama));
     var random = mulberry32(seed);
 
 
     const randomSame = Math.floor(random() * 2);
     const hex = generateWarnaDenganSeed(
-        kuda.color_name,
+        kuda.color_name  ?? kuda.warna,
         random() * 1000,
     );
 

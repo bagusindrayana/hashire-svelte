@@ -31,6 +31,7 @@
     let selectEvent = $state(null);
     let selectKuda = $state(null);
     let loadingEvent = $state(true);
+    let loadingKuda = $state(false);
 
     let canvas,
         scene,
@@ -131,7 +132,8 @@
         ) {
             selectEvent.races[0].horses[0].selected = true;
             selectKuda = selectEvent.races[0].horses[0];
-            randomKuda(selectKuda);
+            // randomKuda(selectKuda);
+            getDetail(selectKuda.id ?? selectKuda.name);
         }
 
         setTimeout(() => {
@@ -229,6 +231,20 @@
         }, 1100);
     }
 
+    async function getDetail(id) {
+		loadingKuda = true;
+		try {
+			const res = await fetch(`/api/horse?id=${id}`);
+			const json = await res.json();
+			selectKuda = json.profil;
+            selectKuda.name = json.profil.nama;
+            randomKuda(json.profil);
+		} catch (error) {
+			alert(error);
+		}
+		loadingKuda = false;
+	}
+
     function selectTableRow(indexRow, indexHorse) {
         if (selectEvent) {
             for (
@@ -244,7 +260,10 @@
                 }
             }
             selectKuda = selectEvent.races[indexRow].horses[indexHorse];
-            randomKuda(selectKuda);
+
+
+
+            getDetail(selectKuda.id ?? selectKuda.name);
             selectEvent = selectEvent;
         }
     }
@@ -698,6 +717,15 @@
                     </h2>
                 </div>
             {/if}
+
+            {#if loadingKuda}
+				<div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-900/50 to-gray-900/30 z-50">
+					<div class="loader w-24 text-center">
+						<img src="images/Logo_Hashire.png" alt="Loading..." class="mx-auto mb-4" />
+						<small class="text-white text-sm">Loading Model...</small>
+					</div>
+				</div>
+			{/if}
         </div>
 
         {#if selectEvent && !selectEvent.upcoming && selectEvent.id !== null}
