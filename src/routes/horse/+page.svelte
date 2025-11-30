@@ -219,6 +219,8 @@
 	}
 
 	function loadVRM(modelUrl) {
+		const elmLoadingProgress = document.getElementById("progress-loading");
+		elmLoadingProgress.innerText = "";
 		document.getElementById("full-loading").classList.remove("hidden");
 		const loader = new GLTFLoader();
 		loader.crossOrigin = "anonymous";
@@ -272,11 +274,14 @@
 
 			// called while loading is progressing
 			(progress) =>
-				console.log(
+				{console.log(
 					"Loading model...",
 					100.0 * (progress.loaded / progress.total),
 					"%",
-				),
+				);
+			elmLoadingProgress.innerText = Math.floor(
+                            100.0 * (progress.loaded / progress.total),
+                        );},
 
 			// called when loading has errors
 			(error) => {
