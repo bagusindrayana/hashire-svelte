@@ -18,6 +18,12 @@
 - `npm run dev`
 
 
+## Update Data
+- data news di /src/routes/news/server.js
+- data kuda pacu di /static/dummy-data/dump-horse.json
+- data event di /src/routes/event/server.js
+- detail event di /static/dummy-data/{id_eventnya}.json
+
 ## Todo
 - refactor biar code mudah dibaca [ ]
 - lengkapi data kuda [ ]
