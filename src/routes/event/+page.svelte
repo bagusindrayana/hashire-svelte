@@ -236,11 +236,12 @@
 		try {
 			const res = await fetch(`/api/horse?id=${id}`);
 			const json = await res.json();
-			selectKuda = json.profil;
-            selectKuda.name = json.profil.nama;
             randomKuda(json.profil);
+            selectKuda = json.profil;
+            selectKuda.name = json.profil.nama;
 		} catch (error) {
-			alert(error);
+            console.error(error);
+			randomKuda(selectKuda);
 		}
 		loadingKuda = false;
 	}
