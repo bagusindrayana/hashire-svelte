@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from "$lib/supabase/server";
 
-export const GET = async (event) => {
+export const load = async (event) => {
   const supabase = createSupabaseServerClient(event);
 
   const { data: news } = await supabase
@@ -8,8 +8,5 @@ export const GET = async (event) => {
     .select("*")
     .order("date", { ascending: false });
 
-  return new Response(JSON.stringify(news || []), {
-    headers: { "Content-Type": "application/json" },
-    status: 200,
-  });
+  return { news: news || [] };
 };
