@@ -4,24 +4,24 @@ import { createSupabaseServerClient } from "$lib/supabase/server";
 export const load = async (event) => {
   const supabase = createSupabaseServerClient(event);
 
-  const { data: event, error: err } = await supabase
+  const { data: eventData, error: err } = await supabase
     .from("events")
     .select("*")
     .eq("id", event.params.id)
     .single();
 
-  if (err || !event) {
+  if (err || !eventData) {
     throw error(404, "Event not found");
   }
 
-  return { event };
+  return { eventData };
 };
 
 export const actions = {
   default: async (event) => {
     const formData = await event.request.formData();
 
-    const event = {
+    const eventData = {
       title: formData.get("title"),
       subtitle: formData.get("subtitle") || null,
       date: formData.get("date") || null,
@@ -31,7 +31,7 @@ export const actions = {
       updated_at: new Date().toISOString(),
     };
 
-    if (!event.title) {
+    if (!eventData.title) {
       return { error: "Title is required" };
     }
 
@@ -39,7 +39,7 @@ export const actions = {
 
     const { error: err } = await supabase
       .from("events")
-      .update(event)
+      .update(eventData)
       .eq("id", event.params.id);
 
     if (err) {
