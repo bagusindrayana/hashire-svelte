@@ -154,18 +154,21 @@
 			data.idHorse = null;
 		}
 
+		let kudaName = selectKuda.name.replace(/<[^>]*>/g, '');
+
 		if (data.idHorse == null) {
-			pushState(`/horse?id=${selectKuda.id ?? selectKuda.name}`);
-			data.idHorse = selectKuda.id ?? selectKuda.name;
+			// pushState(`/horse?id=${selectKuda.id ?? selectKuda.name}`);
+			pushState(`/horse?id=${kudaName}`);
+			data.idHorse = kudaName;
 			data.openHorse = {
 				profil: {
 					id: selectKuda.id,
-					nama: selectKuda.name,
+					nama: kudaName,
 				},
 			};
 		}
-
-		getDetail(selectKuda.id ?? selectKuda.name);
+		//getDetail(selectKuda.id ?? selectKuda.name);
+		getDetail(kudaName);
 
 		setTimeout(async () => {
 			overlay.classList.remove("reveal");
