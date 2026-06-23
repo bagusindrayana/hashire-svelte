@@ -44,6 +44,12 @@
 					class:active={$page.url != undefined && $page.url.pathname.includes("/horse")}
 					>Kuda Pacu</a
 				>
+				<a
+					href="/racetrack-generator"
+					class="nav-item"
+					class:active={$page.url != undefined && $page.url.pathname.includes("/racetrack-generator")}
+					>Racetrack</a
+				>
 			</nav>
 
 			<div class="md:hidden">
@@ -112,6 +118,12 @@
 						class="nav-item"
 						class:active={$page.url.pathname.includes("/horse")}
 						on:click={closeMenu}>Kuda Aktif</a
+					>
+					<a
+						href="/racetrack-generator"
+						class="nav-item"
+						class:active={$page.url.pathname.includes("/racetrack-generator")}
+						on:click={closeMenu}>Racetrack</a
 					>
 				</nav>
 			</div>
