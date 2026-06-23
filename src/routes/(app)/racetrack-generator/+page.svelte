@@ -23,6 +23,41 @@
 	let trackCurvePoints2D = $state<{ x: number; y: number }[]>([]);
 	let svgElement: SVGSVGElement;
 
+	// Reference Image overlay state
+	let refImageSrc = $state(""); // base64 data URL
+	let refImageOpacity = $state(0.35); // 0 – 1
+	let refImageScale = $state(1.0); // relative to SVG 500×500 viewBox
+	let refImageOffsetX = $state(0); // pan within SVG coords
+	let refImageOffsetY = $state(0);
+	let refImageRotation = $state(0); // rotation in degrees
+	let refImageInput: HTMLInputElement;
+	let refImageDragging = $state(false);
+	let refImageDragStart = { x: 0, y: 0, ox: 0, oy: 0 };
+
+	function triggerRefImport() {
+		refImageInput?.click();
+	}
+
+	function handleRefImageFile(e: Event) {
+		const input = e.target as HTMLInputElement;
+		const file = input?.files?.[0];
+		if (!file) return;
+		const reader = new FileReader();
+		reader.onload = (ev) => {
+			refImageSrc = (ev.target?.result as string) ?? "";
+		};
+		reader.readAsDataURL(file);
+		input.value = "";
+	}
+
+	function clearRefImage() {
+		refImageSrc = "";
+		refImageOffsetX = 0;
+		refImageOffsetY = 0;
+		refImageScale = 1.0;
+		refImageRotation = 0;
+	}
+
 	let svgPath = $derived(
 		points.length > 0
 			? `M ${points.map((p) => `${p.x},${p.y}`).join(" L ")} Z`
@@ -1677,50 +1712,100 @@
 				Top-down 2D Map (Drag points to edit)
 			</div>
 
-			<div
-				class="flex-1 w-full min-h-[400px] md:min-h-[480px] flex items-center justify-center mt-2"
-			>
-				<div
-					class="w-full max-w-[480px] aspect-square bg-white rounded-2xl border-2 border-purple-200 shadow-inner overflow-hidden relative"
-				>
-					<!-- Grid Background -->
-					<div
-						class="absolute inset-0 opacity-15 pointer-events-none"
-						style="background-image: radial-gradient(circle, #8a2be2 1.5px, transparent 1.5px); background-size: 20px 20px;"
-					></div>
-
-					<!-- Zoom Controls Overlay -->
-					<div
-						class="absolute bottom-3 right-3 flex flex-col gap-1 z-10 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-lg p-1 shadow-sm"
-					>
+		<div
+			class="flex-1 w-full min-h-[400px] md:min-h-[480px] flex flex-row gap-3 mt-2"
+		>
+			<!-- Ref Image Sidebar -->
+			<div class="flex-shrink-0 w-44 flex flex-col gap-3 bg-[#f5f0ff] border-2 border-purple-200 rounded-2xl p-3 shadow-inner">
+				<div class="text-[10px] font-black uppercase tracking-widest text-purple-600">Reference Image</div>
+				{#if refImageSrc}
+					<div class="flex flex-col gap-2.5">
+						<div class="flex flex-col gap-1">
+							<label class="text-[10px] font-bold text-slate-600">Opacity</label>
+							<div class="text-xs font-black text-purple-700">{Math.round(refImageOpacity * 100)}%</div>
+							<input type="range" min="0" max="1" step="0.05" bind:value={refImageOpacity}
+								class="w-full h-2 accent-purple-500 cursor-pointer" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label class="text-[10px] font-bold text-slate-600">Scale</label>
+							<div class="text-xs font-black text-purple-700">{refImageScale.toFixed(2)}×</div>
+							<input type="range" min="0.2" max="3" step="0.05" bind:value={refImageScale}
+								class="w-full h-2 accent-purple-500 cursor-pointer" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label class="text-[10px] font-bold text-slate-600">Rotation</label>
+							<div class="text-xs font-black text-purple-700">{refImageRotation}°</div>
+							<input type="range" min="-180" max="180" step="1" bind:value={refImageRotation}
+								class="w-full h-2 accent-purple-500 cursor-pointer" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label class="text-[10px] font-bold text-slate-600">Offset X</label>
+							<div class="text-xs font-black text-purple-700">{Math.round(refImageOffsetX)}px</div>
+							<input type="range" min="-250" max="250" step="1" bind:value={refImageOffsetX}
+								class="w-full h-2 accent-purple-500 cursor-pointer" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label class="text-[10px] font-bold text-slate-600">Offset Y</label>
+							<div class="text-xs font-black text-purple-700">{Math.round(refImageOffsetY)}px</div>
+							<input type="range" min="-250" max="250" step="1" bind:value={refImageOffsetY}
+								class="w-full h-2 accent-purple-500 cursor-pointer" />
+						</div>
 						<button
-							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-							onclick={() => (zoom = Math.min(5.0, zoom * 1.2))}
-							title="Zoom In"
-						>
-							＋
-						</button>
+							class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 border border-purple-200 cursor-pointer transition-colors w-full"
+							onclick={() => { refImageOffsetX = 0; refImageOffsetY = 0; refImageScale = 1.0; refImageRotation = 0; }}
+						>↺ Reset All</button>
 						<button
-							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-							onclick={() => {
-								zoom = 1.0;
-								panX = 0;
-								panY = 0;
-							}}
-							title="Reset View"
-						>
-							⟲
-						</button>
-						<button
-							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-							onclick={() => (zoom = Math.max(0.5, zoom / 1.2))}
-							title="Zoom Out"
-						>
-							－
-						</button>
+							class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 border border-rose-200 cursor-pointer transition-colors w-full"
+							onclick={clearRefImage}
+						>✕ Remove Image</button>
+						<div class="text-[9px] text-slate-500 leading-tight mt-1">💡 Drag image inside editor to reposition, or use sliders above.</div>
 					</div>
+				{:else}
+					<div class="flex flex-col gap-2 flex-1">
+						<p class="text-[10px] text-slate-500 leading-relaxed">Load an aerial / satellite image to use as a tracing reference.</p>
+						<button
+							class="flex flex-col items-center gap-1.5 px-3 py-4 rounded-xl text-xs font-bold bg-white hover:bg-purple-50 text-purple-700 border-2 border-dashed border-purple-300 cursor-pointer transition-colors w-full"
+							onclick={triggerRefImport}
+							title="Import aerial image as tracing reference"
+						>
+							<span class="text-2xl">🗺️</span>
+							<span>Load Ref Image</span>
+						</button>
+						<p class="text-[9px] text-slate-400 leading-tight">JPG, PNG, WebP, etc.</p>
+					</div>
+				{/if}
+				<input
+					bind:this={refImageInput}
+					type="file"
+					accept="image/*"
+					class="hidden"
+					onchange={handleRefImageFile}
+				/>
+			</div>
 
-					<svg
+			<!-- SVG Canvas Wrapper -->
+			<div class="flex-1 bg-white rounded-2xl border-2 border-purple-200 shadow-inner overflow-hidden relative" style="min-height: 400px;">
+				<!-- Grid Background -->
+				<div class="absolute inset-0 opacity-15 pointer-events-none"
+					style="background-image: radial-gradient(circle, #8a2be2 1.5px, transparent 1.5px); background-size: 20px 20px;"
+				></div>
+				<!-- Zoom Controls Overlay -->
+				<div class="absolute bottom-3 right-3 flex flex-col gap-1 z-10 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-lg p-1 shadow-sm">
+					<button
+						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+						onclick={() => (zoom = Math.min(5.0, zoom * 1.2))} title="Zoom In"
+					>＋</button>
+					<button
+						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+						onclick={() => { zoom = 1.0; panX = 0; panY = 0; }} title="Reset View"
+					>⟲</button>
+					<button
+						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+						onclick={() => (zoom = Math.max(0.5, zoom / 1.2))} title="Zoom Out"
+					>－</button>
+				</div>
+
+				<svg
 						bind:this={svgElement}
 						{viewBox}
 						class="w-full h-full touch-none"
@@ -1729,6 +1814,41 @@
 						onpointerup={handlePointerUp}
 						onpointerleave={handlePointerUp}
 					>
+						<!-- Reference background image (below all track paths) -->
+						{#if refImageSrc}
+							{@const imgSize = 500 * refImageScale}
+							<image
+								href={refImageSrc}
+								x={250 - imgSize / 2 + refImageOffsetX}
+								y={250 - imgSize / 2 + refImageOffsetY}
+								width={imgSize}
+								height={imgSize}
+								opacity={refImageOpacity}
+								transform="rotate({refImageRotation}, {250 + refImageOffsetX}, {250 + refImageOffsetY})"
+								preserveAspectRatio="xMidYMid meet"
+								class="cursor-move"
+								onpointerdown={(e) => {
+									e.stopPropagation();
+									refImageDragging = true;
+									// Convert screen coords to SVG coords
+									const pt = svgElement.createSVGPoint();
+									pt.x = e.clientX; pt.y = e.clientY;
+									const svgP = pt.matrixTransform(svgElement.getScreenCTM()?.inverse());
+									refImageDragStart = { x: svgP.x, y: svgP.y, ox: refImageOffsetX, oy: refImageOffsetY };
+									(e.target as Element).setPointerCapture(e.pointerId);
+								}}
+								onpointermove={(e) => {
+									if (!refImageDragging) return;
+									const pt = svgElement.createSVGPoint();
+									pt.x = e.clientX; pt.y = e.clientY;
+									const svgP = pt.matrixTransform(svgElement.getScreenCTM()?.inverse());
+									refImageOffsetX = refImageDragStart.ox + (svgP.x - refImageDragStart.x);
+									refImageOffsetY = refImageDragStart.oy + (svgP.y - refImageDragStart.y);
+								}}
+								onpointerup={() => { refImageDragging = false; }}
+							/>
+						{/if}
+
 						<!-- Smooth Track Path -->
 						<path
 							d={trackCurvePath}
