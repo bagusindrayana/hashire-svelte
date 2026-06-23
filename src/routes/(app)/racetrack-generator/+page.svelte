@@ -291,6 +291,202 @@
 		}
 	}
 
+	// ─── Random Track Layout Generator ───────────────────────────────────────────
+	function randomizeTrack() {
+		// Step 1: Generate a randomised set of control points forming a closed loop.
+		// Strategy: place N evenly-spaced points on an ellipse, perturb each one
+		// radially so the shape is irregular but still convex-ish.
+		const cx = 250,
+			cy = 250;
+		const numPts = 5 + Math.floor(Math.random() * 5); // 5 – 9 points
+		const baseRx = 130 + Math.random() * 60; // 130–190
+		const baseRy = 100 + Math.random() * 70; // 100–170
+
+		const newPoints: { x: number; y: number }[] = [];
+		for (let i = 0; i < numPts; i++) {
+			const angle = (i / numPts) * Math.PI * 2 - Math.PI / 2;
+			// Radial perturbation ±30% of radius
+			const perturbX = 0.7 + Math.random() * 0.6;
+			const perturbY = 0.7 + Math.random() * 0.6;
+			newPoints.push({
+				x: Math.round(cx + Math.cos(angle) * baseRx * perturbX),
+				y: Math.round(cy + Math.sin(angle) * baseRy * perturbY),
+			});
+		}
+
+		// Step 2: Compute a rough arc-length based on the polygon perimeter.
+		let polyPerimeter = 0;
+		for (let i = 0; i < newPoints.length; i++) {
+			const a = newPoints[i];
+			const b = newPoints[(i + 1) % newPoints.length];
+			polyPerimeter += Math.hypot(b.x - a.x, b.y - a.y);
+		}
+		// SVG canvas ≈ 500px → scale poly perimeter to real-world meters.
+		// A typical oval might be 1600–2400m; we target ~1600–2400m range.
+		const metersPerPixel = (1600 + Math.random() * 800) / polyPerimeter;
+		const newTrackLength =
+			Math.round((polyPerimeter * metersPerPixel) / 100) * 100;
+
+		// Step 3: Approximate the CatmullRom curve for curvature analysis.
+		// We build a lightweight sample of the spline (100 points).
+		const sampleCount = 100;
+		const splinePts: { x: number; y: number }[] = [];
+		for (let si = 0; si < sampleCount; si++) {
+			const u = si / sampleCount;
+			const idx = Math.floor(u * numPts);
+			const t = u * numPts - idx;
+			const p0 = newPoints[(idx - 1 + numPts) % numPts];
+			const p1 = newPoints[idx];
+			const p2 = newPoints[(idx + 1) % numPts];
+			const p3 = newPoints[(idx + 2) % numPts];
+			// Catmull-Rom formula
+			const t2 = t * t,
+				t3 = t2 * t;
+			splinePts.push({
+				x:
+					0.5 *
+					(2 * p1.x +
+						(-p0.x + p2.x) * t +
+						(2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
+						(-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+				y:
+					0.5 *
+					(2 * p1.y +
+						(-p0.y + p2.y) * t +
+						(2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
+						(-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
+			});
+		}
+
+		// Step 4: Compute signed curvature at each sample using a 3-point formula.
+		// high abs(curvature) → corner; low → straight.
+		const curvatures: number[] = splinePts.map((_, i) => {
+			const prev = splinePts[(i - 1 + sampleCount) % sampleCount];
+			const curr = splinePts[i];
+			const next = splinePts[(i + 1) % sampleCount];
+			const dx1 = curr.x - prev.x,
+				dy1 = curr.y - prev.y;
+			const dx2 = next.x - curr.x,
+				dy2 = next.y - curr.y;
+			const cross = dx1 * dy2 - dy1 * dx2;
+			const len = Math.hypot(dx1, dy1) + Math.hypot(dx2, dy2) || 1;
+			return Math.abs(cross) / (len * len);
+		});
+
+		// Step 5: Smooth curvatures (moving average window=5) to avoid noisy segments.
+		const smoothed = curvatures.map((_, i) => {
+			let sum = 0;
+			for (let w = -2; w <= 2; w++)
+				sum += curvatures[(i + w + sampleCount) % sampleCount];
+			return sum / 5;
+		});
+
+		// Step 6: Threshold to classify each sample. Then run-length-encode.
+		const maxCurv = Math.max(...smoothed);
+		const threshold = maxCurv * 0.3; // bottom 30% of max → straight
+		const isCorner = smoothed.map((v) => v > threshold);
+
+		// Run-length encode into segment runs
+		const runs: {
+			type: "corner" | "straight";
+			start: number;
+			end: number;
+		}[] = [];
+		let current = isCorner[0] ? "corner" : "straight";
+		let runStart = 0;
+		for (let i = 1; i <= sampleCount; i++) {
+			const kind =
+				i < sampleCount ? (isCorner[i] ? "corner" : "straight") : "";
+			if (kind !== current || i === sampleCount) {
+				const minLen = (newTrackLength / sampleCount) * 3; // merge tiny runs (<3 samples)
+				const segLen = ((i - runStart) / sampleCount) * newTrackLength;
+				if (segLen >= minLen || runs.length === 0) {
+					runs.push({
+						type: current as "corner" | "straight",
+						start: Math.round(
+							(runStart / sampleCount) * newTrackLength,
+						),
+						end: Math.min(
+							Math.round((i / sampleCount) * newTrackLength),
+							newTrackLength,
+						),
+					});
+				} else if (runs.length > 0) {
+					// Merge short run into previous
+					runs[runs.length - 1].end = Math.min(
+						Math.round((i / sampleCount) * newTrackLength),
+						newTrackLength,
+					);
+				}
+				current = kind as "corner" | "straight";
+				runStart = i;
+			}
+		}
+		// Merge last run into first if they're the same type (closed loop)
+		if (runs.length > 1 && runs[0].type === runs[runs.length - 1].type) {
+			runs[0].start = runs[runs.length - 1].start;
+			runs.pop();
+		}
+
+		// Step 7: Build named segments
+		let straightCount = 1,
+			cornerCount = 1;
+		const straightNames = [
+			"Home Straight",
+			"Backstretch",
+			"Far Straight",
+			"Inner Straight",
+		];
+		const newSegments = runs.map((r, idx) => ({
+			id: `seg_r${idx}`,
+			type: r.type,
+			name:
+				r.type === "straight"
+					? (straightNames[straightCount - 1] ??
+						`Straight ${straightCount++}`)
+					: `Corner ${cornerCount++}`,
+			startDist: r.start,
+			endDist: r.end,
+		}));
+		// Fix names with correct counts
+		straightCount = 1;
+		cornerCount = 1;
+		newSegments.forEach((s) => {
+			if (s.type === "straight")
+				s.name =
+					straightNames[straightCount - 1] ??
+					`Straight ${straightCount}`;
+			straightCount++;
+			// corner names already assigned
+		});
+
+		// Step 8: Choose random race settings
+		const newDirection: "clockwise" | "anticlockwise" =
+			Math.random() > 0.5 ? "clockwise" : "anticlockwise";
+		const newTrackType: "dirt" | "turf" =
+			Math.random() > 0.5 ? "dirt" : "turf";
+		const newLaps = Math.random() > 0.6 ? (Math.random() > 0.5 ? 2 : 3) : 1;
+		const newStart = 0;
+		const newFinish = newTrackLength;
+		const newPkEnds = Math.round((newTrackLength * 0.24) / 50) * 50;
+		const newSpurt = Math.round((newTrackLength * (2 / 3)) / 50) * 50;
+
+		// Step 9: Commit all state
+		points = newPoints;
+		trackType = newTrackType;
+		trackLength = newTrackLength;
+		lapsCount = newLaps;
+		trackDirection = newDirection;
+		startLineDist = newStart;
+		finishLineDist = newFinish;
+		positionKeepEnds = newPkEnds;
+		spurtStarts = newSpurt;
+		segments = newSegments;
+
+		// Rebuild 3D immediately
+		if (scene) update3DTrack();
+	}
+
 	// Detailed Track Information Editor State
 	let trackLength = $state(1800); // meters
 	let lapsCount = $state(1); // default 1 lap
@@ -1417,6 +1613,17 @@
 
 			<div class="w-px h-6 bg-purple-200"></div>
 
+			<!-- Random Layout button -->
+			<button
+				class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow border-b-2 border-emerald-700 hover:from-emerald-600 hover:to-teal-700 transition-all cursor-pointer"
+				onclick={randomizeTrack}
+				title="Generate a random racetrack layout with auto-detected segments"
+			>
+				🎲 Random Layout
+			</button>
+
+			<div class="w-px h-6 bg-purple-200"></div>
+
 			<!-- JSON Export / Import buttons -->
 			<div class="flex items-center gap-2 flex-wrap">
 				<span class="text-purple-900 font-bold text-sm">Data:</span>
@@ -1636,23 +1843,30 @@
 									<g transform="translate(18, 0)">
 										<rect
 											x="0"
-											y="-8"
+											y="-12"
 											width="12"
-											height="8"
+											height="12"
 											fill="#fff"
 											stroke="#333"
 											stroke-width="0.75"
 										/>
 										<rect
 											x="0"
-											y="-8"
+											y="-12"
 											width="6"
 											height="4"
 											fill="#000"
 										/>
 										<rect
 											x="6"
-											y="-4"
+											y="-8"
+											width="6"
+											height="4"
+											fill="#000"
+										/>
+										<rect
+											x="0"
+											y="6"
 											width="6"
 											height="4"
 											fill="#000"
@@ -1712,7 +1926,7 @@
 									/>
 									<g transform="translate(18, 0)">
 										<path
-											d="M 0,0 L 0,-8 L 12,-8 L 9,-4 L 12,0 Z"
+											d="M 0,0 L 0,-12 L 12,-12 L 9,-6 L 12,0 Z"
 											fill="#ef4444"
 											stroke="#b91c1c"
 											stroke-width="1"
@@ -3166,22 +3380,29 @@
 									<g transform="translate(18, 0)">
 										<rect
 											x="0"
-											y="-8"
+											y="-12"
 											width="12"
-											height="8"
+											height="12"
 											fill="#fff"
 											stroke="#333"
 											stroke-width="0.75"
 										/>
 										<rect
 											x="0"
-											y="-8"
+											y="-12"
 											width="6"
 											height="4"
 											fill="#000"
 										/>
 										<rect
 											x="6"
+											y="-8"
+											width="6"
+											height="4"
+											fill="#000"
+										/>
+										<rect
+											x="0"
 											y="-4"
 											width="6"
 											height="4"
@@ -3243,7 +3464,7 @@
 									/>
 									<g transform="translate(18, 0)">
 										<path
-											d="M 0,0 L 0,-8 L 12,-8 L 9,-4 L 12,0 Z"
+											d="M 0,0 L 0,-12 L 12,-12 L 9,-6 L 12,0 Z"
 											fill="#ef4444"
 											stroke="#b91c1c"
 											stroke-width="1"
