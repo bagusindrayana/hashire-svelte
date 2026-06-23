@@ -1,6 +1,46 @@
 <script>
   let { data, form } = $props();
-  let horse = data.horse;
+  let horse = $state(data.horse || {});
+  let isSyncing = $state(false);
+
+  async function syncHorse() {
+    if (!horse.name) {
+      alert("Please enter a horse name first to sync.");
+      return;
+    }
+    isSyncing = true;
+    try {
+      const response = await fetch(`/api/horse?id=${encodeURIComponent(horse.name)}`);
+      if (response.ok) {
+        const resData = await response.json();
+        
+        if (resData && resData.profil) {
+          if (resData.profil.nama) horse.name = resData.profil.nama;
+          if (resData.profil.warna) horse.color_name = resData.profil.warna;
+          if (resData.profil.tahun_lahir) horse.birth_year = resData.profil.tahun_lahir;
+          if (resData.profil.trah) horse.generation_name = resData.profil.trah;
+          
+          if (resData.profil.jenis_kelamin) {
+             const jk = resData.profil.jenis_kelamin.toLowerCase();
+             if (jk === "betina") horse.gender_name = "Mare";
+             else if (jk === "jantan") horse.gender_name = "Horse";
+             else horse.gender_name = resData.profil.jenis_kelamin;
+          }
+        }
+        if (resData && resData.pemilik) horse.owner = resData.pemilik;
+        if (resData && resData.peternak) horse.breeder = resData.peternak;
+        if (resData && resData.pelatih) horse.trainer = resData.pelatih;
+        
+      } else {
+        alert("Failed to fetch data from Studbook.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error syncing data.");
+    } finally {
+      isSyncing = false;
+    }
+  }
 </script>
 
 <div class="max-w-2xl">
@@ -9,14 +49,32 @@
   <form method="POST" class="bg-white p-6 rounded-lg shadow space-y-4">
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        required
-        value={horse.name || ''}
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-      />
+      <div class="flex gap-2">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          bind:value={horse.name}
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+        />
+        <button
+          type="button"
+          onclick={syncHorse}
+          disabled={isSyncing}
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 transition-colors flex items-center justify-center min-w-[140px]"
+        >
+          {#if isSyncing}
+            <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Syncing...
+          {:else}
+            Sync Studbook
+          {/if}
+        </button>
+      </div>
     </div>
 
     <div class="grid grid-cols-2 gap-4">
