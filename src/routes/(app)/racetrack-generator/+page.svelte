@@ -210,6 +210,87 @@
 		}
 	}
 
+	// ─── JSON Export / Import ────────────────────────────────────────────────────
+	function exportJSON() {
+		const data = {
+			version: 1,
+			meta: {
+				exportedAt: new Date().toISOString(),
+				app: "Hashire Racetrack Generator",
+			},
+			track: {
+				points,
+				trackType,
+				trackLength,
+				lapsCount,
+				trackDirection,
+				startLineDist,
+				finishLineDist,
+				positionKeepEnds,
+				spurtStarts,
+				segments: segments.map((s) => ({
+					id: s.id,
+					type: s.type,
+					name: s.name,
+					startDist: s.startDist,
+					endDist: s.endDist,
+				})),
+			},
+		};
+		const blob = new Blob([JSON.stringify(data, null, 2)], {
+			type: "application/json",
+		});
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.download = `racetrack_${trackLength}m_${Date.now()}.json`;
+		link.click();
+		URL.revokeObjectURL(url);
+	}
+
+	let importFileInput: HTMLInputElement;
+	let importError = $state("");
+
+	function triggerImport() {
+		importError = "";
+		importFileInput?.click();
+	}
+
+	async function handleImportFile(e: Event) {
+		const input = e.target as HTMLInputElement;
+		const file = input?.files?.[0];
+		if (!file) return;
+		try {
+			const text = await file.text();
+			const data = JSON.parse(text);
+			if (!data?.track) throw new Error("Invalid racetrack JSON format.");
+			const t = data.track;
+			// Validate required fields
+			if (!Array.isArray(t.points) || t.points.length < 3)
+				throw new Error("Missing or invalid points array.");
+			// Restore state
+			points = t.points;
+			trackType = t.trackType ?? trackType;
+			trackLength = t.trackLength ?? trackLength;
+			lapsCount = t.lapsCount ?? lapsCount;
+			trackDirection = t.trackDirection ?? trackDirection;
+			startLineDist = t.startLineDist ?? startLineDist;
+			finishLineDist = t.finishLineDist ?? finishLineDist;
+			positionKeepEnds = t.positionKeepEnds ?? positionKeepEnds;
+			spurtStarts = t.spurtStarts ?? spurtStarts;
+			if (Array.isArray(t.segments)) segments = t.segments;
+			// Rebuild 3D
+			await tick();
+			if (scene) update3DTrack();
+			importError = "";
+		} catch (err: unknown) {
+			importError =
+				err instanceof Error ? err.message : "Failed to read file.";
+		} finally {
+			input.value = "";
+		}
+	}
+
 	// Detailed Track Information Editor State
 	let trackLength = $state(1800); // meters
 	let lapsCount = $state(1); // default 1 lap
@@ -973,12 +1054,16 @@
 			facingAngle: number,
 			tangentVec: THREE.Vector3,
 			flagColor: number | null,
-			checkered: boolean
+			checkered: boolean,
 		) => {
 			// ── Pole ──────────────────────────────────────────────────────────────
 			const pole = new THREE.Mesh(
 				new THREE.CylinderGeometry(0.09, 0.12, 10, 10),
-				new THREE.MeshStandardMaterial({ color: 0xd4d4d4, metalness: 0.8, roughness: 0.2 })
+				new THREE.MeshStandardMaterial({
+					color: 0xd4d4d4,
+					metalness: 0.8,
+					roughness: 0.2,
+				}),
 			);
 			pole.position.copy(polePos);
 			pole.position.y += 5;
@@ -988,7 +1073,11 @@
 			// Pole finial (small golden ball on top)
 			const finial = new THREE.Mesh(
 				new THREE.SphereGeometry(0.22, 12, 12),
-				new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.9, roughness: 0.1 })
+				new THREE.MeshStandardMaterial({
+					color: 0xffd700,
+					metalness: 0.9,
+					roughness: 0.1,
+				}),
 			);
 			finial.position.copy(polePos);
 			finial.position.y += 10.25;
@@ -1011,7 +1100,8 @@
 					const idx = j * (segsW + 1) + i;
 					const waveAmp = uNorm * uNorm * 0.55; // grows toward free end
 					const waveZ = Math.sin(uNorm * Math.PI * 1.8) * waveAmp;
-					const waveY = Math.sin(uNorm * Math.PI * 1.2) * waveAmp * 0.35;
+					const waveY =
+						Math.sin(uNorm * Math.PI * 1.2) * waveAmp * 0.35;
 					pos.setZ(idx, pos.getZ(idx) + waveZ);
 					pos.setY(idx, pos.getY(idx) + waveY);
 				}
@@ -1023,13 +1113,17 @@
 			if (checkered) {
 				// Crisp 8×5 checkered pattern via canvas
 				const cvs = document.createElement("canvas");
-				cvs.width = 128; cvs.height = 80;
+				cvs.width = 128;
+				cvs.height = 80;
 				const cx2 = cvs.getContext("2d")!;
-				const cols = 8; const rows = 5;
-				const cw = cvs.width / cols; const ch = cvs.height / rows;
+				const cols = 8;
+				const rows = 5;
+				const cw = cvs.width / cols;
+				const ch = cvs.height / rows;
 				for (let row = 0; row < rows; row++) {
 					for (let col = 0; col < cols; col++) {
-						cx2.fillStyle = (row + col) % 2 === 0 ? "#000000" : "#ffffff";
+						cx2.fillStyle =
+							(row + col) % 2 === 0 ? "#000000" : "#ffffff";
 						cx2.fillRect(col * cw, row * ch, cw, ch);
 					}
 				}
@@ -1057,8 +1151,8 @@
 			const poleTopY = polePos.y + 10; // pole is height 10, base at polePos.y
 			flagMesh.position.set(
 				polePos.x + tangentVec.x * (flagW / 2),
-				poleTopY - flagH * 0.25,  // flag hangs slightly below the finial
-				polePos.z + tangentVec.z * (flagW / 2)
+				poleTopY - flagH * 0.25, // flag hangs slightly below the finial
+				polePos.z + tangentVec.z * (flagW / 2),
 			);
 			// Rotate so local X is along tangent (flag extends away from pole along track)
 			flagMesh.rotation.y = facingAngle - Math.PI / 2;
@@ -1068,11 +1162,13 @@
 
 		// ─── Checkered canvas texture (8x4 grid) for finish line marking ─────
 		const checkerCanvas = document.createElement("canvas");
-		checkerCanvas.width = 128; checkerCanvas.height = 64;
+		checkerCanvas.width = 128;
+		checkerCanvas.height = 64;
 		const checkerCtx = checkerCanvas.getContext("2d")!;
 		for (let row = 0; row < 4; row++) {
 			for (let col = 0; col < 8; col++) {
-				checkerCtx.fillStyle = (row + col) % 2 === 0 ? "#000000" : "#ffffff";
+				checkerCtx.fillStyle =
+					(row + col) % 2 === 0 ? "#000000" : "#ffffff";
 				checkerCtx.fillRect(col * 16, row * 16, 16, 16);
 			}
 		}
@@ -1087,7 +1183,11 @@
 		// White start line stripe
 		const startLineMesh = new THREE.Mesh(
 			new THREE.PlaneGeometry(trackWidth, 0.8),
-			new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.85 })
+			new THREE.MeshStandardMaterial({
+				color: 0xffffff,
+				side: THREE.DoubleSide,
+				roughness: 0.85,
+			}),
 		);
 		startLineMesh.position.copy(startInfo.p);
 		startLineMesh.position.y += 0.06;
@@ -1098,7 +1198,8 @@
 		// START label (thin slab)
 		const startLabelGeo = new THREE.BoxGeometry(1.8, 0.4, 0.04);
 		const startLabelCvs = document.createElement("canvas");
-		startLabelCvs.width = 256; startLabelCvs.height = 64;
+		startLabelCvs.width = 256;
+		startLabelCvs.height = 64;
 		const slCtx = startLabelCvs.getContext("2d")!;
 		slCtx.fillStyle = "#1e3a5f";
 		slCtx.fillRect(0, 0, 256, 64);
@@ -1107,17 +1208,14 @@
 		slCtx.textAlign = "center";
 		slCtx.fillText("START", 128, 46);
 		const startLabelTex = new THREE.CanvasTexture(startLabelCvs);
-		const startLabel = new THREE.Mesh(
-			startLabelGeo,
-			[
-				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
-				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
-				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
-				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
-				new THREE.MeshStandardMaterial({ map: startLabelTex }),
-				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
-			]
-		);
+		const startLabel = new THREE.Mesh(startLabelGeo, [
+			new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+			new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+			new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+			new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+			new THREE.MeshStandardMaterial({ map: startLabelTex }),
+			new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+		]);
 		const startPoleBase = new THREE.Vector3()
 			.copy(startInfo.p)
 			.add(startInfo.n.clone().multiplyScalar(trackWidth / 2 + 0.5));
@@ -1136,7 +1234,11 @@
 		// Checkered finish line stripe
 		const finishLineMesh = new THREE.Mesh(
 			new THREE.PlaneGeometry(trackWidth, 1.0),
-			new THREE.MeshStandardMaterial({ map: finishLineTex, side: THREE.DoubleSide, roughness: 0.7 })
+			new THREE.MeshStandardMaterial({
+				map: finishLineTex,
+				side: THREE.DoubleSide,
+				roughness: 0.7,
+			}),
 		);
 		finishLineMesh.position.copy(finishInfo.p);
 		finishLineMesh.position.y += 0.07;
@@ -1146,7 +1248,8 @@
 
 		// FINISH label
 		const finishLabelCvs = document.createElement("canvas");
-		finishLabelCvs.width = 256; finishLabelCvs.height = 64;
+		finishLabelCvs.width = 256;
+		finishLabelCvs.height = 64;
 		const flCtx = finishLabelCvs.getContext("2d")!;
 		flCtx.fillStyle = "#1a1a1a";
 		flCtx.fillRect(0, 0, 256, 64);
@@ -1164,7 +1267,7 @@
 				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
 				new THREE.MeshStandardMaterial({ map: finishLabelTex }),
 				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
-			]
+			],
 		);
 		const finishPoleBase = new THREE.Vector3()
 			.copy(finishInfo.p)
@@ -1311,6 +1414,42 @@
 					</button>
 				</div>
 			</div>
+
+			<div class="w-px h-6 bg-purple-200"></div>
+
+			<!-- JSON Export / Import buttons -->
+			<div class="flex items-center gap-2 flex-wrap">
+				<span class="text-purple-900 font-bold text-sm">Data:</span>
+				<button
+					class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-br from-violet-500 to-violet-700 text-white shadow border-b-2 border-violet-800 hover:from-violet-600 hover:to-violet-800 transition-all cursor-pointer"
+					onclick={exportJSON}
+					title="Export racetrack data as JSON"
+				>
+					Export JSON
+				</button>
+				<button
+					class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-br from-fuchsia-500 to-fuchsia-700 text-white shadow border-b-2 border-fuchsia-800 hover:from-fuchsia-600 hover:to-fuchsia-800 transition-all cursor-pointer"
+					onclick={triggerImport}
+					title="Import racetrack data from JSON"
+				>
+					Import JSON
+				</button>
+				<!-- Hidden file input for import -->
+				<input
+					bind:this={importFileInput}
+					type="file"
+					accept=".json,application/json"
+					class="hidden"
+					onchange={handleImportFile}
+				/>
+			</div>
+			{#if importError}
+				<div
+					class="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-1.5"
+				>
+					⚠️ {importError}
+				</div>
+			{/if}
 		</div>
 	</div>
 
@@ -2068,7 +2207,7 @@
 						<h3
 							class="text-sm font-extrabold text-indigo-900 border-b border-indigo-50 pb-1.5 mb-3 flex items-center gap-1.5"
 						>
-							⚙️ General Settings
+							General Settings
 						</h3>
 						<div class="grid grid-cols-2 gap-4">
 							<div class="flex flex-col gap-1">
@@ -2344,7 +2483,7 @@
 						<h3
 							class="text-sm font-extrabold text-indigo-900 border-b border-indigo-50 pb-1.5 mb-1 flex items-center gap-1.5"
 						>
-							📈 Visual Track Timeline
+							Visual Track Timeline
 						</h3>
 
 						<!-- Scale & Timeline Box -->
@@ -2525,7 +2664,7 @@
 						<h3
 							class="text-sm font-extrabold text-indigo-900 border-b border-indigo-50 pb-1.5 mb-1 flex items-center gap-1.5"
 						>
-							📋 Segments List
+							Segments List
 						</h3>
 
 						<div class="overflow-x-auto">
