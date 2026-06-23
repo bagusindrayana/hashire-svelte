@@ -1151,7 +1151,7 @@
 			const poleTopY = polePos.y + 10; // pole is height 10, base at polePos.y
 			flagMesh.position.set(
 				polePos.x + tangentVec.x * (flagW / 2),
-				poleTopY - flagH * 0.25, // flag hangs slightly below the finial
+				poleTopY - flagH * 0.5, // flag hangs slightly below the finial
 				polePos.z + tangentVec.z * (flagW / 2),
 			);
 			// Rotate so local X is along tangent (flag extends away from pole along track)
