@@ -967,107 +967,215 @@
 			return { p, n, t };
 		};
 
-		// Generate checkered texture on the fly for Start flag
-		const canvas = document.createElement("canvas");
-		canvas.width = 32;
-		canvas.height = 32;
-		const ctx = canvas.getContext("2d");
-		if (ctx) {
-			ctx.fillStyle = "#ffffff";
-			ctx.fillRect(0, 0, 32, 32);
-			ctx.fillStyle = "#000000";
-			ctx.fillRect(0, 0, 16, 16);
-			ctx.fillRect(16, 16, 16, 16);
-		}
-		const checkeredTex = new THREE.CanvasTexture(canvas);
-		checkeredTex.wrapS = THREE.RepeatWrapping;
-		checkeredTex.wrapT = THREE.RepeatWrapping;
-		checkeredTex.repeat.set(4, 3);
+		// ─── Helper: Build a premium wavy flag with pole ─────────────────────────
+		const createFlag = (
+			polePos: THREE.Vector3,
+			facingAngle: number,
+			tangentVec: THREE.Vector3,
+			flagColor: number | null,
+			checkered: boolean
+		) => {
+			// ── Pole ──────────────────────────────────────────────────────────────
+			const pole = new THREE.Mesh(
+				new THREE.CylinderGeometry(0.09, 0.12, 10, 10),
+				new THREE.MeshStandardMaterial({ color: 0xd4d4d4, metalness: 0.8, roughness: 0.2 })
+			);
+			pole.position.copy(polePos);
+			pole.position.y += 5;
+			pole.castShadow = true;
+			markersGroup.add(pole);
 
-		// 1. Draw Start Line (White stripe)
+			// Pole finial (small golden ball on top)
+			const finial = new THREE.Mesh(
+				new THREE.SphereGeometry(0.22, 12, 12),
+				new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.9, roughness: 0.1 })
+			);
+			finial.position.copy(polePos);
+			finial.position.y += 10.25;
+			finial.castShadow = true;
+			markersGroup.add(finial);
+
+			// ── Wavy flag cloth ───────────────────────────────────────────────────
+			const flagW = 3.6;
+			const flagH = 2.2;
+			const segsW = 20;
+			const segsH = 12;
+
+			const flagGeo = new THREE.PlaneGeometry(flagW, flagH, segsW, segsH);
+			const pos = flagGeo.attributes.position;
+
+			// Apply sine wave deformation so flag looks like it's waving
+			for (let i = 0; i <= segsW; i++) {
+				const uNorm = i / segsW; // 0 (attached) → 1 (free end)
+				for (let j = 0; j <= segsH; j++) {
+					const idx = j * (segsW + 1) + i;
+					const waveAmp = uNorm * uNorm * 0.55; // grows toward free end
+					const waveZ = Math.sin(uNorm * Math.PI * 1.8) * waveAmp;
+					const waveY = Math.sin(uNorm * Math.PI * 1.2) * waveAmp * 0.35;
+					pos.setZ(idx, pos.getZ(idx) + waveZ);
+					pos.setY(idx, pos.getY(idx) + waveY);
+				}
+			}
+			flagGeo.computeVertexNormals();
+
+			// ── Flag material ─────────────────────────────────────────────────────
+			let flagMat: THREE.MeshStandardMaterial;
+			if (checkered) {
+				// Crisp 8×5 checkered pattern via canvas
+				const cvs = document.createElement("canvas");
+				cvs.width = 128; cvs.height = 80;
+				const cx2 = cvs.getContext("2d")!;
+				const cols = 8; const rows = 5;
+				const cw = cvs.width / cols; const ch = cvs.height / rows;
+				for (let row = 0; row < rows; row++) {
+					for (let col = 0; col < cols; col++) {
+						cx2.fillStyle = (row + col) % 2 === 0 ? "#000000" : "#ffffff";
+						cx2.fillRect(col * cw, row * ch, cw, ch);
+					}
+				}
+				const tex = new THREE.CanvasTexture(cvs);
+				flagMat = new THREE.MeshStandardMaterial({
+					map: tex,
+					side: THREE.DoubleSide,
+					roughness: 0.55,
+				});
+			} else {
+				flagMat = new THREE.MeshStandardMaterial({
+					color: flagColor ?? 0xff0000,
+					side: THREE.DoubleSide,
+					roughness: 0.6,
+				});
+			}
+
+			const flagMesh = new THREE.Mesh(flagGeo, flagMat);
+
+			// ── Positioning: attach left edge of flag to pole top ──────────────
+			// After rotation.y = facingAngle - PI/2:
+			//   local +X  → track tangent direction (flag extends outward along track)
+			//   local +Z  → outward normal (flag face visible from trackside)
+			// So: center = poleTop + tangent * (flagW/2) puts left edge at pole top.
+			const poleTopY = polePos.y + 10; // pole is height 10, base at polePos.y
+			flagMesh.position.set(
+				polePos.x + tangentVec.x * (flagW / 2),
+				poleTopY - flagH * 0.25,  // flag hangs slightly below the finial
+				polePos.z + tangentVec.z * (flagW / 2)
+			);
+			// Rotate so local X is along tangent (flag extends away from pole along track)
+			flagMesh.rotation.y = facingAngle - Math.PI / 2;
+			flagMesh.castShadow = true;
+			markersGroup.add(flagMesh);
+		};
+
+		// ─── Checkered canvas texture (8x4 grid) for finish line marking ─────
+		const checkerCanvas = document.createElement("canvas");
+		checkerCanvas.width = 128; checkerCanvas.height = 64;
+		const checkerCtx = checkerCanvas.getContext("2d")!;
+		for (let row = 0; row < 4; row++) {
+			for (let col = 0; col < 8; col++) {
+				checkerCtx.fillStyle = (row + col) % 2 === 0 ? "#000000" : "#ffffff";
+				checkerCtx.fillRect(col * 16, row * 16, 16, 16);
+			}
+		}
+		const finishLineTex = new THREE.CanvasTexture(checkerCanvas);
+		finishLineTex.wrapS = THREE.RepeatWrapping;
+		finishLineTex.wrapT = THREE.RepeatWrapping;
+
+		// ─── 1. START LINE & FLAG (red swallowtail / pennant) ────────────────
 		const startInfo = get3DPointAndNormal(startLineDist);
-		const startLineGeo = new THREE.PlaneGeometry(trackWidth, 0.6);
-		const startLineMat = new THREE.MeshStandardMaterial({
-			color: 0xffffff,
-			side: THREE.DoubleSide,
-			roughness: 0.9,
-		});
-		const startLineMesh = new THREE.Mesh(startLineGeo, startLineMat);
+		const startAngle = Math.atan2(startInfo.t.x, startInfo.t.z);
+
+		// White start line stripe
+		const startLineMesh = new THREE.Mesh(
+			new THREE.PlaneGeometry(trackWidth, 0.8),
+			new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.85 })
+		);
 		startLineMesh.position.copy(startInfo.p);
 		startLineMesh.position.y += 0.06;
-		const startAngle = Math.atan2(startInfo.t.x, startInfo.t.z);
 		startLineMesh.rotation.set(-Math.PI / 2, 0, startAngle);
 		startLineMesh.receiveShadow = true;
 		markersGroup.add(startLineMesh);
 
-		// Start Flagpole
-		const startPolePos = new THREE.Vector3()
+		// START label (thin slab)
+		const startLabelGeo = new THREE.BoxGeometry(1.8, 0.4, 0.04);
+		const startLabelCvs = document.createElement("canvas");
+		startLabelCvs.width = 256; startLabelCvs.height = 64;
+		const slCtx = startLabelCvs.getContext("2d")!;
+		slCtx.fillStyle = "#1e3a5f";
+		slCtx.fillRect(0, 0, 256, 64);
+		slCtx.font = "bold 38px Arial";
+		slCtx.fillStyle = "#ffffff";
+		slCtx.textAlign = "center";
+		slCtx.fillText("START", 128, 46);
+		const startLabelTex = new THREE.CanvasTexture(startLabelCvs);
+		const startLabel = new THREE.Mesh(
+			startLabelGeo,
+			[
+				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+				new THREE.MeshStandardMaterial({ map: startLabelTex }),
+				new THREE.MeshStandardMaterial({ color: 0x1e3a5f }),
+			]
+		);
+		const startPoleBase = new THREE.Vector3()
 			.copy(startInfo.p)
-			.add(startInfo.n.clone().multiplyScalar(trackWidth / 2 + 0.6));
-		const poleGeo = new THREE.CylinderGeometry(0.12, 0.12, 8, 8);
-		const poleMat = new THREE.MeshStandardMaterial({
-			color: 0xcccccc,
-			metalness: 0.7,
-			roughness: 0.3,
-		});
-		const startPoleMesh = new THREE.Mesh(poleGeo, poleMat);
-		startPoleMesh.position.copy(startPolePos);
-		startPoleMesh.position.y += 4;
-		startPoleMesh.castShadow = true;
-		markersGroup.add(startPoleMesh);
+			.add(startInfo.n.clone().multiplyScalar(trackWidth / 2 + 0.5));
+		startLabel.position.copy(startPoleBase);
+		startLabel.position.y += 0.8;
+		startLabel.rotation.y = startAngle;
+		markersGroup.add(startLabel);
 
-		// Checkered Flag Mesh
-		const flagGeo = new THREE.BoxGeometry(2.4, 1.4, 0.06);
-		const startFlagMat = new THREE.MeshStandardMaterial({
-			map: checkeredTex,
-			roughness: 0.6,
-		});
-		const startFlagMesh = new THREE.Mesh(flagGeo, startFlagMat);
-		startFlagMesh.position.copy(startPolePos);
-		startFlagMesh.position.y += 7.3;
-		startFlagMesh.position.add(startInfo.t.clone().multiplyScalar(1.2));
-		startFlagMesh.rotation.y = startAngle;
-		startFlagMesh.castShadow = true;
-		markersGroup.add(startFlagMesh);
+		// Pole + RED start flag
+		createFlag(startPoleBase, startAngle, startInfo.t, 0xef4444, false);
 
-		// 2. Draw Finish Line (Red stripe)
+		// ─── 2. FINISH LINE & FLAG (iconic checkered) ─────────────────────────
 		const finishInfo = get3DPointAndNormal(finishLineDist);
-		const finishLineGeo = new THREE.PlaneGeometry(trackWidth, 0.6);
-		const finishLineMat = new THREE.MeshStandardMaterial({
-			color: 0xef4444,
-			side: THREE.DoubleSide,
-			roughness: 0.9,
-		});
-		const finishLineMesh = new THREE.Mesh(finishLineGeo, finishLineMat);
-		finishLineMesh.position.copy(finishInfo.p);
-		finishLineMesh.position.y += 0.06;
 		const finishAngle = Math.atan2(finishInfo.t.x, finishInfo.t.z);
+
+		// Checkered finish line stripe
+		const finishLineMesh = new THREE.Mesh(
+			new THREE.PlaneGeometry(trackWidth, 1.0),
+			new THREE.MeshStandardMaterial({ map: finishLineTex, side: THREE.DoubleSide, roughness: 0.7 })
+		);
+		finishLineMesh.position.copy(finishInfo.p);
+		finishLineMesh.position.y += 0.07;
 		finishLineMesh.rotation.set(-Math.PI / 2, 0, finishAngle);
 		finishLineMesh.receiveShadow = true;
 		markersGroup.add(finishLineMesh);
 
-		// Finish Flagpole
-		const finishPolePos = new THREE.Vector3()
+		// FINISH label
+		const finishLabelCvs = document.createElement("canvas");
+		finishLabelCvs.width = 256; finishLabelCvs.height = 64;
+		const flCtx = finishLabelCvs.getContext("2d")!;
+		flCtx.fillStyle = "#1a1a1a";
+		flCtx.fillRect(0, 0, 256, 64);
+		flCtx.font = "bold 36px Arial";
+		flCtx.fillStyle = "#f5f5f5";
+		flCtx.textAlign = "center";
+		flCtx.fillText("FINISH", 128, 46);
+		const finishLabelTex = new THREE.CanvasTexture(finishLabelCvs);
+		const finishLabel = new THREE.Mesh(
+			new THREE.BoxGeometry(1.8, 0.4, 0.04),
+			[
+				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
+				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
+				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
+				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
+				new THREE.MeshStandardMaterial({ map: finishLabelTex }),
+				new THREE.MeshStandardMaterial({ color: 0x1a1a1a }),
+			]
+		);
+		const finishPoleBase = new THREE.Vector3()
 			.copy(finishInfo.p)
-			.add(finishInfo.n.clone().multiplyScalar(trackWidth / 2 + 0.6));
-		const finishPoleMesh = new THREE.Mesh(poleGeo, poleMat);
-		finishPoleMesh.position.copy(finishPolePos);
-		finishPoleMesh.position.y += 4;
-		finishPoleMesh.castShadow = true;
-		markersGroup.add(finishPoleMesh);
+			.add(finishInfo.n.clone().multiplyScalar(trackWidth / 2 + 0.5));
+		finishLabel.position.copy(finishPoleBase);
+		finishLabel.position.y += 0.8;
+		finishLabel.rotation.y = finishAngle;
+		markersGroup.add(finishLabel);
 
-		// Finish Red Flag
-		const finishFlagMat = new THREE.MeshStandardMaterial({
-			color: 0xef4444,
-			roughness: 0.5,
-		});
-		const finishFlagMesh = new THREE.Mesh(flagGeo, finishFlagMat);
-		finishFlagMesh.position.copy(finishPolePos);
-		finishFlagMesh.position.y += 7.3;
-		finishFlagMesh.position.add(finishInfo.t.clone().multiplyScalar(1.2));
-		finishFlagMesh.rotation.y = finishAngle;
-		finishFlagMesh.castShadow = true;
-		markersGroup.add(finishFlagMesh);
+		// Pole + CHECKERED finish flag
+		createFlag(finishPoleBase, finishAngle, finishInfo.t, null, true);
 	}
 
 	onMount(() => {
