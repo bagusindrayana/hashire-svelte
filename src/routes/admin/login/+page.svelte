@@ -2,13 +2,17 @@
   let { form } = $props();
 </script>
 
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
+<div class="min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Admin Login</h1>
-    
+    <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">
+      Admin Login
+    </h1>
+
     <form method="POST" class="space-y-4">
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1"
+          >Email</label
+        >
         <input
           type="email"
           id="email"
@@ -18,9 +22,12 @@
           placeholder="admin@hashire.my.id"
         />
       </div>
-      
+
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <label
+          for="password"
+          class="block text-sm font-medium text-gray-700 mb-1">Password</label
+        >
         <input
           type="password"
           id="password"
@@ -46,7 +53,9 @@
     </form>
 
     <div class="mt-4 text-center">
-      <a href="/" class="text-sm text-purple-600 hover:text-purple-800">← Kembali ke Website</a>
+      <a href="/" class="text-sm text-purple-600 hover:text-purple-800"
+        >← Kembali ke Website</a
+      >
     </div>
   </div>
 </div>
