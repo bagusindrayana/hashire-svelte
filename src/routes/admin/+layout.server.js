@@ -1,13 +1,16 @@
-import { redirect } from "@sveltejs/kit";
 import { getSession } from "$lib/auth";
 import { createSupabaseServerClient } from "$lib/supabase/server";
 
 export const load = async (event) => {
   const session = await getSession(event);
-  // console.log(session);
-  //bukan route login
-  if (!session && !event.request.url.includes("/admin")) {
-    throw redirect(303, "/admin/login");
+
+  if (!session) {
+    return {
+      session: null,
+      horsesCount: 0,
+      eventsCount: 0,
+      newsCount: 0,
+    };
   }
 
   const supabase = createSupabaseServerClient(event);

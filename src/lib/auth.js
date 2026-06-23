@@ -61,7 +61,7 @@ export async function login(request, email, password, event) {
   return { session: data.session };
 }
 
-export async function logout(request) {
+export async function logout(event) {
   const supabase = createSupabaseServerClient(event);
   await supabase.auth.signOut();
 }
