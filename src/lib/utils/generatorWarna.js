@@ -1,114 +1,114 @@
 export function mulberry32(seed) {
-    return function () {
-        let t = (seed += 0x6d2b79f5);
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 
 export function generateWarnaDenganSeed(warnaDasar, seed) {
-    // 1. Definisi rentang untuk setiap warna dasar
-    const colorRanges = {
-        Hitam: {
-            r: { min: 0, max: 40 },
-            g: { min: 0, max: 40 },
-            b: { min: 0, max: 40 },
-        },
-        Jragem: {
-            r: { min: 0, max: 25 },
-            g: { min: 0, max: 25 },
-            b: { min: 0, max: 25 },
-        },
-        Merah: {
-            r: { min: 140, max: 210 },
-            g: { min: 30, max: 90 },
-            b: { min: 10, max: 50 },
-        },
-        Kuning: {
-            r: { min: 200, max: 255 },
-            g: { min: 170, max: 240 },
-            b: { min: 40, max: 110 },
-        },
-        Napas: {
-            r: { min: 90, max: 150 },
-            g: { min: 40, max: 80 },
-            b: { min: 20, max: 60 },
-        },
-        Silver: {
-            r: { min: 190, max: 235 },
-            g: { min: 190, max: 235 },
-            b: { min: 190, max: 235 },
-        },
-        Putih: {
-            r: { min: 230, max: 255 },
-            g: { min: 230, max: 255 },
-            b: { min: 230, max: 255 },
-        },
-        Bopong: {
-            r: { min: 50, max: 90 },
-            g: { min: 30, max: 70 },
-            b: { min: 20, max: 60 },
-        },
-        Kelabu: {
-            r: { min: 120, max: 180 },
-            g: { min: 120, max: 180 },
-            b: { min: 120, max: 180 },
-        },
-    };
+  // 1. Definisi rentang untuk setiap warna dasar
+  const colorRanges = {
+    Hitam: {
+      r: { min: 0, max: 40 },
+      g: { min: 0, max: 40 },
+      b: { min: 0, max: 40 },
+    },
+    Jragem: {
+      r: { min: 0, max: 25 },
+      g: { min: 0, max: 25 },
+      b: { min: 0, max: 25 },
+    },
+    Merah: {
+      r: { min: 140, max: 210 },
+      g: { min: 30, max: 90 },
+      b: { min: 10, max: 50 },
+    },
+    Kuning: {
+      r: { min: 200, max: 255 },
+      g: { min: 170, max: 240 },
+      b: { min: 40, max: 110 },
+    },
+    Napas: {
+      r: { min: 90, max: 150 },
+      g: { min: 40, max: 80 },
+      b: { min: 20, max: 60 },
+    },
+    Silver: {
+      r: { min: 190, max: 235 },
+      g: { min: 190, max: 235 },
+      b: { min: 190, max: 235 },
+    },
+    Putih: {
+      r: { min: 230, max: 255 },
+      g: { min: 230, max: 255 },
+      b: { min: 230, max: 255 },
+    },
+    Bopong: {
+      r: { min: 50, max: 90 },
+      g: { min: 30, max: 70 },
+      b: { min: 20, max: 60 },
+    },
+    Kelabu: {
+      r: { min: 120, max: 180 },
+      g: { min: 120, max: 180 },
+      b: { min: 120, max: 180 },
+    },
+  };
 
-    // 2. Pilih rentang warna, atau gunakan 'Hitam' jika nama tidak valid
-    const range = colorRanges[warnaDasar] || colorRanges["Hitam"];
+  // 2. Pilih rentang warna, atau gunakan 'Hitam' jika nama tidak valid
+  const range = colorRanges[warnaDasar] || colorRanges["Hitam"];
 
-    // 3. Buat fungsi random yang hasilnya berdasarkan seed (Pseudo-Random)
-    // Ini memastikan bahwa untuk seed yang sama, urutan angka "acak" yang dihasilkan selalu sama.
-    let currentSeed = seed;
-    const seededRandom = () => {
-        // Angka-angka ini adalah konstanta umum untuk LCG (Linear Congruential Generator)
-        currentSeed = (currentSeed * 1103515245 + 12345) % 2147483647;
-        return currentSeed / 2147483647; // Hasilnya antara 0 dan 1
-    };
+  // 3. Buat fungsi random yang hasilnya berdasarkan seed (Pseudo-Random)
+  // Ini memastikan bahwa untuk seed yang sama, urutan angka "acak" yang dihasilkan selalu sama.
+  let currentSeed = seed;
+  const seededRandom = () => {
+    // Angka-angka ini adalah konstanta umum untuk LCG (Linear Congruential Generator)
+    currentSeed = (currentSeed * 1103515245 + 12345) % 2147483647;
+    return currentSeed / 2147483647; // Hasilnya antara 0 dan 1
+  };
 
-    // 4. Helper untuk mengambil angka dalam rentang min/max menggunakan seededRandom
-    const getSeededInt = (min, max) => {
-        return Math.floor(seededRandom() * (max - min + 1)) + min;
-    };
+  // 4. Helper untuk mengambil angka dalam rentang min/max menggunakan seededRandom
+  const getSeededInt = (min, max) => {
+    return Math.floor(seededRandom() * (max - min + 1)) + min;
+  };
 
-    // 5. Helper untuk format ke Hex 2-digit
-    const toHex = (val) => val.toString(16).padStart(2, "0");
+  // 5. Helper untuk format ke Hex 2-digit
+  const toHex = (val) => val.toString(16).padStart(2, "0");
 
-    // 6. Hasilkan nilai R, G, B secara berurutan agar hasilnya deterministik
-    const r = getSeededInt(range.r.min, range.r.max);
-    const g = getSeededInt(range.g.min, range.g.max);
-    const b = getSeededInt(range.b.min, range.b.max);
+  // 6. Hasilkan nilai R, G, B secara berurutan agar hasilnya deterministik
+  const r = getSeededInt(range.r.min, range.r.max);
+  const g = getSeededInt(range.g.min, range.g.max);
+  const b = getSeededInt(range.b.min, range.b.max);
 
-    // 7. Gabungkan dan kembalikan hasilnya
-    return `0x${toHex(r)}${toHex(g)}${toHex(b)}`;
+  // 7. Gabungkan dan kembalikan hasilnya
+  return `0x${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
 export function createSeededDarkColorGenerator(seed, maxBrightness = 128) {
-    // Ensure brightness is within the valid 0-255 range.
-    const cap = Math.max(0, Math.min(255, maxBrightness));
+  // Ensure brightness is within the valid 0-255 range.
+  const cap = Math.max(0, Math.min(255, maxBrightness));
 
-    const numericSeed =
-        typeof seed === "string" ? stringToSeed(seed) : seed;
-    const random = mulberry32(numericSeed);
+  const numericSeed =
+    typeof seed === "string" ? stringToSeed(seed) : seed;
+  const random = mulberry32(numericSeed);
 
-    return function () {
-        // Generate a value for each component, capped by the brightness limit.
-        const r = Math.floor(random() * (cap + 1))
-            .toString(16)
-            .padStart(2, "0");
-        const g = Math.floor(random() * (cap + 1))
-            .toString(16)
-            .padStart(2, "0");
-        const b = Math.floor(random() * (cap + 1))
-            .toString(16)
-            .padStart(2, "0");
+  return function () {
+    // Generate a value for each component, capped by the brightness limit.
+    const r = Math.floor(random() * (cap + 1))
+      .toString(16)
+      .padStart(2, "0");
+    const g = Math.floor(random() * (cap + 1))
+      .toString(16)
+      .padStart(2, "0");
+    const b = Math.floor(random() * (cap + 1))
+      .toString(16)
+      .padStart(2, "0");
 
-        return `0x${r}${g}${b}`;
-    };
+    return `0x${r}${g}${b}`;
+  };
 }
 
 /**
@@ -182,30 +182,101 @@ export function generateWarnaKuda(warnaDasar, opsi = {}) {
     // Jika tidak ada seed, gunakan Math.random() biasa
     getAngka = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  
+
   // 5. Hasilkan nilai R, G, B dan format ke Hex
   const r = getAngka(rentang.r.min, rentang.r.max);
   const g = getAngka(rentang.g.min, rentang.g.max);
   const b = getAngka(rentang.b.min, rentang.b.max);
-  
+
   const toHex = (val) => val.toString(16).padStart(2, '0');
 
   return `0x${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-export function generateSkinTone(seed) {
+// Curated list of natural skin tones suitable for 3D/anime characters.
+// Stored as RGB values to make it easy to compute contrast/distances.
+const SKIN_TONES = [
+  // Very Fair / Pale (Lightest)
+  { r: 255, g: 245, b: 235 }, // Pale Warm Ivory
+  { r: 255, g: 240, b: 235 }, // Pale Rose/Peach
+  { r: 254, g: 235, b: 224 }, // Fair Peach
+  { r: 253, g: 228, b: 212 }, // Fair Rosy
+
+  // Fair / Light
+  { r: 250, g: 220, b: 195 }, // Soft Apricot
+  { r: 245, g: 215, b: 185 }, // Light Beige
+  { r: 238, g: 200, b: 170 }, // Light Peach/Tan
+  { r: 230, g: 195, b: 160 }, // Almond/Beige
+
+  // Medium / Olive
+  { r: 222, g: 182, b: 145 }, // Golden Beige
+  { r: 212, g: 170, b: 130 }, // Honey/Light Olive
+  { r: 200, g: 155, b: 115 }, // Warm Olive
+  { r: 185, g: 138, b: 98 },  // Golden Tan
+
+  // Tan / Bronze
+  { r: 168, g: 120, b: 82 },  // Caramel/Bronze
+  { r: 150, g: 102, b: 68 },  // Medium Brown
+  { r: 130, g: 82, b: 52 },   // Warm Cocoa
+
+];
+
+/**
+ * Helper to parse color hex strings or numbers to RGB components.
+ */
+function parseColorToRgb(color) {
+  if (typeof color === 'number') {
+    return {
+      r: (color >> 16) & 0xff,
+      g: (color >> 8) & 0xff,
+      b: color & 0xff
+    };
+  }
+  if (typeof color === 'string') {
+    let clean = color.replace(/^0x|^#/, '');
+    const num = parseInt(clean, 16);
+    if (!isNaN(num)) {
+      return {
+        r: (num >> 16) & 0xff,
+        g: (num >> 8) & 0xff,
+        b: num & 0xff
+      };
+    }
+  }
+  return null;
+}
+
+export function generateSkinTone(seed, hairColorHex = null) {
   const random = mulberry32(seed);
 
-  // Define tan and white RGB boundaries
-  const min = { r: 210, g: 180, b: 140 }; // tan
-  const max = { r: 255, g: 255, b: 255 }; // white
+  let candidates = SKIN_TONES;
 
-  // Generate RGB within range
-  const r = Math.floor(random() * (max.r - min.r + 1)) + min.r;
-  const g = Math.floor(random() * (max.g - min.g + 1)) + min.g;
-  const b = Math.floor(random() * (max.b - min.b + 1)) + min.b;
+  if (hairColorHex) {
+    const hair = parseColorToRgb(hairColorHex);
+    if (hair) {
+      // Filter out skin tones that are too close to the hair color
+      // (Euclidean distance < 65 to prevent visual blending/clashing)
+      candidates = SKIN_TONES.filter(tone => {
+        const dist = Math.sqrt(
+          (tone.r - hair.r) ** 2 +
+          (tone.g - hair.g) ** 2 +
+          (tone.b - hair.b) ** 2
+        );
+        return dist >= 65;
+      });
+
+      // If filtering leaves nothing (highly unlikely), fallback to the full list
+      if (candidates.length === 0) {
+        candidates = SKIN_TONES;
+      }
+    }
+  }
+
+  // Pick deterministically based on seed
+  const idx = Math.floor(random() * candidates.length);
+  const chosen = candidates[idx];
 
   // Convert to 0xRRGGBB
-  const hexColor = (r << 16) | (g << 8) | b;
+  const hexColor = (chosen.r << 16) | (chosen.g << 8) | chosen.b;
   return `0x${hexColor.toString(16).padStart(6, '0')}`;
 }

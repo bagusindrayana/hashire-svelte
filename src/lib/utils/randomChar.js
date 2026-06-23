@@ -26,16 +26,16 @@ export function randomChar(kuda, currentVrm) {
     const seed = stringToSeed(cleanName(kuda.name ?? kuda.nama));
     var random = mulberry32(seed);
 
-
+    const warna_kuda = kuda.color_name ?? kuda.warna;
     const randomSame = Math.floor(random() * 2);
     const hex = generateWarnaDenganSeed(
-        kuda.color_name  ?? kuda.warna,
+        warna_kuda,
         random() * 1000,
     );
 
     var hairHex = hex;
 
-    const skinHex = generateSkinTone(random() * 10)
+    const skinHex = generateSkinTone(random() * 10, hairHex)
 
 
     // Generate a random integer from 1 to 10
@@ -215,11 +215,11 @@ export function randomChar(kuda, currentVrm) {
             for (let im = 0; im < obj.material.length; im++) {
                 const material = obj.material[im];
                 if (material.name.includes("SKIN")) {
-
-                    //obj.material[im].uniforms.litFactor.value.setHex(`${skinHex}`);
-                    // obj.material[im].uniforms.shadeColorFactor.value.setHex(
-                    //     `${skinHex}`,
-                    // );
+                    //warna kulit
+                    obj.material[im].uniforms.litFactor.value.setHex(`${skinHex}`);
+                    obj.material[im].uniforms.shadeColorFactor.value.setHex(
+                        `${skinHex}`,
+                    );
                 }
 
             }
