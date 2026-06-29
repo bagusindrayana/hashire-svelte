@@ -728,16 +728,18 @@
 			};
 		}
 		// Map distance (0 to trackLength) to u (0 to 1)
-		const u = Math.max(0, Math.min(1, dist / trackLength));
+		const safeTrackLength = trackLength || 1; // Prevent div by 0 or undefined
+		const rawU = dist / safeTrackLength;
+		const u = isNaN(rawU) ? 0 : Math.max(0, Math.min(1, rawU));
 		const len = trackCurvePoints2D.length;
 		const index = Math.round(u * (len - 1));
-		const point = trackCurvePoints2D[index];
+		const point = trackCurvePoints2D[index] || trackCurvePoints2D[0];
 
 		// Calculate tangent using neighbors in trackCurvePoints2D
 		const idxPrev = (index - 1 + len) % len;
 		const idxNext = (index + 1) % len;
-		const ptPrev = trackCurvePoints2D[idxPrev];
-		const ptNext = trackCurvePoints2D[idxNext];
+		const ptPrev = trackCurvePoints2D[idxPrev] || trackCurvePoints2D[0];
+		const ptNext = trackCurvePoints2D[idxNext] || trackCurvePoints2D[0];
 		const tx = ptNext.x - ptPrev.x;
 		const ty = ptNext.y - ptPrev.y;
 		const tLen = Math.sqrt(tx * tx + ty * ty) || 1;
@@ -1152,7 +1154,7 @@
 		const vectorPoints = points.map((p) => {
 			return new THREE.Vector3(
 				(p.x - cx) * scale,
-				1.0,
+				0.1,
 				(p.y - cy) * scale,
 			); // Raised slightly to avoid Z-fighting
 		});
@@ -1174,11 +1176,19 @@
 		for (let i = 0; i < curvePoints.length - 1; i++) {
 			totalLength += curvePoints[i].distanceTo(curvePoints[i + 1]);
 		}
-		const repeatV = Math.max(1, Math.round(totalLength / 8)); // Repeat texture every 8 units along the track
-		if (dirtTexture) dirtTexture.repeat.set(1, repeatV);
-		if (turfTexture) turfTexture.repeat.set(1, repeatV);
 
-		const trackWidth = 12;
+		// Scale the visual width of the track based on the real trackLength.
+		// 1600m is used as the base reference length for a track width of 12 units.
+		// If the track is 3200m, it will appear half as wide, giving the illusion of being twice as long.
+		const safeTrackLength = trackLength || 1600;
+		const lengthRatio = 1600 / safeTrackLength;
+		const trackWidth = Math.max(2, 12 * lengthRatio); // Base width 12, clamped to min 2
+
+		// Adjust texture repetition so texture density remains consistent with real-world meters
+		// A 1600m track repeats ~64 times, which is trackLength / 25.
+		const repeatV = Math.max(1, Math.round(safeTrackLength / 25));
+		if (dirtTexture) dirtTexture.repeat.set(1, Math.round(repeatV));
+		if (turfTexture) turfTexture.repeat.set(1, Math.round(repeatV));
 		const vertices = [];
 		const indices = [];
 		const uvs = [];
@@ -1268,9 +1278,65 @@
 		markersGroup = new THREE.Group();
 		scene.add(markersGroup);
 
+		// ─── Generate Track Fences ────────────────────────────────────────────────
+		const fenceHeight = 1.2;
+		const fVerts = [];
+		const fIndices = [];
+
+		for (let i = 0; i < numPoints; i++) {
+			const idx = i * 6;
+			const p1x = vertices[idx],
+				p1y = vertices[idx + 1],
+				p1z = vertices[idx + 2];
+			const p2x = vertices[idx + 3],
+				p2y = vertices[idx + 4],
+				p2z = vertices[idx + 5];
+
+			// Inner fence (along p2)
+			fVerts.push(p2x, p2y, p2z);
+			fVerts.push(p2x, p2y + fenceHeight, p2z);
+
+			// Outer fence (along p1)
+			fVerts.push(p1x, p1y, p1z);
+			fVerts.push(p1x, p1y + fenceHeight, p1z);
+		}
+
+		for (let i = 0; i < numPoints; i++) {
+			const curr = i * 4;
+			const next = ((i + 1) % numPoints) * 4;
+
+			// Inner fence face
+			fIndices.push(curr, next, curr + 1);
+			fIndices.push(curr + 1, next, next + 1);
+
+			// Outer fence face
+			fIndices.push(curr + 2, next + 2, curr + 3);
+			fIndices.push(curr + 3, next + 2, next + 3);
+		}
+
+		const fenceGeom = new THREE.BufferGeometry();
+		fenceGeom.setAttribute(
+			"position",
+			new THREE.Float32BufferAttribute(fVerts, 3),
+		);
+		fenceGeom.setIndex(fIndices);
+		fenceGeom.computeVertexNormals();
+
+		const fenceMat = new THREE.MeshStandardMaterial({
+			color: 0xffffff,
+			roughness: 0.8,
+			side: THREE.DoubleSide,
+		});
+		const fenceMesh = new THREE.Mesh(fenceGeom, fenceMat);
+		fenceMesh.castShadow = true;
+		fenceMesh.receiveShadow = true;
+		markersGroup.add(fenceMesh);
+
 		// Helper to get 3D point, tangent, and normal from curve
 		const get3DPointAndNormal = (dist: number) => {
-			const u = Math.max(0, Math.min(1, dist / trackLength));
+			const safeLength = trackLength || 1;
+			const rawU = dist / safeLength;
+			const u = isNaN(rawU) ? 0 : Math.max(0, Math.min(1, rawU));
 			const p = curve.getPointAt(u);
 			const t = curve.getTangentAt(u);
 			const n = new THREE.Vector3()
@@ -1712,100 +1778,191 @@
 				Top-down 2D Map (Drag points to edit)
 			</div>
 
-		<div
-			class="flex-1 w-full min-h-[400px] md:min-h-[480px] flex flex-row gap-3 mt-2"
-		>
-			<!-- Ref Image Sidebar -->
-			<div class="flex-shrink-0 w-44 flex flex-col gap-3 bg-[#f5f0ff] border-2 border-purple-200 rounded-2xl p-3 shadow-inner">
-				<div class="text-[10px] font-black uppercase tracking-widest text-purple-600">Reference Image</div>
-				{#if refImageSrc}
-					<div class="flex flex-col gap-2.5">
-						<div class="flex flex-col gap-1">
-							<label class="text-[10px] font-bold text-slate-600">Opacity</label>
-							<div class="text-xs font-black text-purple-700">{Math.round(refImageOpacity * 100)}%</div>
-							<input type="range" min="0" max="1" step="0.05" bind:value={refImageOpacity}
-								class="w-full h-2 accent-purple-500 cursor-pointer" />
-						</div>
-						<div class="flex flex-col gap-1">
-							<label class="text-[10px] font-bold text-slate-600">Scale</label>
-							<div class="text-xs font-black text-purple-700">{refImageScale.toFixed(2)}×</div>
-							<input type="range" min="0.2" max="3" step="0.05" bind:value={refImageScale}
-								class="w-full h-2 accent-purple-500 cursor-pointer" />
-						</div>
-						<div class="flex flex-col gap-1">
-							<label class="text-[10px] font-bold text-slate-600">Rotation</label>
-							<div class="text-xs font-black text-purple-700">{refImageRotation}°</div>
-							<input type="range" min="-180" max="180" step="1" bind:value={refImageRotation}
-								class="w-full h-2 accent-purple-500 cursor-pointer" />
-						</div>
-						<div class="flex flex-col gap-1">
-							<label class="text-[10px] font-bold text-slate-600">Offset X</label>
-							<div class="text-xs font-black text-purple-700">{Math.round(refImageOffsetX)}px</div>
-							<input type="range" min="-250" max="250" step="1" bind:value={refImageOffsetX}
-								class="w-full h-2 accent-purple-500 cursor-pointer" />
-						</div>
-						<div class="flex flex-col gap-1">
-							<label class="text-[10px] font-bold text-slate-600">Offset Y</label>
-							<div class="text-xs font-black text-purple-700">{Math.round(refImageOffsetY)}px</div>
-							<input type="range" min="-250" max="250" step="1" bind:value={refImageOffsetY}
-								class="w-full h-2 accent-purple-500 cursor-pointer" />
-						</div>
-						<button
-							class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 border border-purple-200 cursor-pointer transition-colors w-full"
-							onclick={() => { refImageOffsetX = 0; refImageOffsetY = 0; refImageScale = 1.0; refImageRotation = 0; }}
-						>↺ Reset All</button>
-						<button
-							class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 border border-rose-200 cursor-pointer transition-colors w-full"
-							onclick={clearRefImage}
-						>✕ Remove Image</button>
-						<div class="text-[9px] text-slate-500 leading-tight mt-1">💡 Drag image inside editor to reposition, or use sliders above.</div>
+			<div
+				class="flex-1 w-full min-h-[400px] md:min-h-[480px] flex flex-row gap-3 mt-2"
+			>
+				<!-- Ref Image Sidebar -->
+				<div
+					class="flex-shrink-0 w-44 flex flex-col gap-3 bg-[#f5f0ff] border-2 border-purple-200 rounded-2xl p-3 shadow-inner"
+				>
+					<div
+						class="text-[10px] font-black uppercase tracking-widest text-purple-600"
+					>
+						Reference Image
 					</div>
-				{:else}
-					<div class="flex flex-col gap-2 flex-1">
-						<p class="text-[10px] text-slate-500 leading-relaxed">Load an aerial / satellite image to use as a tracing reference.</p>
-						<button
-							class="flex flex-col items-center gap-1.5 px-3 py-4 rounded-xl text-xs font-bold bg-white hover:bg-purple-50 text-purple-700 border-2 border-dashed border-purple-300 cursor-pointer transition-colors w-full"
-							onclick={triggerRefImport}
-							title="Import aerial image as tracing reference"
-						>
-							<span class="text-2xl">🗺️</span>
-							<span>Load Ref Image</span>
-						</button>
-						<p class="text-[9px] text-slate-400 leading-tight">JPG, PNG, WebP, etc.</p>
-					</div>
-				{/if}
-				<input
-					bind:this={refImageInput}
-					type="file"
-					accept="image/*"
-					class="hidden"
-					onchange={handleRefImageFile}
-				/>
-			</div>
-
-			<!-- SVG Canvas Wrapper -->
-			<div class="flex-1 bg-white rounded-2xl border-2 border-purple-200 shadow-inner overflow-hidden relative" style="min-height: 400px;">
-				<!-- Grid Background -->
-				<div class="absolute inset-0 opacity-15 pointer-events-none"
-					style="background-image: radial-gradient(circle, #8a2be2 1.5px, transparent 1.5px); background-size: 20px 20px;"
-				></div>
-				<!-- Zoom Controls Overlay -->
-				<div class="absolute bottom-3 right-3 flex flex-col gap-1 z-10 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-lg p-1 shadow-sm">
-					<button
-						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-						onclick={() => (zoom = Math.min(5.0, zoom * 1.2))} title="Zoom In"
-					>＋</button>
-					<button
-						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-						onclick={() => { zoom = 1.0; panX = 0; panY = 0; }} title="Reset View"
-					>⟲</button>
-					<button
-						class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
-						onclick={() => (zoom = Math.max(0.5, zoom / 1.2))} title="Zoom Out"
-					>－</button>
+					{#if refImageSrc}
+						<div class="flex flex-col gap-2.5">
+							<div class="flex flex-col gap-1">
+								<label
+									class="text-[10px] font-bold text-slate-600"
+									>Opacity</label
+								>
+								<div class="text-xs font-black text-purple-700">
+									{Math.round(refImageOpacity * 100)}%
+								</div>
+								<input
+									type="range"
+									min="0"
+									max="1"
+									step="0.05"
+									bind:value={refImageOpacity}
+									class="w-full h-2 accent-purple-500 cursor-pointer"
+								/>
+							</div>
+							<div class="flex flex-col gap-1">
+								<label
+									class="text-[10px] font-bold text-slate-600"
+									>Scale</label
+								>
+								<div class="text-xs font-black text-purple-700">
+									{refImageScale.toFixed(2)}×
+								</div>
+								<input
+									type="range"
+									min="0.2"
+									max="3"
+									step="0.05"
+									bind:value={refImageScale}
+									class="w-full h-2 accent-purple-500 cursor-pointer"
+								/>
+							</div>
+							<div class="flex flex-col gap-1">
+								<label
+									class="text-[10px] font-bold text-slate-600"
+									>Rotation</label
+								>
+								<div class="text-xs font-black text-purple-700">
+									{refImageRotation}°
+								</div>
+								<input
+									type="range"
+									min="-180"
+									max="180"
+									step="1"
+									bind:value={refImageRotation}
+									class="w-full h-2 accent-purple-500 cursor-pointer"
+								/>
+							</div>
+							<div class="flex flex-col gap-1">
+								<label
+									class="text-[10px] font-bold text-slate-600"
+									>Offset X</label
+								>
+								<div class="text-xs font-black text-purple-700">
+									{Math.round(refImageOffsetX)}px
+								</div>
+								<input
+									type="range"
+									min="-250"
+									max="250"
+									step="1"
+									bind:value={refImageOffsetX}
+									class="w-full h-2 accent-purple-500 cursor-pointer"
+								/>
+							</div>
+							<div class="flex flex-col gap-1">
+								<label
+									class="text-[10px] font-bold text-slate-600"
+									>Offset Y</label
+								>
+								<div class="text-xs font-black text-purple-700">
+									{Math.round(refImageOffsetY)}px
+								</div>
+								<input
+									type="range"
+									min="-250"
+									max="250"
+									step="1"
+									bind:value={refImageOffsetY}
+									class="w-full h-2 accent-purple-500 cursor-pointer"
+								/>
+							</div>
+							<button
+								class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 border border-purple-200 cursor-pointer transition-colors w-full"
+								onclick={() => {
+									refImageOffsetX = 0;
+									refImageOffsetY = 0;
+									refImageScale = 1.0;
+									refImageRotation = 0;
+								}}>↺ Reset All</button
+							>
+							<button
+								class="text-[10px] font-bold px-2 py-1.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 border border-rose-200 cursor-pointer transition-colors w-full"
+								onclick={clearRefImage}>✕ Remove Image</button
+							>
+							<div
+								class="text-[9px] text-slate-500 leading-tight mt-1"
+							>
+								💡 Drag image inside editor to reposition, or
+								use sliders above.
+							</div>
+						</div>
+					{:else}
+						<div class="flex flex-col gap-2 flex-1">
+							<p
+								class="text-[10px] text-slate-500 leading-relaxed"
+							>
+								Load an aerial / satellite image to use as a
+								tracing reference.
+							</p>
+							<button
+								class="flex flex-col items-center gap-1.5 px-3 py-4 rounded-xl text-xs font-bold bg-white hover:bg-purple-50 text-purple-700 border-2 border-dashed border-purple-300 cursor-pointer transition-colors w-full"
+								onclick={triggerRefImport}
+								title="Import aerial image as tracing reference"
+							>
+								<span class="text-2xl">🗺️</span>
+								<span>Load Ref Image</span>
+							</button>
+							<p class="text-[9px] text-slate-400 leading-tight">
+								JPG, PNG, WebP, etc.
+							</p>
+						</div>
+					{/if}
+					<input
+						bind:this={refImageInput}
+						type="file"
+						accept="image/*"
+						class="hidden"
+						onchange={handleRefImageFile}
+					/>
 				</div>
 
-				<svg
+				<!-- SVG Canvas Wrapper -->
+				<div
+					class="flex-1 bg-white rounded-2xl border-2 border-purple-200 shadow-inner overflow-hidden relative"
+					style="min-height: 400px;"
+				>
+					<!-- Grid Background -->
+					<div
+						class="absolute inset-0 opacity-15 pointer-events-none"
+						style="background-image: radial-gradient(circle, #8a2be2 1.5px, transparent 1.5px); background-size: 20px 20px;"
+					></div>
+					<!-- Zoom Controls Overlay -->
+					<div
+						class="absolute bottom-3 right-3 flex flex-col gap-1 z-10 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-lg p-1 shadow-sm"
+					>
+						<button
+							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+							onclick={() => (zoom = Math.min(5.0, zoom * 1.2))}
+							title="Zoom In">＋</button
+						>
+						<button
+							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+							onclick={() => {
+								zoom = 1.0;
+								panX = 0;
+								panY = 0;
+							}}
+							title="Reset View">⟲</button
+						>
+						<button
+							class="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm text-purple-700 hover:bg-purple-100 transition-colors border border-purple-100 cursor-pointer shadow-sm"
+							onclick={() => (zoom = Math.max(0.5, zoom / 1.2))}
+							title="Zoom Out">－</button
+						>
+					</div>
+
+					<svg
 						bind:this={svgElement}
 						{viewBox}
 						class="w-full h-full touch-none"
@@ -1824,7 +1981,8 @@
 								width={imgSize}
 								height={imgSize}
 								opacity={refImageOpacity}
-								transform="rotate({refImageRotation}, {250 + refImageOffsetX}, {250 + refImageOffsetY})"
+								transform="rotate({refImageRotation}, {250 +
+									refImageOffsetX}, {250 + refImageOffsetY})"
 								preserveAspectRatio="xMidYMid meet"
 								class="cursor-move"
 								onpointerdown={(e) => {
@@ -1832,20 +1990,39 @@
 									refImageDragging = true;
 									// Convert screen coords to SVG coords
 									const pt = svgElement.createSVGPoint();
-									pt.x = e.clientX; pt.y = e.clientY;
-									const svgP = pt.matrixTransform(svgElement.getScreenCTM()?.inverse());
-									refImageDragStart = { x: svgP.x, y: svgP.y, ox: refImageOffsetX, oy: refImageOffsetY };
-									(e.target as Element).setPointerCapture(e.pointerId);
+									pt.x = e.clientX;
+									pt.y = e.clientY;
+									const svgP = pt.matrixTransform(
+										svgElement.getScreenCTM()?.inverse(),
+									);
+									refImageDragStart = {
+										x: svgP.x,
+										y: svgP.y,
+										ox: refImageOffsetX,
+										oy: refImageOffsetY,
+									};
+									(e.target as Element).setPointerCapture(
+										e.pointerId,
+									);
 								}}
 								onpointermove={(e) => {
 									if (!refImageDragging) return;
 									const pt = svgElement.createSVGPoint();
-									pt.x = e.clientX; pt.y = e.clientY;
-									const svgP = pt.matrixTransform(svgElement.getScreenCTM()?.inverse());
-									refImageOffsetX = refImageDragStart.ox + (svgP.x - refImageDragStart.x);
-									refImageOffsetY = refImageDragStart.oy + (svgP.y - refImageDragStart.y);
+									pt.x = e.clientX;
+									pt.y = e.clientY;
+									const svgP = pt.matrixTransform(
+										svgElement.getScreenCTM()?.inverse(),
+									);
+									refImageOffsetX =
+										refImageDragStart.ox +
+										(svgP.x - refImageDragStart.x);
+									refImageOffsetY =
+										refImageDragStart.oy +
+										(svgP.y - refImageDragStart.y);
 								}}
-								onpointerup={() => { refImageDragging = false; }}
+								onpointerup={() => {
+									refImageDragging = false;
+								}}
 							/>
 						{/if}
 
