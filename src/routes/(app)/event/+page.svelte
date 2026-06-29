@@ -119,11 +119,11 @@
     }
 
     async function getEventDetail(event) {
-        const res = await fetch("/dummy-data/" + event.id);
+        const res = await fetch("/api/events?id=" + event.id);
         const json = await res.json();
         selectEvent = {
             title: event.title,
-            races: json,
+            races: json.detail_data,
         };
 
         if (
@@ -232,19 +232,19 @@
     }
 
     async function getDetail(id) {
-		loadingKuda = true;
-		try {
-			const res = await fetch(`/api/horse?id=${id}`);
-			const json = await res.json();
+        loadingKuda = true;
+        try {
+            const res = await fetch(`/api/horse?id=${id}`);
+            const json = await res.json();
             randomKuda(json.profil);
             selectKuda = json.profil;
             selectKuda.name = json.profil.nama;
-		} catch (error) {
+        } catch (error) {
             console.error(error);
-			randomKuda(selectKuda);
-		}
-		loadingKuda = false;
-	}
+            randomKuda(selectKuda);
+        }
+        loadingKuda = false;
+    }
 
     function selectTableRow(indexRow, indexHorse) {
         if (selectEvent) {
@@ -261,8 +261,6 @@
                 }
             }
             selectKuda = selectEvent.races[indexRow].horses[indexHorse];
-
-
 
             getDetail(selectKuda.id ?? selectKuda.name);
             selectEvent = selectEvent;
@@ -344,17 +342,16 @@
             },
 
             // called while loading is progressing
-            (progress) =>
-                    {
-                        console.log(
-                        "Loading model...",
-                        100.0 * (progress.loaded / progress.total),
-                        "%",
-                    );
-                        elmLoadingProgress.innerText = Math.floor(
-                            100.0 * (progress.loaded / progress.total),
-                        );
-                },
+            (progress) => {
+                console.log(
+                    "Loading model...",
+                    100.0 * (progress.loaded / progress.total),
+                    "%",
+                );
+                elmLoadingProgress.innerText = Math.floor(
+                    100.0 * (progress.loaded / progress.total),
+                );
+            },
 
             // called when loading has errors
             (error) => {
@@ -498,7 +495,7 @@
         loadingEvent = true;
 
         try {
-            const res = await fetch("/api/event");
+            const res = await fetch("/api/events");
             const json = await res.json();
             dataEvent = json;
         } catch (error) {
@@ -562,7 +559,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {#each dataEvent.filter(i => i.upcoming) as event, index}
+            {#each dataEvent.filter((i) => i.upcoming) as event, index}
                 <div class="bg-white p-4 rounded-xl shadow-md">
                     <div
                         onclick={() => {
@@ -570,16 +567,29 @@
                         }}
                         class="cursor-pointer"
                     >
-                        <img
-                            src={event.image}
-                            alt={`Gambar ${event.title}`}
-                            class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
-                            onerror={() => {
-                                this.onerror = null;
-                                this.src =
-                                    "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
-                            }}
-                        />
+                        {#if event.image_url}
+                            <img
+                                src={event.image_url}
+                                alt={`Gambar ${event.title}`}
+                                class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
+                                onerror={() => {
+                                    this.onerror = null;
+                                    this.src =
+                                        "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+                                }}
+                            />
+                        {:else}
+                                <img
+                                    src={"https://placehold.co/800x400/EAB3F4/4A235A?text="+event.title}
+                                    alt={`Gambar ${event.title}`}
+                                    class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
+                                    onerror={() => {
+                                        this.onerror = null;
+                                        this.src =
+                                            "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+                                    }}
+                                />
+                        {/if}
                     </div>
                     <div
                         onclick={() => {
@@ -605,15 +615,14 @@
                         </div>
                     </div>
                 </div>
-           
             {/each}
-     
+
             {#if loadingEvent}
                 <div class="loader w-24 absolute m-auto text-center">
                     <img src="images/Logo_Hashire.png" alt="Loading..." />
                     <small>Loading...</small>
                 </div>
-            {:else if dataEvent.filter(i => i.upcoming).length == 0}
+            {:else if dataEvent.filter((i) => i.upcoming).length == 0}
                 <div class="col-span-3 text-center text-gray-500 py-10">
                     No upcoming events.
                 </div>
@@ -646,16 +655,29 @@
                                 selectCard(event);
                             }}
                         >
+                            {#if event.image_url}
                             <img
-                                src={event.image}
+                                src={event.image_url}
                                 alt={`Gambar ${event.title}`}
                                 class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
                                 onerror={() => {
                                     this.onerror = null;
                                     this.src =
-                                        "https://placehold.co/800x400/EAB3F4/4A235A?text=Image+Not+Found";
+                                        "https://placehold.co/800x400/5de346/208500?text=Image+Not+Found";
                                 }}
                             />
+                        {:else}
+                                <img
+                                    src={"https://placehold.co/800x400/5de346/208500?text="+event.title}
+                                    alt={`Gambar ${event.title}`}
+                                    class="rounded-lg mb-3 w-full object-cover h-[300px] md:h-[150px] lg:h-[250px]"
+                                    onerror={() => {
+                                        this.onerror = null;
+                                        this.src =
+                                            "https://placehold.co/800x400/5de346/208500?text=Image+Not+Found";
+                                    }}
+                                />
+                        {/if}
                         </div>
                         <div
                             onclick={() => {
@@ -720,13 +742,21 @@
             {/if}
 
             {#if loadingKuda}
-				<div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-900/50 to-gray-900/30 z-50">
-					<div class="loader w-24 text-center">
-						<img src="images/Logo_Hashire.png" alt="Loading..." class="mx-auto mb-4" />
-						<small class="text-white text-sm">Loading Model...</small>
-					</div>
-				</div>
-			{/if}
+                <div
+                    class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-900/50 to-gray-900/30 z-50"
+                >
+                    <div class="loader w-24 text-center">
+                        <img
+                            src="images/Logo_Hashire.png"
+                            alt="Loading..."
+                            class="mx-auto mb-4"
+                        />
+                        <small class="text-white text-sm"
+                            >Loading Model...</small
+                        >
+                    </div>
+                </div>
+            {/if}
         </div>
 
         {#if selectEvent && !selectEvent.upcoming && selectEvent.id !== null}
