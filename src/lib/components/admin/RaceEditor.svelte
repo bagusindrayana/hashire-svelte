@@ -164,6 +164,7 @@
                     <th class="px-2 py-2 text-left">Nama Kuda</th>
                     <th class="px-2 py-2 text-left w-28">Daerah</th>
                     <th class="px-2 py-2 text-left w-16">Gate</th>
+                    <th class="px-2 py-2 text-left w-16">Finish</th>
                     <th class="px-2 py-2 w-10"></th>
                   </tr>
                 </thead>
@@ -195,6 +196,16 @@
                           value={horse.gate}
                           oninput={(e) => updateHorse(raceIdx, horseIdx, 'gate', Number(e.target.value))}
                           placeholder="1"
+                          class={inputCls}
+                        />
+                      </td>
+                      <td class="px-2 py-1.5">
+                        <input
+                          type="number"
+                          value={horse.place ?? ''}
+                          oninput={(e) => updateHorse(raceIdx, horseIdx, 'place', e.target.value === '' ? null : Number(e.target.value))}
+                          placeholder="-"
+                          min="1"
                           class={inputCls}
                         />
                       </td>
