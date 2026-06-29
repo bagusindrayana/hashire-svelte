@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from "$lib/supabase/server";
 
-export const GET = async ({ request, url }) => {
+export const GET = async (event) => {
+  const { url } = event;
   const supabase = createSupabaseServerClient(event);
 
   const id = url.searchParams.get("id");
@@ -28,7 +29,7 @@ export const GET = async ({ request, url }) => {
   const { data: events } = await supabase
     .from("events")
     .select("*")
-    .order("date", { ascending: false });
+    .order("created_at", { ascending: false });
 
   return new Response(JSON.stringify(events || []), {
     headers: { "Content-Type": "application/json" },
