@@ -21,6 +21,17 @@ export const actions = {
   default: async (event) => {
     const formData = await event.request.formData();
 
+    let detail_data = null;
+    const rawDetail = formData.get("detail_data");
+    if (rawDetail) {
+      try {
+        const parsed = JSON.parse(rawDetail);
+        detail_data = Array.isArray(parsed) && parsed.length > 0 ? parsed : null;
+      } catch {
+        // biarkan null jika JSON tidak valid
+      }
+    }
+
     const eventData = {
       title: formData.get("title"),
       subtitle: formData.get("subtitle") || null,
@@ -29,6 +40,7 @@ export const actions = {
       image_url: formData.get("image_url") || null,
       upcoming: formData.get("upcoming") === "true",
       updated_at: new Date().toISOString(),
+      detail_data,
     };
 
     if (!eventData.title) {

@@ -1,9 +1,16 @@
 <script>
+  import RaceEditor from '$lib/components/admin/RaceEditor.svelte';
+
   let { data, form } = $props();
-  let event = data.event;
+  let event = data.eventData;
+
+  // Inisialisasi dari data tersimpan, fallback ke array kosong
+  let races = $state(
+    Array.isArray(event.detail_data) ? structuredClone(event.detail_data) : []
+  );
 </script>
 
-<div class="max-w-2xl">
+<div class="max-w-3xl">
   <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Event</h1>
 
   <form method="POST" class="bg-white p-6 rounded-lg shadow space-y-4">
@@ -82,9 +89,23 @@
       <label for="upcoming" class="ml-2 block text-sm text-gray-700">Upcoming Event</label>
     </div>
 
+    <!-- hidden field: kirim detail_data sebagai JSON string -->
+    <input type="hidden" name="detail_data" value={JSON.stringify(races)} />
+
+    <hr class="border-gray-200" />
+
+    <!-- Dynamic race editor -->
+    <RaceEditor bind:races />
+
     {#if form?.error}
       <div class="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
         {form.error}
+      </div>
+    {/if}
+
+    {#if form?.success}
+      <div class="bg-green-50 text-green-700 p-3 rounded-lg text-sm">
+        Event berhasil diupdate.
       </div>
     {/if}
 
