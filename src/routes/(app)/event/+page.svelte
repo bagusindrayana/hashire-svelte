@@ -119,11 +119,11 @@
     }
 
     async function getEventDetail(event) {
-        const res = await fetch("/dummy-data/" + event.id);
+        const res = await fetch("/api/events?id=" + event.id);
         const json = await res.json();
         selectEvent = {
             title: event.title,
-            races: json,
+            races: json.detail_data,
         };
 
         if (
