@@ -7,15 +7,59 @@
 	let viewMode = $state<"split" | "2d-only" | "3d-only">("split");
 	let trackType = $state<"dirt" | "turf">("dirt");
 
-	// Default track points (a simple oval)
-	let points = $state([
-		{ x: 100, y: 100 },
-		{ x: 400, y: 100 },
-		{ x: 450, y: 250 },
-		{ x: 400, y: 400 },
-		{ x: 100, y: 400 },
-		{ x: 50, y: 250 },
-	]);
+	// ─── Point type with bezier control handles ───────────────────────────────
+	interface TrackPoint {
+		x: number;
+		y: number;
+		// cp1: incoming control point (relative to anchor)
+		cp1x: number;
+		cp1y: number;
+		// cp2: outgoing control point (relative to anchor)
+		cp2x: number;
+		cp2y: number;
+	}
+
+	// Helper: auto-compute smooth handles for a set of positions using Catmull-Rom tangents
+	function autoHandles(pts: { x: number; y: number }[]): TrackPoint[] {
+		const n = pts.length;
+		return pts.map((p, i) => {
+			const prev = pts[(i - 1 + n) % n];
+			const next = pts[(i + 1) % n];
+			// Catmull-Rom tangent scaled to 1/3 of the segment for smooth handles
+			const tension = 0.33;
+			return {
+				x: p.x,
+				y: p.y,
+				cp1x: p.x - (next.x - prev.x) * tension,
+				cp1y: p.y - (next.y - prev.y) * tension,
+				cp2x: p.x + (next.x - prev.x) * tension,
+				cp2y: p.y + (next.y - prev.y) * tension,
+			};
+		});
+	}
+
+	// Default track points (a simple oval) with auto handles
+	let points = $state<TrackPoint[]>(
+		autoHandles([
+			{ x: 100, y: 100 },
+			{ x: 400, y: 100 },
+			{ x: 450, y: 250 },
+			{ x: 400, y: 400 },
+			{ x: 100, y: 400 },
+			{ x: 50, y: 250 },
+		]),
+	);
+
+	// ─── Show/hide bezier handles in editor ──────────────────────────────────
+	let showHandles = $state(true);
+
+	// ─── Dragging state: can drag anchor OR a control handle ─────────────────
+	type DragTarget =
+		| { kind: "anchor"; index: number }
+		| { kind: "cp1"; index: number }
+		| { kind: "cp2"; index: number };
+
+	let dragTarget = $state<DragTarget | null>(null);
 
 	// 2D Editor State
 	let draggingIndex = $state<number | null>(null);
@@ -58,23 +102,31 @@
 		refImageRotation = 0;
 	}
 
-	let svgPath = $derived(
-		points.length > 0
-			? `M ${points.map((p) => `${p.x},${p.y}`).join(" L ")} Z`
-			: "",
-	);
+	// Bezier SVG path: each segment is a cubic bezier using cp2 of start + cp1 of end
+	let svgPath = $derived.by(() => {
+		if (points.length < 2) return "";
+		const n = points.length;
+		let d = `M ${points[0].x},${points[0].y}`;
+		for (let i = 0; i < n; i++) {
+			const curr = points[i];
+			const next = points[(i + 1) % n];
+			d += ` C ${curr.cp2x},${curr.cp2y} ${next.cp1x},${next.cp1y} ${next.x},${next.y}`;
+		}
+		d += " Z";
+		return d;
+	});
 
-	let trackCurvePath = $derived(
-		trackCurvePoints2D.length > 0
-			? `M ${trackCurvePoints2D.map((p) => `${p.x},${p.y}`).join(" L ")} Z`
-			: "",
-	);
+	// trackCurvePath is built by sampling the bezier, updated in update3DTrack
+	let trackCurvePath = $state("");
 
 	// Zoom and Pan State
 	let zoom = $state(1.0);
 	let panX = $state(0);
 	let panY = $state(0);
+
+	// ─── Pan input state ──────────────────────────────────────────────────────
 	let isPanning = $state(false);
+	let isSpaceDown = $state(false);        // space held → pan mode
 	let startPointerPos = { x: 0, y: 0 };
 	let startPan = { x: 0, y: 0 };
 
@@ -304,7 +356,13 @@
 			if (!Array.isArray(t.points) || t.points.length < 3)
 				throw new Error("Missing or invalid points array.");
 			// Restore state
-			points = t.points;
+			// Support both old plain {x,y} format and new format with handles
+			const importedPoints = t.points as Array<{ x: number; y: number; cp1x?: number; cp1y?: number; cp2x?: number; cp2y?: number }>;
+			if (importedPoints[0]?.cp2x !== undefined) {
+				points = importedPoints as TrackPoint[];
+			} else {
+				points = autoHandles(importedPoints)
+			}
 			trackType = t.trackType ?? trackType;
 			trackLength = t.trackLength ?? trackLength;
 			lapsCount = t.lapsCount ?? lapsCount;
@@ -507,7 +565,7 @@
 		const newSpurt = Math.round((newTrackLength * (2 / 3)) / 50) * 50;
 
 		// Step 9: Commit all state
-		points = newPoints;
+		points = autoHandles(newPoints);
 		trackType = newTrackType;
 		trackLength = newTrackLength;
 		lapsCount = newLaps;
@@ -935,28 +993,70 @@
 	});
 
 	function handlePointerDown(e: PointerEvent, index: number) {
+		// Only respond to left mouse button for anchor drag
+		if (e.button !== 0) return;
 		e.stopPropagation();
 		selectedPointIndex = index;
 		draggingIndex = index;
-		e.target?.setPointerCapture(e.pointerId);
+		dragTarget = { kind: "anchor", index };
+		try { svgElement.setPointerCapture(e.pointerId); } catch {}
+	}
+
+	function handleCpPointerDown(
+		e: PointerEvent,
+		index: number,
+		which: "cp1" | "cp2",
+	) {
+		if (e.button !== 0) return;
+		e.stopPropagation();
+		selectedPointIndex = index;
+		draggingIndex = index;
+		dragTarget = { kind: which, index };
+		try { svgElement.setPointerCapture(e.pointerId); } catch {}
+	}
+
+	function getSvgPoint(e: PointerEvent) {
+		if (!svgElement) return { x: 0, y: 0 };
+		const rect = svgElement.getBoundingClientRect();
+		const vbWidth = 500 / zoom;
+		const vbHeight = 500 / zoom;
+		const minX = 250 + panX - vbWidth / 2;
+		const minY = 250 + panY - vbHeight / 2;
+		
+		const scaleX = vbWidth / rect.width;
+		const scaleY = vbHeight / rect.height;
+		
+		return {
+			x: (e.clientX - rect.left) * scaleX + minX,
+			y: (e.clientY - rect.top) * scaleY + minY
+		};
 	}
 
 	function handlePointerMove(e: PointerEvent) {
-		if (draggingIndex !== null) {
-			const pt = svgElement.createSVGPoint();
-			pt.x = e.clientX;
-			pt.y = e.clientY;
-			const svgP = pt.matrixTransform(
-				svgElement.getScreenCTM()?.inverse(),
-			);
+		if (dragTarget !== null) {
+			const svgP = getSvgPoint(e);
+			const idx = dragTarget.index;
 
-			points[draggingIndex] = {
-				x: svgP.x,
-				y: svgP.y,
-			};
-			// Trigger reactivity
-			points = [...points];
-			update3DTrack();
+			if (dragTarget.kind === "anchor") {
+				const dx = svgP.x - points[idx].x;
+				const dy = svgP.y - points[idx].y;
+				// Move anchor + both control handles together
+				points[idx].x = svgP.x;
+				points[idx].y = svgP.y;
+				points[idx].cp1x += dx;
+				points[idx].cp1y += dy;
+				points[idx].cp2x += dx;
+				points[idx].cp2y += dy;
+			} else if (dragTarget.kind === "cp2") {
+				// Move cp2 independently
+				points[idx].cp2x = svgP.x;
+				points[idx].cp2y = svgP.y;
+			} else if (dragTarget.kind === "cp1") {
+				// Move cp1 independently
+				points[idx].cp1x = svgP.x;
+				points[idx].cp1y = svgP.y;
+			}
+			// update3DTrack(); removed from here for real-time handle dragging, moved to handlePointerUp
 		} else if (isPanning) {
 			const dx = e.clientX - startPointerPos.x;
 			const dy = e.clientY - startPointerPos.y;
@@ -967,21 +1067,68 @@
 	}
 
 	function handlePointerUp(e: PointerEvent) {
+		// If we were panning with middle mouse or space, release
+		if (isPanning) {
+			isPanning = false;
+			try { svgElement.releasePointerCapture(e.pointerId); } catch {}
+		}
+		
+		const wasDragging = dragTarget !== null;
+		
 		draggingIndex = null;
-		isPanning = false;
-		e.target?.releasePointerCapture(e.pointerId);
+		dragTarget = null;
+		try {
+			svgElement.releasePointerCapture(e.pointerId);
+		} catch {}
+		
+		if (wasDragging) {
+			update3DTrack();
+		}
 	}
 
 	function handleSvgPointerDown(e: PointerEvent) {
-		selectedPointIndex = null;
-		isPanning = true;
-		startPointerPos = { x: e.clientX, y: e.clientY };
-		startPan = { x: panX, y: panY };
-		svgElement.setPointerCapture(e.pointerId);
+		// Middle mouse button (button === 1) → pan
+		if (e.button === 1) {
+			e.preventDefault();
+			isPanning = true;
+			startPointerPos = { x: e.clientX, y: e.clientY };
+			startPan = { x: panX, y: panY };
+			svgElement.setPointerCapture(e.pointerId);
+			return;
+		}
+		// Left mouse + space held → pan
+		if (e.button === 0 && isSpaceDown) {
+			isPanning = true;
+			startPointerPos = { x: e.clientX, y: e.clientY };
+			startPan = { x: panX, y: panY };
+			svgElement.setPointerCapture(e.pointerId);
+			return;
+		}
+		// Left mouse on empty canvas → deselect, but do NOT pan
+		if (e.button === 0) {
+			selectedPointIndex = null;
+		}
+		// Right mouse → suppress, do nothing (context menu handled by oncontextmenu)
+	}
+
+	function handleSvgContextMenu(e: MouseEvent) {
+		// Prevent browser context menu inside the SVG editor
+		e.preventDefault();
 	}
 
 	function insertPoint(index: number, newPoint: { x: number; y: number }) {
-		points.splice(index, 0, newPoint);
+		const n = points.length;
+		const prevIdx = (index - 1 + n) % n;
+		const nextIdx = index % n;
+		const prev = points[prevIdx];
+		const next = points[nextIdx];
+		// Auto-generate handles using Catmull-Rom tangent from neighbors
+		const mid = autoHandles([
+			{ x: prev.x, y: prev.y },
+			newPoint,
+			{ x: next.x, y: next.y },
+		])[1];
+		points.splice(index, 0, mid);
 		points = [...points];
 		update3DTrack();
 	}
@@ -1146,30 +1293,52 @@
 			trackMesh.geometry.dispose();
 		}
 
+		// ── Sample bezier curve into dense point array ──────────────────────────
+		const SAMPLES_PER_SEG = 40;
+		const n = points.length;
+		const sampledPoints: { x: number; y: number }[] = [];
+
+		for (let i = 0; i < n; i++) {
+			const curr = points[i];
+			const next = points[(i + 1) % n];
+			for (let s = 0; s < SAMPLES_PER_SEG; s++) {
+				const t = s / SAMPLES_PER_SEG;
+				const mt = 1 - t;
+				// Cubic bezier
+				const x =
+					mt * mt * mt * curr.x +
+					3 * mt * mt * t * curr.cp2x +
+					3 * mt * t * t * next.cp1x +
+					t * t * t * next.x;
+				const y =
+					mt * mt * mt * curr.y +
+					3 * mt * mt * t * curr.cp2y +
+					3 * mt * t * t * next.cp1y +
+					t * t * t * next.y;
+				sampledPoints.push({ x, y });
+			}
+		}
+
+		// Update 2D curve path for schematic/markers
+		trackCurvePoints2D = sampledPoints;
+		// Rebuild trackCurvePath string
+		trackCurvePath =
+			sampledPoints.length > 0
+				? `M ${sampledPoints.map((p) => `${p.x},${p.y}`).join(" L ")} Z`
+				: "";
+
 		// Convert 2D SVG points to 3D points
 		const scale = 0.5;
 		const cx = 250;
 		const cy = 250;
 
-		const vectorPoints = points.map((p) => {
-			return new THREE.Vector3(
-				(p.x - cx) * scale,
-				0.1,
-				(p.y - cy) * scale,
-			); // Raised slightly to avoid Z-fighting
-		});
-
-		const curve = new THREE.CatmullRomCurve3(
-			vectorPoints,
-			true,
-			"centripetal",
+		const vectorPoints = sampledPoints.map(
+			(p) => new THREE.Vector3((p.x - cx) * scale, 0.1, (p.y - cy) * scale),
 		);
-		const curvePoints = curve.getSpacedPoints(200);
 
-		trackCurvePoints2D = curvePoints.map((p) => ({
-			x: p.x / scale + cx,
-			y: p.z / scale + cy,
-		}));
+		// Build a closed polyline curve from the sampled bezier
+		const curve = new THREE.CatmullRomCurve3(vectorPoints, true, "centripetal");
+		const curvePoints = curve.getSpacedPoints(200);
 
 		// Calculate total track length to repeat textures nicely
 		let totalLength = 0;
@@ -1583,6 +1752,7 @@
 
 		const handleWheel = (e: WheelEvent) => {
 			e.preventDefault();
+			// Middle-click scroll should zoom, not pan the page
 			const zoomFactor = 1.15;
 			if (e.deltaY < 0) {
 				zoom = Math.min(5.0, zoom * zoomFactor);
@@ -1601,31 +1771,52 @@
 			}
 		};
 
+		// Suppress middle-mouse autoscroll (auxclick / mousedown button 1)
+		const handleSvgMiddleMouseDown = (e: MouseEvent) => {
+			if (e.button === 1) e.preventDefault();
+		};
+
+		// Space key: hold to enter pan mode cursor
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.code === "Space" && !e.repeat) {
+				// Only activate if focus is inside the SVG pane (not an input)
+				const tag = (e.target as HTMLElement)?.tagName;
+				if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+				e.preventDefault();
+				isSpaceDown = true;
+			}
+		};
+		const handleKeyUp = (e: KeyboardEvent) => {
+			if (e.code === "Space") {
+				isSpaceDown = false;
+				// If we were panning via space, cancel pan
+				if (isPanning) isPanning = false;
+			}
+		};
+
 		if (svgElement) {
-			svgElement.addEventListener("wheel", handleWheel, {
-				passive: false,
-			});
+			svgElement.addEventListener("wheel", handleWheel, { passive: false });
+			svgElement.addEventListener("mousedown", handleSvgMiddleMouseDown);
 		}
 
 		if (schematicSvgElement) {
-			schematicSvgElement.addEventListener(
-				"wheel",
-				handleSchematicWheel,
-				{ passive: false },
-			);
+			schematicSvgElement.addEventListener("wheel", handleSchematicWheel, { passive: false });
 		}
+
+		window.addEventListener("keydown", handleKeyDown);
+		window.addEventListener("keyup", handleKeyUp);
 
 		return () => {
 			cleanup();
 			if (svgElement) {
 				svgElement.removeEventListener("wheel", handleWheel);
+				svgElement.removeEventListener("mousedown", handleSvgMiddleMouseDown);
 			}
 			if (schematicSvgElement) {
-				schematicSvgElement.removeEventListener(
-					"wheel",
-					handleSchematicWheel,
-				);
+				schematicSvgElement.removeEventListener("wheel", handleSchematicWheel);
 			}
+			window.removeEventListener("keydown", handleKeyDown);
+			window.removeEventListener("keyup", handleKeyUp);
 		};
 	});
 </script>
@@ -1721,6 +1912,19 @@
 				title="Generate a random racetrack layout with auto-detected segments"
 			>
 				🎲 Random Layout
+			</button>
+
+			<div class="w-px h-6 bg-purple-200"></div>
+
+			<!-- Show/Hide Handles toggle -->
+			<button
+				class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer {showHandles
+					? 'bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow border-b-2 border-violet-800'
+					: 'bg-purple-100 text-purple-700 border border-purple-200 hover:bg-purple-200'}"
+				onclick={() => (showHandles = !showHandles)}
+				title="Toggle bezier curve handles in the 2D editor"
+			>
+				✦ {showHandles ? "Hide Handles" : "Show Handles"}
 			</button>
 
 			<div class="w-px h-6 bg-purple-200"></div>
@@ -1962,14 +2166,27 @@
 						>
 					</div>
 
+					<!-- Pan hint -->
+					<div class="absolute bottom-3 left-3 z-10 flex flex-col gap-1 pointer-events-none">
+						<div class="bg-white/80 backdrop-blur-sm border border-purple-200 rounded-lg px-2 py-1 text-[9px] font-bold text-slate-500 shadow-sm leading-tight">
+							🖱️ Middle drag · Space+drag = Pan
+						</div>
+						{#if isSpaceDown}
+							<div class="bg-violet-600 text-white rounded-lg px-2 py-1 text-[9px] font-extrabold shadow-sm">
+								Pan mode active
+							</div>
+						{/if}
+					</div>
+
 					<svg
 						bind:this={svgElement}
 						{viewBox}
-						class="w-full h-full touch-none"
+						class="w-full h-full touch-none {isSpaceDown ? 'cursor-grab' : ''} {isPanning ? 'cursor-grabbing' : ''}"
 						onpointerdown={handleSvgPointerDown}
 						onpointermove={handlePointerMove}
 						onpointerup={handlePointerUp}
 						onpointerleave={handlePointerUp}
+						oncontextmenu={handleSvgContextMenu}
 					>
 						<!-- Reference background image (below all track paths) -->
 						{#if refImageSrc}
@@ -1986,6 +2203,8 @@
 								preserveAspectRatio="xMidYMid meet"
 								class="cursor-move"
 								onpointerdown={(e) => {
+									// Only drag ref image with left mouse button
+									if (e.button !== 0) return;
 									e.stopPropagation();
 									refImageDragging = true;
 									// Convert screen coords to SVG coords
@@ -2007,6 +2226,7 @@
 								}}
 								onpointermove={(e) => {
 									if (!refImageDragging) return;
+									e.stopPropagation();
 									const pt = svgElement.createSVGPoint();
 									pt.x = e.clientX;
 									pt.y = e.clientY;
@@ -2020,15 +2240,16 @@
 										refImageDragStart.oy +
 										(svgP.y - refImageDragStart.y);
 								}}
-								onpointerup={() => {
+								onpointerup={(e) => {
 									refImageDragging = false;
+									e.stopPropagation();
 								}}
 							/>
 						{/if}
 
-						<!-- Smooth Track Path -->
+						<!-- Smooth Track Path (bezier) -->
 						<path
-							d={trackCurvePath}
+							d={svgPath}
 							fill="none"
 							stroke={trackType === "dirt"
 								? "#8b5a2b"
@@ -2105,404 +2326,112 @@
 							{/if}
 						{/if}
 
-						<!-- SVG Markers: Start Line Flag -->
-						{#if getPointAndNormalAtDistance(startLineDist).point}
-							{@const startInfo =
-								getPointAndNormalAtDistance(startLineDist)}
-							{@const pt = startInfo.point}
-							{@const norm = startInfo.normal}
-							{@const offsetDist = 24}
-							{@const ox = pt.x + norm.x * offsetDist}
-							{@const oy = pt.y + norm.y * offsetDist}
-							{@const angleDeg =
-								(Math.atan2(norm.y, norm.x) * 180) / Math.PI}
-							<g class="pointer-events-none">
-								<line
-									x1={pt.x}
-									y1={pt.y}
-									x2={ox}
-									y2={oy}
-									stroke="#333"
-									stroke-width="1.5"
-									stroke-dasharray="2 2"
-								/>
-								<g
-									transform="translate({ox}, {oy}) rotate({angleDeg})"
-								>
-									<line
-										x1="0"
-										y1="0"
-										x2="18"
-										y2="0"
-										stroke="#333"
-										stroke-width="1.5"
-									/>
-									<g transform="translate(18, 0)">
-										<rect
-											x="0"
-											y="-12"
-											width="12"
-											height="12"
-											fill="#fff"
-											stroke="#333"
-											stroke-width="0.75"
-										/>
-										<rect
-											x="0"
-											y="-12"
-											width="6"
-											height="4"
-											fill="#000"
-										/>
-										<rect
-											x="6"
-											y="-8"
-											width="6"
-											height="4"
-											fill="#000"
-										/>
-										<rect
-											x="0"
-											y="6"
-											width="6"
-											height="4"
-											fill="#000"
-										/>
-									</g>
-								</g>
-								<!-- Label placed dynamically along normal to avoid overlaps -->
-								<text
-									x={ox + norm.x * 34}
-									y={oy + norm.y * 34 + 2.5}
-									text-anchor={Math.abs(norm.x) > 0.5
-										? norm.x > 0
-											? "start"
-											: "end"
-										: "middle"}
-									font-size="8"
-									font-weight="bold"
-									fill="#333"
-									class="bg-white/80 font-fredoka"
-								>
-									START
-								</text>
-							</g>
-						{/if}
 
-						<!-- SVG Markers: Finish Line Flag -->
-						{#if getPointAndNormalAtDistance(finishLineDist).point}
-							{@const finishInfo =
-								getPointAndNormalAtDistance(finishLineDist)}
-							{@const pt = finishInfo.point}
-							{@const norm = finishInfo.normal}
-							{@const offsetDist = 24}
-							{@const ox = pt.x + norm.x * offsetDist}
-							{@const oy = pt.y + norm.y * offsetDist}
-							{@const angleDeg =
-								(Math.atan2(norm.y, norm.x) * 180) / Math.PI}
-							<g class="pointer-events-none">
-								<line
-									x1={pt.x}
-									y1={pt.y}
-									x2={ox}
-									y2={oy}
-									stroke="#ef4444"
-									stroke-width="1.5"
-									stroke-dasharray="2 2"
-								/>
-								<g
-									transform="translate({ox}, {oy}) rotate({angleDeg})"
-								>
-									<line
-										x1="0"
-										y1="0"
-										x2="18"
-										y2="0"
-										stroke="#333"
-										stroke-width="1.5"
-									/>
-									<g transform="translate(18, 0)">
-										<path
-											d="M 0,0 L 0,-12 L 12,-12 L 9,-6 L 12,0 Z"
-											fill="#ef4444"
-											stroke="#b91c1c"
-											stroke-width="1"
-											stroke-linejoin="round"
-										/>
-									</g>
-								</g>
-								<!-- Label placed dynamically along normal to avoid overlaps -->
-								<text
-									x={ox + norm.x * 34}
-									y={oy + norm.y * 34 + 2.5}
-									text-anchor={Math.abs(norm.x) > 0.5
-										? norm.x > 0
-											? "start"
-											: "end"
-										: "middle"}
-									font-size="8"
-									font-weight="bold"
-									fill="#ef4444"
-									class="bg-white/80 font-fredoka"
-								>
-									FINISH
-								</text>
-							</g>
-						{/if}
 
-						<!-- SVG Markers: Position Keep Ends -->
-						{#if getPointAndNormalAtDistance(positionKeepEnds).point}
-							{@const pkInfo =
-								getPointAndNormalAtDistance(positionKeepEnds)}
-							{@const pt = pkInfo.point}
-							{@const norm = pkInfo.normal}
-							{@const tangent = pkInfo.tangent}
-							{@const offsetDist = 22}
-							{@const ox = pt.x + norm.x * offsetDist}
-							{@const oy = pt.y + norm.y * offsetDist}
-							{@const tAngle =
-								(Math.atan2(tangent.y, tangent.x) * 180) /
-								Math.PI}
-							<g class="pointer-events-none">
-								<line
-									x1={pt.x}
-									y1={pt.y}
-									x2={ox}
-									y2={oy}
-									stroke="#7c3aed"
-									stroke-width="1"
-									stroke-dasharray="2 2"
-								/>
-								<g
-									transform="translate({ox}, {oy}) rotate({tAngle})"
-								>
-									<polygon
-										points="-4,-4 0,0 -4,4"
-										fill="#7c3aed"
-									/>
-									<polygon
-										points="0,-4 4,0 0,4"
-										fill="#7c3aed"
-									/>
-								</g>
-								<text
-									x={ox + norm.x * 12}
-									y={oy + norm.y * 12 + 3}
-									text-anchor="middle"
-									font-size="7"
-									font-weight="bold"
-									fill="#7c3aed"
-									class="font-fredoka">P.K. END</text
-								>
-							</g>
-						{/if}
-
-						<!-- SVG Markers: Spurt Starts -->
-						{#if getPointAndNormalAtDistance(spurtStarts).point}
-							{@const spurtInfo =
-								getPointAndNormalAtDistance(spurtStarts)}
-							{@const pt = spurtInfo.point}
-							{@const norm = spurtInfo.normal}
-							{@const tangent = spurtInfo.tangent}
-							{@const offsetDist = 22}
-							{@const ox = pt.x + norm.x * offsetDist}
-							{@const oy = pt.y + norm.y * offsetDist}
-							{@const tAngle =
-								(Math.atan2(tangent.y, tangent.x) * 180) /
-								Math.PI}
-							<g class="pointer-events-none">
-								<line
-									x1={pt.x}
-									y1={pt.y}
-									x2={ox}
-									y2={oy}
-									stroke="#0284c7"
-									stroke-width="1"
-									stroke-dasharray="2 2"
-								/>
-								<g
-									transform="translate({ox}, {oy}) rotate({tAngle})"
-								>
-									<polygon
-										points="-7,-5 -2,0 -7,5"
-										fill="#0284c7"
-									/>
-									<polygon
-										points="-2,-5 3,0 -2,5"
-										fill="#0284c7"
-									/>
-									<polygon
-										points="3,-5 8,0 3,5"
-										fill="#0284c7"
-									/>
-								</g>
-								<text
-									x={ox + norm.x * 14}
-									y={oy + norm.y * 14 + 3}
-									text-anchor="middle"
-									font-size="7"
-									font-weight="bold"
-									fill="#0284c7"
-									class="font-fredoka">SPURT</text
-								>
-							</g>
-						{/if}
-
-						<!-- Per-Segment Border Lines (melintang jalan) -->
-						{#each segments as seg}
-							{@const lineStart = getPerpendicularLine(
-								seg.startDist,
-								24,
-							)}
-							<line
-								x1={lineStart.x1}
-								y1={lineStart.y1}
-								x2={lineStart.x2}
-								y2={lineStart.y2}
-								stroke="#ffffff"
-								stroke-width="3"
-								stroke-linecap="round"
-								opacity="0.9"
-								class="pointer-events-none"
-							/>
-							{@const lineEnd = getPerpendicularLine(
-								seg.endDist,
-								24,
-							)}
-							<line
-								x1={lineEnd.x1}
-								y1={lineEnd.y1}
-								x2={lineEnd.x2}
-								y2={lineEnd.y2}
-								stroke="#ffffff"
-								stroke-width="3"
-								stroke-linecap="round"
-								opacity="0.9"
-								class="pointer-events-none"
-							/>
-						{/each}
-
-						<!-- SVG Markers: Segments (Corners & Straights) -->
-						{#each segments as seg}
-							{@const midDist = (seg.startDist + seg.endDist) / 2}
-							{@const midInfo =
-								getPointAndNormalAtDistance(midDist)}
-							{#if midInfo.point}
-								{@const pt = midInfo.point}
-								{@const norm = midInfo.normal}
-								{@const offsetDist = 26}
-								{@const ox = pt.x + norm.x * offsetDist}
-								{@const oy = pt.y + norm.y * offsetDist}
-								<g
-									class="pointer-events-none opacity-80 hover:opacity-100 transition-opacity"
-								>
-									<line
-										x1={pt.x}
-										y1={pt.y}
-										x2={ox}
-										y2={oy}
-										stroke="#ea580c"
-										stroke-width="1"
-										stroke-dasharray="2 2"
-									/>
-									<g transform="translate({ox}, {oy})">
-										<circle
-											cx="0"
-											cy="0"
-											r="8"
-											fill="#f97316"
-											stroke="#ea580c"
-											stroke-width="1"
-										/>
-										{#if seg.type === "corner"}
-											<path
-												d="M -3,2 A 3,3 0 0,1 2,-3"
-												fill="none"
-												stroke="white"
-												stroke-width="1.5"
-												stroke-linecap="round"
-											/>
-											<polygon
-												points="2,-5 4,-3 2,-1"
-												fill="white"
-											/>
-										{:else}
-											<line
-												x1="-3"
-												y1="0"
-												x2="3"
-												y2="0"
-												stroke="white"
-												stroke-width="1.5"
-												stroke-linecap="round"
-											/>
-											<polygon
-												points="-3,-2 -5,0 -3,2"
-												fill="white"
-											/>
-											<polygon
-												points="3,-2 5,0 3,2"
-												fill="white"
-											/>
-										{/if}
-										<text
-											x={norm.x * 15}
-											y={norm.y * 15 + 2.5}
-											text-anchor={Math.abs(norm.x) > 0.5
-												? norm.x > 0
-													? "start"
-													: "end"
-												: "middle"}
-											font-size="7"
-											font-weight="bold"
-											fill="#ea580c"
-											class="font-fredoka"
-										>
-											{seg.name}
-										</text>
-									</g>
-								</g>
-							{/if}
-						{/each}
-
-						<!-- Helper Path (straight lines) -->
+						<!-- Helper Path (bezier hull — dashed) -->
 						<path
 							d={svgPath}
 							fill="none"
 							stroke="#c084fc"
 							stroke-width="2"
 							stroke-dasharray="4 4"
+							opacity="0.5"
 						/>
+
+						<!-- Bezier Control Handles (only when showHandles is true) -->
+						{#if showHandles}
+							{#each points as point, i}
+								<!-- Handle arm lines -->
+								<line
+									x1={point.x}
+									y1={point.y}
+									x2={point.cp1x}
+									y2={point.cp1y}
+									stroke="#94a3b8"
+									stroke-width="1"
+									stroke-dasharray="3 2"
+									class="pointer-events-none"
+								/>
+								<line
+									x1={point.x}
+									y1={point.y}
+									x2={point.cp2x}
+									y2={point.cp2y}
+									stroke="#94a3b8"
+									stroke-width="1"
+									stroke-dasharray="3 2"
+									class="pointer-events-none"
+								/>
+								<!-- cp1 handle (incoming) -->
+								<circle
+									cx={point.cp1x}
+									cy={point.cp1y}
+									r="14"
+									fill="transparent"
+									class="cursor-move"
+									onpointerdown={(e) =>
+										handleCpPointerDown(e, i, "cp1")}
+								/>
+								<circle
+									cx={point.cp1x}
+									cy={point.cp1y}
+									r={dragTarget?.kind === "cp1" &&
+									dragTarget.index === i
+										? 7
+										: 5}
+									fill={dragTarget?.kind === "cp1" &&
+									dragTarget.index === i
+										? "#f472b6"
+										: "#e2e8f0"}
+									stroke="#7c3aed"
+									stroke-width="1.5"
+									class="pointer-events-none transition-colors"
+								/>
+								<!-- cp2 handle (outgoing) -->
+								<circle
+									cx={point.cp2x}
+									cy={point.cp2y}
+									r="14"
+									fill="transparent"
+									class="cursor-move"
+									onpointerdown={(e) =>
+										handleCpPointerDown(e, i, "cp2")}
+								/>
+								<circle
+									cx={point.cp2x}
+									cy={point.cp2y}
+									r={dragTarget?.kind === "cp2" &&
+									dragTarget.index === i
+										? 7
+										: 5}
+									fill={dragTarget?.kind === "cp2" &&
+									dragTarget.index === i
+										? "#f472b6"
+										: "#e2e8f0"}
+									stroke="#7c3aed"
+									stroke-width="1.5"
+									class="pointer-events-none transition-colors"
+								/>
+							{/each}
+						{/if}
 
 						<!-- Points -->
 						{#each points as point, i}
 							{@const nextIdx = (i + 1) % points.length}
 							{@const nextPoint = points[nextIdx]}
-							{@const midX = (point.x + nextPoint.x) / 2}
-							{@const midY = (point.y + nextPoint.y) / 2}
-
-							<!-- Connector lines to visualize order -->
-							{#if i > 0}
-								<line
-									x1={points[i - 1].x}
-									y1={points[i - 1].y}
-									x2={point.x}
-									y2={point.y}
-									stroke="#e9d5ff"
-									stroke-width="2"
-								/>
-							{/if}
-							<!-- Close loop -->
-							{#if i === points.length - 1}
-								<line
-									x1={point.x}
-									y1={point.y}
-									x2={points[0].x}
-									y2={points[0].y}
-									stroke="#e9d5ff"
-									stroke-width="2"
-								/>
-							{/if}
+							<!-- Bezier midpoint for insert button -->
+							{@const t = 0.5}
+							{@const mt = 1 - t}
+							{@const midX =
+								mt * mt * mt * point.x +
+								3 * mt * mt * t * point.cp2x +
+								3 * mt * t * t * nextPoint.cp1x +
+								t * t * t * nextPoint.x}
+							{@const midY =
+								mt * mt * mt * point.y +
+								3 * mt * mt * t * point.cp2y +
+								3 * mt * t * t * nextPoint.cp1y +
+								t * t * t * nextPoint.y}
 
 							<!-- Midpoint Add Buttons (Visible on hover) -->
 							<g
@@ -2555,7 +2484,8 @@
 								cx={point.x}
 								cy={point.y}
 								r="7"
-								fill={draggingIndex === i
+								fill={dragTarget?.kind === "anchor" &&
+								dragTarget.index === i
 									? "#ec4899"
 									: selectedPointIndex === i
 										? "#eab308"
@@ -2566,10 +2496,11 @@
 							/>
 						{/each}
 
-						<!-- Selected Point Action (Delete) -->
+						<!-- Selected Point Action (Delete + Reset Handles) -->
 						{#if selectedPointIndex !== null && points[selectedPointIndex]}
 							{@const p = points[selectedPointIndex]}
 							{#if points.length > 3}
+								<!-- Delete button -->
 								<g
 									class="cursor-pointer"
 									onclick={(e) => {
@@ -2598,6 +2529,49 @@
 									>
 								</g>
 							{/if}
+							<!-- Reset handles button (smooth out this point) -->
+							<g
+								class="cursor-pointer"
+								onclick={(e) => {
+									e.stopPropagation();
+									const idx = selectedPointIndex!;
+									const n = points.length;
+									const prev = points[(idx - 1 + n) % n];
+									const curr = points[idx];
+									const next = points[(idx + 1) % n];
+									const tension = 0.33;
+									points[idx] = {
+										...curr,
+										cp1x: curr.x - (next.x - prev.x) * tension,
+										cp1y: curr.y - (next.y - prev.y) * tension,
+										cp2x: curr.x + (next.x - prev.x) * tension,
+										cp2y: curr.y + (next.y - prev.y) * tension,
+									};
+									points = [...points];
+									update3DTrack();
+								}}
+								onpointerdown={(e) => e.stopPropagation()}
+								title="Reset handles to smooth"
+							>
+								<circle
+									cx={p.x + 16}
+									cy={p.y + 16}
+									r="11"
+									fill="#7c3aed"
+									stroke="#ffffff"
+									stroke-width="2"
+								/>
+								<text
+									x={p.x + 16}
+									y={p.y + 17}
+									text-anchor="middle"
+									dominant-baseline="central"
+									fill="white"
+									font-size="9"
+									font-weight="bold"
+									class="pointer-events-none">↺</text
+								>
+							</g>
 						{/if}
 					</svg>
 				</div>
